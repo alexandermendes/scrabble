@@ -1,0 +1,7 @@
+.board {
+  background-color: #DAFFF3;
+  display: inline-grid;
+  grid-gap: 3px;
+  padding: 3px;
+  grid-template-columns: repeat(15, 50px);
+}

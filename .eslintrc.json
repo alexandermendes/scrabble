@@ -1,0 +1,24 @@
+{
+  "parser": "babel-eslint",
+  "extends": [
+    "airbnb",
+    "plugin:jest/recommended",
+    "plugin:json/recommended"
+  ],
+  "plugins": [
+    "jest"
+  ],
+  "env": {
+    "jest/globals": true,
+    "browser": true
+  },
+  "rules": {
+    "import/prefer-default-export": "off",
+    "import/no-extraneous-dependencies": ["error", {
+      "devDependencies": ["bin/*", "tests/{**/,}*.js", "webpack.config.js"]
+    }],
+    "react/jsx-props-no-spreading": "off",
+    "react/forbid-prop-types": "off",
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
+  }
+}

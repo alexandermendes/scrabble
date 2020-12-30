@@ -1,0 +1,31 @@
+$spacingPrefixes: (
+  mb: margin-bottom,
+  mt: margin-top,
+  ml: margin-left,
+  mr: margin-right,
+  ma: margin,
+  pb: padding-bottom,
+  pt: padding-top,
+  pl: padding-left,
+  pr: padding-right,
+  pa: padding
+) !default;
+
+// Spacing helpers
+@each $key, $property in $spacingPrefixes {
+  @for $i from 1 through 5 {
+    .#{$key}-#{$i} {
+      #{$property}: $i * 4px !important;
+    }
+  }
+
+  .#{$key}-reset {
+    #{$property}: 0 !important;
+  }
+
+  @if $key != ma and $key != pa {
+    .#{$key}-auto {
+      #{$property}: auto !important;
+    }
+  }
+}

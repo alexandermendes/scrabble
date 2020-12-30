@@ -1,0 +1,9 @@
+.rack {
+  display: flex;
+  padding: 10px;
+  height: 50px;
+
+  &__tile {
+    margin: 2px;
+  }
+}

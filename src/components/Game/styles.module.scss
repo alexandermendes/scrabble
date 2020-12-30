@@ -1,0 +1,17 @@
+$game-margin: 20px;
+
+.game {
+  display: flex;
+  margin: $game-margin;
+
+  &__sidebar {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - (#{$game-margin} * 2));
+    justify-content: flex-end;
+    position: sticky;
+    top: 0;
+    width: 100%;
+  }
+}

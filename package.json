@@ -1,0 +1,46 @@
+{
+  "name": "scrabble",
+  "version": "1.0.0",
+  "description": "A Scrabble implementation to play during Coronavirus times.",
+  "private": true,
+  "main": "dist/server/index.js",
+  "scripts": {
+    "lint": "eslint . --ext js,jsx,json",
+    "test": "jest",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "author": "Alex Mendes",
+  "license": "ISC",
+  "dependencies": {
+    "app-root-path": "^3.0.0",
+    "classnames": "^2.2.6",
+    "consola": "^2.15.0",
+    "exception-formatter": "^2.1.2",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "glob": "^7.1.6",
+    "lusca": "^1.6.1",
+    "next": "^10.0.4",
+    "normalize.css": "^8.0.1",
+    "prop-types": "^15.7.2",
+    "react": "^17.0.1",
+    "react-dnd": "^11.1.3",
+    "react-dnd-html5-backend": "^11.1.3",
+    "react-dom": "^17.0.1",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.16.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jest": "^24.1.3",
+    "eslint-plugin-json": "^2.1.2",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.21.5",
+    "jest": "^26.6.3",
+    "sass": "^1.32.0"
+  }
+}

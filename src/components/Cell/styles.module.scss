@@ -1,0 +1,80 @@
+$dark-grey: #2b2b2b;
+
+$cell-color: #009690;
+
+$double-letter-color: #ADE9FC;
+$double-word-color: #FECD8D;
+$triple-letter-color: #75DCFA;
+$triple-word-color: #FE4453;
+
+.cell {
+  box-shadow: inset 2px 2px 4px 1px $dark-grey;
+  background-color: $cell-color;
+  content: '';
+  display: block;
+  padding-bottom: 100%;
+  position: relative;
+
+  &--bonus {
+    &:after {
+      align-items: center;
+      display: flex;
+      font-family: sans-serif;
+      font-size: 14px;
+      height: 100%;
+      justify-content: center;
+      left: 1px;
+      position: absolute;
+      top: 1px;
+      width: 100%;
+    }
+  }
+
+  &--double-letter {
+    background-color: $double-letter-color;
+
+    &:after {
+      content: 'DL';
+      color: darken($double-letter-color, 50%)
+    }
+  }
+
+  &--double-word {
+    background-color: $double-word-color;
+
+    &:after {
+      content: 'DW';
+      color: darken($double-word-color, 40%)
+    }
+  }
+
+  &--triple-letter {
+    background-color: $triple-letter-color;
+
+    &:after {
+      content: 'TL';
+      color: darken($triple-letter-color, 40%)
+    }
+  }
+
+  &--triple-word {
+    background-color: $triple-word-color;
+
+    &:after {
+      content: 'TW';
+      color: darken($triple-word-color, 30%)
+    }
+  }
+
+  &--over {
+    background-color: lighten($cell-color, 15%);
+
+    &:after {
+      color: $cell-color;
+    }
+  }
+
+  &--filled {
+    padding-bottom: 0;
+  }
+}
