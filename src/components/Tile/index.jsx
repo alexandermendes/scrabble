@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useDrag } from 'react-dnd';
 import { string, number } from 'prop-types';
 import cn from 'classnames';
 
 import styles from './styles.module.scss';
+
+import BoardContext from '../../BoardContext';
 
 const Tile = ({
   id,
@@ -12,8 +14,11 @@ const Tile = ({
   score,
   className,
 }) => {
+  const { tiles } = useContext(BoardContext);
+
   const [{ isDragging }, ref] = useDrag({
     item: { id, type },
+    canDrag: () => !tiles.find((tile) => tile.id === id).used,
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),

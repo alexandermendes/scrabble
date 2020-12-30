@@ -116,9 +116,11 @@ const bonusTiles = {
  * Get the cells matrix.
  */
 export const cells = Array(15).fill().map((_row, rowIndex) => (
-  Array(15).fill().map((_cell, cellIndex) => ({
-    id: `${rowIndex}:${cellIndex}`,
-    ...bonusTiles[rowIndex]?.[cellIndex],
+  Array(15).fill().map((_col, colIndex) => ({
+    id: `${rowIndex}:${colIndex}`,
+    colIndex,
+    rowIndex,
+    ...bonusTiles[rowIndex]?.[colIndex],
   }))
 ));
 
@@ -126,7 +128,7 @@ export const cells = Array(15).fill().map((_row, rowIndex) => (
  * Get a cell by ID.
  */
 export const getCell = (cellId) => {
-  const [rowIndex, cellIndex] = cellId.split(':');
+  const [rowIndex, colIndex] = cellId.split(':');
 
-  return cells[rowIndex][cellIndex];
+  return cells[rowIndex][colIndex];
 };
