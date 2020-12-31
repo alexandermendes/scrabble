@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 
-import styles from './styles.module.scss';
-
 import Tile from '../Tile';
 import BoardContext from '../../BoardContext';
+
+import styles from './styles.module.scss';
 
 const Rack = () => {
   const { tiles } = useContext(BoardContext);

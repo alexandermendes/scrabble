@@ -1,3 +1,14 @@
+# Packages
 node_modules/
+
+# Build
 .next/
+
+# Coverage
 coverage/
+
+# Env vars
+.env
+
+# Private key
+private-key.json

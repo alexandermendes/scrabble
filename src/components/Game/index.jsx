@@ -2,8 +2,6 @@ import React, { useEffect } from 'react';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 
-import styles from './styles.module.scss';
-
 import { cells, getCell } from '../../data/cells';
 import BoardContext from '../../BoardContext';
 import useBag from '../../hooks/useBag';
@@ -11,6 +9,8 @@ import Board from '../Board';
 import Rack from '../Rack';
 import Button from '../Button';
 import ScoreBoard from '../Scoreboard';
+
+import styles from './styles.module.scss';
 
 const calculateWordScore = (tiles) => {
   let wordScore = 0;

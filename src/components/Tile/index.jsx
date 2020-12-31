@@ -3,9 +3,9 @@ import { useDrag } from 'react-dnd';
 import { string, number } from 'prop-types';
 import cn from 'classnames';
 
-import styles from './styles.module.scss';
-
 import BoardContext from '../../BoardContext';
+
+import styles from './styles.module.scss';
 
 const Tile = ({
   id,

@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 
-import styles from './styles.module.scss';
-
 import { cells } from '../../data/cells';
 import Cell from '../Cell';
 import Tile from '../Tile';
 import BoardContext from '../../BoardContext';
+
+import styles from './styles.module.scss';
 
 const Board = () => {
   const { tiles } = useContext(BoardContext);

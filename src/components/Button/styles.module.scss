@@ -1,3 +1,9 @@
 .button {
-
+  background-color: color('green');
+  border: none;
+  border-radius: 3px;
+  color: color('white');
+  cursor: pointer;
+  text-transform: uppercase;
+  user-select: none;
 }

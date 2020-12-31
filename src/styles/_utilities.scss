@@ -1,0 +1,94 @@
+$spacingPrefixes: (
+  mb: margin-bottom,
+  mt: margin-top,
+  ml: margin-left,
+  mr: margin-right,
+  ma: margin,
+  pb: padding-bottom,
+  pt: padding-top,
+  pl: padding-left,
+  pr: padding-right,
+  pa: padding
+) !default;
+
+// Spacing helpers
+@each $key, $property in $spacingPrefixes {
+  @for $i from 1 through 5 {
+    .#{$key}-#{$i} {
+      #{$property}: $i * 4px !important;
+    }
+  }
+
+  .#{$key}-reset {
+    #{$property}: 0 !important;
+  }
+
+  @if $key != ma and $key != pa {
+    .#{$key}-auto {
+      #{$property}: auto !important;
+    }
+  }
+}
+
+// Flex helpers
+@each $property, $values in (
+  'flex-direction': (
+    row
+    column
+    row-reverse
+    column-reverse
+  ),
+  'justify-content': (
+    flex-start
+    flex-end
+    center
+    space-between
+    space-around
+  ),
+  'align-items': (
+    flex-start
+    flex-end
+    center
+    baseline
+    stretch
+  ),
+  'align-content': (
+    flex-start
+    flex-end
+    center
+    baseline
+    stretch
+  ),
+  'flex-grow': (
+    0
+    1
+  ),
+  'flex-shrink': (
+    0
+    1
+  )
+) {
+  @each $value in $values {
+    .#{$property}-#{$value} {
+      #{$property}: $value !important;
+    }
+  }
+}
+
+// Display helpers
+@each $value in (
+  block
+  inline
+  inline-block
+  flex
+  inline-flex
+) {
+  .d-#{$value} {
+    display: $value !important;
+  }
+}
+
+// Text helpers
+.text-center {
+  text-align: center;
+}

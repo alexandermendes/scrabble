@@ -3,9 +3,9 @@ import cn from 'classnames';
 import { string, node } from 'prop-types';
 import { useDrop } from 'react-dnd';
 
-import styles from './styles.module.scss';
-
 import BoardContext from '../../BoardContext';
+
+import styles from './styles.module.scss';
 
 const Cell = ({
   cellId,

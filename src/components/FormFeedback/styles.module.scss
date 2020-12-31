@@ -1,0 +1,8 @@
+.form-feedback {
+  font-size: $font-size-small;
+
+  &--invalid {
+    /* TODO: Figure out why this isn't available; repace with other design tokens? */
+    color: color('red');
+  }
+}
