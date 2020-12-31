@@ -8,7 +8,8 @@ import GameContext from '../../context/GameContext';
 import styles from './styles.module.scss';
 
 const Board = () => {
-  const { tiles } = useContext(GameContext);
+  const { game } = useContext(GameContext);
+  const { tiles } = game;
 
   return (
     <div

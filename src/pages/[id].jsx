@@ -6,6 +6,7 @@ import Game from '../components/Game';
 import { db } from '../db';
 import { abort } from '../abort';
 import useUser from '../hooks/useUser';
+import GameContext from '../context/GameContext';
 
 const useGame = (gameId) => {
   const [game, setGame] = useState();
@@ -18,14 +19,17 @@ const useGame = (gameId) => {
     }
 
     const load = async () => {
-      const { docs } = await db()
+      const { docs, empty } = await db()
         .collection('games')
         .limit(1)
         .where('author', '==', user.uid)
         .where('__name__', '==', gameId)
         .get();
 
-      setGame(docs[0]);
+      if (!empty) {
+        setGame(docs[0].data());
+      }
+
       setLoadingGame(false);
     };
 
@@ -36,13 +40,26 @@ const useGame = (gameId) => {
     abort(404);
   }
 
-  return game;
+  const updateGame = async (newGameData) => {
+    if (!game) {
+      throw new Error('Game has not been loaded yet');
+    }
+
+    setGame(newGameData);
+
+    await db()
+      .collection('games')
+      .doc(gameId)
+      .set(newGameData);
+  };
+
+  return [game, updateGame];
 };
 
 const GamePage = ({
   gameId,
 }) => {
-  const game = useGame(gameId);
+  const [game, setGame] = useGame(gameId);
 
   if (!game) {
     return null; // TODO: loading spinner
@@ -50,7 +67,14 @@ const GamePage = ({
 
   return (
     <Auth>
-      <Game />
+      <GameContext.Provider
+        value={{
+          game,
+          setGame,
+        }}
+      >
+        <Game />
+      </GameContext.Provider>
     </Auth>
   );
 };

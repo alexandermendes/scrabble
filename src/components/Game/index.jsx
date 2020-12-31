@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 
+import { getRandomTile } from '../../data/tiles';
 import { cells, getCell } from '../../data/cells';
 import GameContext from '../../context/GameContext';
-import useBag from '../../hooks/useBag';
 import Board from '../Board';
 import Rack from '../Rack';
 import Button from '../Button';
@@ -130,7 +130,8 @@ const getVerticalWord = (tiles, startingTile) => {
 // };
 
 const Game = () => {
-  const { tiles, setTiles, getTile } = useBag();
+  const { game, setGame } = useContext(GameContext);
+  const { tiles } = game;
 
   const updateTiles = () => {
     const currentRackTiles = tiles.filter(({ inRack }) => inRack);
@@ -138,7 +139,7 @@ const Game = () => {
     const newTiles = [];
 
     Array(nRequired).fill().forEach(() => {
-      const newTile = getTile();
+      const newTile = getRandomTile(tiles);
 
       if (newTile) {
         newTile.inRack = true;
@@ -146,7 +147,10 @@ const Game = () => {
       }
     });
 
-    setTiles([...tiles]);
+    setGame({
+      ...game,
+      tiles,
+    });
   };
 
   useEffect(() => {
@@ -198,7 +202,10 @@ const Game = () => {
       Object.assign(tile, { used: true, inRack: false });
     });
 
-    setTiles([...tiles]);
+    setGame({
+      ...game,
+      tiles,
+    });
 
     updateTiles();
 
@@ -206,33 +213,26 @@ const Game = () => {
   };
 
   return (
-    <GameContext.Provider
-      value={{
-        tiles,
-        setTiles,
-      }}
+    <DndProvider
+      backend={HTML5Backend}
     >
-      <DndProvider
-        backend={HTML5Backend}
+      <main
+        className={styles.game}
       >
-        <main
-          className={styles.game}
+        <Board />
+        <div
+          className={styles.game__sidebar}
         >
-          <Board />
-          <div
-            className={styles.game__sidebar}
+          <ScoreBoard />
+          <Rack />
+          <Button
+            onClick={submit}
           >
-            <ScoreBoard />
-            <Rack />
-            <Button
-              onClick={submit}
-            >
-              Submit
-            </Button>
-          </div>
-        </main>
-      </DndProvider>
-    </GameContext.Provider>
+            Submit
+          </Button>
+        </div>
+      </main>
+    </DndProvider>
   );
 };
 

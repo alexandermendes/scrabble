@@ -6,7 +6,8 @@ import GameContext from '../../context/GameContext';
 import styles from './styles.module.scss';
 
 const Rack = () => {
-  const { tiles } = useContext(GameContext);
+  const { game } = useContext(GameContext);
+  const { tiles } = game;
   const rackTiles = tiles.filter(({ inRack, cellId }) => inRack && !cellId);
 
   return (

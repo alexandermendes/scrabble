@@ -14,7 +14,8 @@ const Tile = ({
   score,
   className,
 }) => {
-  const { tiles } = useContext(GameContext);
+  const { game } = useContext(GameContext);
+  const { tiles } = game;
 
   const [{ isDragging }, ref] = useDrag({
     item: { id, type },

@@ -12,7 +12,8 @@ const Cell = ({
   bonus,
   children,
 }) => {
-  const { tiles, setTiles } = useContext(GameContext);
+  const { game, setGame } = useContext(GameContext);
+  const { tiles } = game;
 
   const [{ isOver }, ref] = useDrop({
     accept: 'tile',
@@ -21,7 +22,10 @@ const Cell = ({
 
       droppedTile.cellId = cellId;
 
-      setTiles([...tiles]);
+      setGame({
+        ...game,
+        tiles,
+      });
     },
     canDrop: () => !tiles.find((tile) => tile.cellId === cellId),
     collect: (monitor) => ({

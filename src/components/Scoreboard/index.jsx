@@ -3,7 +3,8 @@ import React, { useContext } from 'react';
 import GameContext from '../../context/GameContext';
 
 const ScoreBoard = () => {
-  const { tiles } = useContext(GameContext);
+  const { game } = useContext(GameContext);
+  const { tiles } = game;
   const { length: remainingTiles } = tiles.filter(({ used, inRack }) => !used && !inRack);
 
   return (

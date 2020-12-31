@@ -42,3 +42,11 @@ export const getTiles = () => createTiles([
   ['Y', 2, 4],
   ['Z', 1, 10],
 ]);
+
+export const getRandomTile = (tiles) => {
+  const currentTiles = [...tiles];
+  const unusedTiles = currentTiles.filter(({ cellId, inRack }) => !cellId && !inRack);
+  const tile = unusedTiles[Math.floor(Math.random() * unusedTiles.length)];
+
+  return tile;
+};
