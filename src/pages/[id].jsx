@@ -1,27 +1,68 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { string } from 'prop-types';
 
 import Auth from '../components/Auth';
 import Game from '../components/Game';
 import { db } from '../db';
 import { abort } from '../abort';
+import useUser from '../hooks/useUser';
 
-const GamePage = () => (
-  <Auth>
-    <Game />
-  </Auth>
-);
+const useGame = (gameId) => {
+  const [game, setGame] = useState();
+  const [loadingGame, setLoadingGame] = useState(true);
+  const { loadingUser, user } = useUser();
 
-// export const getServerSideProps = async ({ params }) => {
-//   const gameDocRef = db().collection('games').doc(params.id);
-//   const doc = await gameDocRef.get();
+  useEffect(() => {
+    if (loadingUser) {
+      return;
+    }
 
-//   if (!doc.exists) {
-//     abort(404);
-//   }
+    const load = async () => {
+      const { docs } = await db()
+        .collection('games')
+        .limit(1)
+        .where('author', '==', user.uid)
+        .where('__name__', '==', gameId)
+        .get();
 
-//   return {
-//     props: {},
-//   };
-// };
+      setGame(docs[0]);
+      setLoadingGame(false);
+    };
+
+    load();
+  }, [loadingUser]);
+
+  if (!loadingGame && !game) {
+    abort(404);
+  }
+
+  return game;
+};
+
+const GamePage = ({
+  gameId,
+}) => {
+  const game = useGame(gameId);
+
+  if (!game) {
+    return null; // TODO: loading spinner
+  }
+
+  return (
+    <Auth>
+      <Game />
+    </Auth>
+  );
+};
+
+export const getServerSideProps = async ({ params }) => ({
+  props: {
+    gameId: params.id,
+  },
+});
+
+GamePage.propTypes = {
+  gameId: string.isRequired,
+};
 
 export default GamePage;

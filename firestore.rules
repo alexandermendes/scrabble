@@ -1,0 +1,27 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth.uid != null;
+    }
+
+    function isPublic() {
+      return resource.data.visibility == 'public';
+    }
+
+    function isOwnedByCurrentUser() {
+      return request.auth != null && request.auth.uid == resource.data.author;
+    }
+
+    match /games/{game} {
+      allow create: if isSignedIn();
+      allow read: if isSignedIn();
+      allow update, delete: if isOwnedByCurrentUser();
+    }
+
+    match /users/{user} {
+      allow read, write: if isSignedIn() || isPublic();
+    }
+  }
+}

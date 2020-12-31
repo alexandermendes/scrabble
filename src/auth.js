@@ -83,3 +83,12 @@ export const getPostLoginRedirect = ({ query, req }) => {
 
   return pathname;
 };
+
+/**
+ * Get the current user, if any.
+ */
+export const getCurrentUser = async () => new Promise((resolve) => {
+  firebase.auth().onAuthStateChanged((resolvedUser) => {
+    resolve(resolvedUser);
+  });
+});

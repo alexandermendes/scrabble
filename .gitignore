@@ -12,3 +12,6 @@ coverage/
 
 # Private key
 private-key.json
+
+# Logs
+*.log

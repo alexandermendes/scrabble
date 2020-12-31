@@ -1,18 +1,35 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 
 import Button from '../components/Button';
-import Game from '../components/Game';
+import useUser from '../hooks/useUser';
+import { db } from '../db';
+import { getTiles } from '../data/tiles';
 
-const startGame = () => {
+const HomePage = () => {
+  const { user } = useUser();
+  const router = useRouter();
 
+  const startGame = async () => {
+    const docRef = await db().collection('games').add({
+      author: user.uid,
+      players: [user.uid],
+      tiles: getTiles(),
+    });
+
+    router.push({
+      pathname: '/[id]',
+      query: { id: docRef.id },
+    });
+  };
+
+  return (
+    <Button
+      onClick={startGame}
+    >
+      Start new game
+    </Button>
+  );
 };
-
-const HomePage = () => (
-  <Button
-    onClick={startGame}
-  >
-    Start new game
-  </Button>
-);
 
 export default HomePage;
