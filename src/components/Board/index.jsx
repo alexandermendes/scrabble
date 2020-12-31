@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import { cells } from '../../data/cells';
 import Cell from '../Cell';
 import Tile from '../Tile';
-import BoardContext from '../../BoardContext';
+import BoardContext from '../../context/BoardContext';
 
 import styles from './styles.module.scss';
 

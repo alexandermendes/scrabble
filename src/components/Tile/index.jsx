@@ -3,7 +3,7 @@ import { useDrag } from 'react-dnd';
 import { string, number } from 'prop-types';
 import cn from 'classnames';
 
-import BoardContext from '../../BoardContext';
+import BoardContext from '../../context/BoardContext';
 
 import styles from './styles.module.scss';
 

@@ -3,7 +3,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 
 import { cells, getCell } from '../../data/cells';
-import BoardContext from '../../BoardContext';
+import BoardContext from '../../context/BoardContext';
 import useBag from '../../hooks/useBag';
 import Board from '../Board';
 import Rack from '../Rack';

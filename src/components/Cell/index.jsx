@@ -3,7 +3,7 @@ import cn from 'classnames';
 import { string, node } from 'prop-types';
 import { useDrop } from 'react-dnd';
 
-import BoardContext from '../../BoardContext';
+import BoardContext from '../../context/BoardContext';
 
 import styles from './styles.module.scss';
 
