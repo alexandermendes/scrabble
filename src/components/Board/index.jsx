@@ -3,12 +3,12 @@ import React, { useContext } from 'react';
 import { cells } from '../../data/cells';
 import Cell from '../Cell';
 import Tile from '../Tile';
-import BoardContext from '../../context/BoardContext';
+import GameContext from '../../context/GameContext';
 
 import styles from './styles.module.scss';
 
 const Board = () => {
-  const { tiles } = useContext(BoardContext);
+  const { tiles } = useContext(GameContext);
 
   return (
     <div

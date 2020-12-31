@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
 
 import Tile from '../Tile';
-import BoardContext from '../../context/BoardContext';
+import GameContext from '../../context/GameContext';
 
 import styles from './styles.module.scss';
 
 const Rack = () => {
-  const { tiles } = useContext(BoardContext);
+  const { tiles } = useContext(GameContext);
   const rackTiles = tiles.filter(({ inRack, cellId }) => inRack && !cellId);
 
   return (

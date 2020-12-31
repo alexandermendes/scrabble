@@ -3,7 +3,7 @@ import cn from 'classnames';
 import { string, node } from 'prop-types';
 import { useDrop } from 'react-dnd';
 
-import BoardContext from '../../context/BoardContext';
+import GameContext from '../../context/GameContext';
 
 import styles from './styles.module.scss';
 
@@ -12,7 +12,7 @@ const Cell = ({
   bonus,
   children,
 }) => {
-  const { tiles, setTiles } = useContext(BoardContext);
+  const { tiles, setTiles } = useContext(GameContext);
 
   const [{ isOver }, ref] = useDrop({
     accept: 'tile',

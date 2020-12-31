@@ -1,8 +1,8 @@
 import { createContext } from 'react';
 
-const BoardContext = createContext({
+const GameContext = createContext({
   tiles: [],
   setTiles: () => {},
 });
 
-export default BoardContext;
+export default GameContext;

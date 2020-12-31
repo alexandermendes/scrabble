@@ -3,7 +3,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 
 import { cells, getCell } from '../../data/cells';
-import BoardContext from '../../context/BoardContext';
+import GameContext from '../../context/GameContext';
 import useBag from '../../hooks/useBag';
 import Board from '../Board';
 import Rack from '../Rack';
@@ -206,7 +206,7 @@ const Game = () => {
   };
 
   return (
-    <BoardContext.Provider
+    <GameContext.Provider
       value={{
         tiles,
         setTiles,
@@ -232,7 +232,7 @@ const Game = () => {
           </div>
         </main>
       </DndProvider>
-    </BoardContext.Provider>
+    </GameContext.Provider>
   );
 };
 
