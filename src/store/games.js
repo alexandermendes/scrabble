@@ -1,5 +1,5 @@
 import { db } from './clients';
-import { createTiles } from '../data/tiles';
+import { createTiles } from '../game/tiles';
 
 const GAME_COLLECTION = 'games';
 

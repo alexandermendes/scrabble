@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { cells } from '../../data/cells';
+import { cells } from '../../game/cells';
 import Cell from '../Cell';
 import Tile from '../Tile';
 

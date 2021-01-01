@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 
-import { getRandomTiles } from '../../data/tiles';
-import { cells, getCell } from '../../data/cells';
+import { getRandomTiles } from '../../game/tiles';
+import { cells, getCell } from '../../game/cells';
 import Board from '../Board';
 import Rack from '../Rack';
 import Button from '../Button';
