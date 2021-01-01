@@ -63,9 +63,19 @@ const useGame = () => {
     return updateGame(game);
   };
 
+  /**
+   * Add a player.
+   */
+  const addPlayer = async (data) => {
+    game.players.push(data);
+
+    return updateGame(game);
+  };
+
   return {
     game,
     addTurn,
+    addPlayer,
     updateTiles,
     updateTile,
   };

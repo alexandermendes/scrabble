@@ -1,5 +1,3 @@
-import 'firebase/firestore';
-
 import { db } from './clients';
 import { createTiles } from '../data/tiles';
 
@@ -19,12 +17,11 @@ export const games = {
   /**
    * Load a game.
    */
-  get: async (gameId, user) => {
+  get: async (id) => {
     const { docs, empty } = await db()
       .collection(GAME_COLLECTION)
       .limit(1)
-      .where('author', '==', user.uid)
-      .where('__name__', '==', gameId)
+      .where('__name__', '==', id)
       .get();
 
     if (empty) {
@@ -37,10 +34,10 @@ export const games = {
   /**
    * Update a game.
    */
-  update: async (gameId, data) => {
+  update: async (id, data) => {
     await db()
       .collection(GAME_COLLECTION)
-      .doc(gameId)
+      .doc(id)
       .set(data);
   },
 };

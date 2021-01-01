@@ -17,7 +17,8 @@ service cloud.firestore {
     match /games/{game} {
       allow create: if isSignedIn();
       allow read: if isSignedIn();
-      allow update, delete: if isOwnedByCurrentUser();
+      allow update: if isSignedIn();
+      allow delete: if isOwnedByCurrentUser();
     }
 
     match /users/{user} {

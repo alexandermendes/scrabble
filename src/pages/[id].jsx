@@ -21,7 +21,7 @@ const GamePage = ({
     }
 
     (async () => {
-      setGame(await games.get(gameId, user));
+      setGame(await games.get(gameId));
       setLoading(false);
     })();
   }, [user]);

@@ -7,7 +7,7 @@ import styles from './styles.module.scss';
 const ScoreBoard = () => {
   const { game } = useGame();
   const { tiles, players, turns = [] } = game;
-  const { length: remainingTiles } = tiles.filter(({ used, inRack }) => !used && !inRack);
+  const { length: remainingTiles } = tiles.filter(({ used, userId }) => !used && !userId);
 
   return (
     <div

@@ -4,15 +4,17 @@ import { string } from 'prop-types';
 
 import Tile from '../Tile';
 import useGame from '../../hooks/useGame';
+import useUser from '../../hooks/useUser';
 
 import styles from './styles.module.scss';
 
 const Rack = ({
   className,
 }) => {
+  const { user } = useUser();
   const { game } = useGame();
   const { tiles } = game;
-  const rackTiles = tiles.filter(({ inRack, cellId }) => inRack && !cellId);
+  const rackTiles = tiles.filter(({ userId, cellId }) => user && user.uid === userId && !cellId);
 
   return (
     <div

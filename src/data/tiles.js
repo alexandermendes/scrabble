@@ -39,7 +39,7 @@ export const createTiles = () => [
     letter,
     score,
     cellId: null,
-    inRack: false,
+    userId: null,
     used: false,
   })),
 ], []);
@@ -48,7 +48,7 @@ export const createTiles = () => [
  * Get a random, unused tile.
  */
 export const getRandomTiles = (tiles, number) => {
-  let unusedTiles = tiles.filter(({ cellId, inRack }) => !cellId && !inRack);
+  let unusedTiles = tiles.filter(({ cellId, userId }) => !cellId && !userId);
   const newTiles = [];
 
   Array(number).fill().forEach(() => {

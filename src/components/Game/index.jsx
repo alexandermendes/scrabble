@@ -130,11 +130,16 @@ const getVerticalWord = (tiles, startingTile) => {
 
 const Game = () => {
   const { user } = useUser();
-  const { game, updateTiles, addTurn } = useGame();
+  const {
+    game,
+    updateTiles,
+    addTurn,
+    addPlayer,
+  } = useGame();
   const { tiles } = game;
 
   const pickTiles = () => {
-    const currentRackTiles = tiles.filter(({ inRack }) => inRack);
+    const currentRackTiles = tiles.filter(({ userId }) => user.uid === userId);
     const nRequired = 7 - currentRackTiles.length;
     const newTiles = getRandomTiles(tiles, nRequired);
 
@@ -142,15 +147,26 @@ const Game = () => {
       return;
     }
 
-    updateTiles(newTiles.map((tile) => [tile.id, { inRack: true }]));
+    updateTiles(newTiles.map((tile) => [tile.id, { userId: user.uid }]));
   };
 
+  // TODO: ask to join and limit players
   useEffect(() => {
-    pickTiles();
-  }, []);
+    if (!user) {
+      return;
+    }
+
+    (async () => {
+      if (!(game.players.includes(user.uid))) {
+        await addPlayer(user.uid);
+      }
+
+      pickTiles();
+    })();
+  }, [user]);
 
   const submit = () => {
-    const usedTiles = tiles.filter(({ inRack, cellId }) => inRack && !!cellId);
+    const usedTiles = tiles.filter(({ userId, cellId }) => user.uid === userId && !!cellId);
     const usedCells = usedTiles.map(({ cellId }) => getCell(cellId));
 
     const isHorizontalWord = new Set(usedCells.map(({ rowIndex }) => rowIndex)).size === 1;
@@ -188,7 +204,7 @@ const Game = () => {
       scoreAcc + calculateWordScore(word)
     ), 0);
 
-    updateTiles(usedTiles.map((tile) => [tile.id, { used: true, inRack: false }]));
+    updateTiles(usedTiles.map((tile) => [tile.id, { used: true, userId: null }]));
 
     addTurn({
       userId: user.uid,
