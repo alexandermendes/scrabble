@@ -5,7 +5,7 @@ import useGame from '../../hooks/useGame';
 import styles from './styles.module.scss';
 
 const ScoreBoard = () => {
-  const { game } = useGame();
+  const { game, getActiveUser } = useGame();
   const { tiles, players, turns = [] } = game;
   const { length: remainingTiles } = tiles.filter(({ used, userId }) => !used && !userId);
 
@@ -47,6 +47,11 @@ const ScoreBoard = () => {
         className={styles.scoreboard__footer}
       >
         {`Remaining tiles: ${remainingTiles}`}
+      </p>
+      <p
+        className={styles.scoreboard__footer}
+      >
+        {`Waiting for: ${getActiveUser()}`}
       </p>
     </div>
   );

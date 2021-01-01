@@ -11,7 +11,7 @@ service cloud.firestore {
     }
 
     function isOwnedByCurrentUser() {
-      return request.auth != null && request.auth.uid == resource.data.author;
+      return request.auth != null && request.auth.uid == resource.data.owner;
     }
 
     match /games/{game} {

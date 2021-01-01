@@ -72,12 +72,32 @@ const useGame = () => {
     return updateGame(game);
   };
 
+  /**
+   * Get the user whose turn it is.
+   */
+  const getActiveUser = () => {
+    const { turns, players, owner } = game;
+
+    if (!turns.length) {
+      return owner;
+    }
+
+    const { userId: lastUser } = turns[turns.length - 1];
+    const lastUserIndex = players.findIndex((player) => player === lastUser);
+    const nextUser = lastUserIndex < players.length - 1
+      ? players[lastUserIndex + 1]
+      : players[0];
+
+    return nextUser;
+  };
+
   return {
     game,
     addTurn,
     addPlayer,
     updateTiles,
     updateTile,
+    getActiveUser,
   };
 };
 

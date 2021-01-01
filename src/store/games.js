@@ -8,7 +8,7 @@ export const games = {
    * Create a game.
    */
   create: async (user) => db().collection(GAME_COLLECTION).add({
-    author: user.uid,
+    owner: user.uid,
     players: [user.uid],
     tiles: createTiles(),
     turns: [],
