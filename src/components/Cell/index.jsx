@@ -1,31 +1,23 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import cn from 'classnames';
 import { string, node } from 'prop-types';
 import { useDrop } from 'react-dnd';
 
-import GameContext from '../../context/GameContext';
-
 import styles from './styles.module.scss';
+import useGame from '../../hooks/useGame';
 
 const Cell = ({
   cellId,
   bonus,
   children,
 }) => {
-  const { game, setGame } = useContext(GameContext);
+  const { game, updateTile } = useGame();
   const { tiles } = game;
 
   const [{ isOver }, ref] = useDrop({
     accept: 'tile',
     drop: ({ id }) => {
-      const droppedTile = tiles.find((tile) => tile.id === id);
-
-      droppedTile.cellId = cellId;
-
-      setGame({
-        ...game,
-        tiles,
-      });
+      updateTile(id, { cellId });
     },
     canDrop: () => !tiles.find((tile) => tile.cellId === cellId),
     collect: (monitor) => ({

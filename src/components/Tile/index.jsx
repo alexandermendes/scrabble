@@ -2,8 +2,7 @@ import React, { useContext } from 'react';
 import { useDrag } from 'react-dnd';
 import { string, number } from 'prop-types';
 import cn from 'classnames';
-
-import GameContext from '../../context/GameContext';
+import useGame from '../../hooks/useGame';
 
 import styles from './styles.module.scss';
 
@@ -14,7 +13,7 @@ const Tile = ({
   score,
   className,
 }) => {
-  const { game } = useContext(GameContext);
+  const { game } = useGame();
   const { tiles } = game;
 
   const [{ isDragging }, ref] = useDrag({

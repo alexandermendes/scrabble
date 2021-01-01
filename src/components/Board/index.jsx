@@ -1,14 +1,14 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
 import { cells } from '../../data/cells';
 import Cell from '../Cell';
 import Tile from '../Tile';
-import GameContext from '../../context/GameContext';
 
 import styles from './styles.module.scss';
+import useGame from '../../hooks/useGame';
 
 const Board = () => {
-  const { game } = useContext(GameContext);
+  const { game } = useGame();
   const { tiles } = game;
 
   return (

@@ -1,22 +1,53 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
-import GameContext from '../../context/GameContext';
+import useGame from '../../hooks/useGame';
+
+import styles from './styles.module.scss';
 
 const ScoreBoard = () => {
-  const { game } = useContext(GameContext);
-  const { tiles, players, scores = {} } = game;
+  const { game } = useGame();
+  const { tiles, players, turns = [] } = game;
   const { length: remainingTiles } = tiles.filter(({ used, inRack }) => !used && !inRack);
 
   return (
-    <div>
-      {players.map((player) => (
-        <p>
-          {player}
-          {': '}
-          {scores[player] || 0}
-        </p>
-      ))}
-      {`Remaining tiles: ${remainingTiles}`}
+    <div
+      className={styles.scoreboard}
+    >
+      <table
+        className={styles.scoreboard__table}
+      >
+        <thead>
+          <tr>
+            <th className={styles['scoreboard__table-heading']}>Player</th>
+            <th className={styles['scoreboard__table-heading']}>Position</th>
+            <th className={styles['scoreboard__table-heading']}>Last Turn</th>
+            <th className={styles['scoreboard__table-heading']}>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          {players.map((player) => {
+            const playerTurns = turns.filter(({ userId }) => userId === player);
+            const playerScore = playerTurns.reduce((total, { score }) => total + score, 0);
+            const { word: lastTurn } = playerTurns[playerTurns.length - 1] || {};
+
+            return (
+              <tr
+                key={player}
+              >
+                <td className={styles['scoreboard__table-cell']}>{player}</td>
+                <td className={styles['scoreboard__table-cell']} />
+                <td className={styles['scoreboard__table-cell']}>{lastTurn}</td>
+                <td className={styles['scoreboard__table-cell']}>{playerScore}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+      <p
+        className={styles.scoreboard__footer}
+      >
+        {`Remaining tiles: ${remainingTiles}`}
+      </p>
     </div>
   );
 };

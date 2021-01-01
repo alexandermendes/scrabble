@@ -1,16 +1,17 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 
 import { getRandomTile } from '../../data/tiles';
 import { cells, getCell } from '../../data/cells';
-import GameContext from '../../context/GameContext';
 import Board from '../Board';
 import Rack from '../Rack';
 import Button from '../Button';
 import ScoreBoard from '../Scoreboard';
+import useGame from '../../hooks/useGame';
 
 import styles from './styles.module.scss';
+import useUser from '../../hooks/useUser';
 
 const calculateWordScore = (tiles) => {
   let wordScore = 0;
@@ -130,26 +131,24 @@ const getVerticalWord = (tiles, startingTile) => {
 // };
 
 const Game = () => {
-  const { game, setGame, user } = useContext(GameContext);
+  const { user } = useUser();
+  const { game, updateTile, addTurn } = useGame();
   const { tiles } = game;
 
   const updateTiles = () => {
     const currentRackTiles = tiles.filter(({ inRack }) => inRack);
     const nRequired = 7 - currentRackTiles.length;
-    const newTiles = [];
+
+    if (!nRequired) {
+      return;
+    }
 
     Array(nRequired).fill().forEach(() => {
       const newTile = getRandomTile(tiles);
 
       if (newTile) {
-        newTile.inRack = true;
-        newTiles.push(newTile);
+        updateTile(newTile.id, { inRack: true });
       }
-    });
-
-    setGame({
-      ...game,
-      tiles,
     });
   };
 
@@ -199,15 +198,13 @@ const Game = () => {
     // TODO: Set score for current player
 
     usedTiles.forEach((tile) => {
-      Object.assign(tile, { used: true, inRack: false });
+      updateTile(tile.id, { used: true, inRack: false });
     });
 
-    const currentScore = game.scores[user.uid] || 0;
-    game.scores[user.uid] = currentScore + score;
-
-    setGame({
-      ...game,
-      tiles,
+    addTurn({
+      userId: user.uid,
+      word: newWord.map(({ letter }) => letter).join(''),
+      score,
     });
 
     updateTiles();
@@ -227,7 +224,9 @@ const Game = () => {
           className={styles.game__sidebar}
         >
           <ScoreBoard />
-          <Rack />
+          <Rack
+            className="mt-auto"
+          />
           <Button
             onClick={submit}
           >

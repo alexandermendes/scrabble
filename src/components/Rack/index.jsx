@@ -1,18 +1,25 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import cn from 'classnames';
+import { string } from 'prop-types';
 
 import Tile from '../Tile';
-import GameContext from '../../context/GameContext';
+import useGame from '../../hooks/useGame';
 
 import styles from './styles.module.scss';
 
-const Rack = () => {
-  const { game } = useContext(GameContext);
+const Rack = ({
+  className,
+}) => {
+  const { game } = useGame();
   const { tiles } = game;
   const rackTiles = tiles.filter(({ inRack, cellId }) => inRack && !cellId);
 
   return (
     <div
-      className={styles.rack}
+      className={cn(
+        styles.rack,
+        className,
+      )}
     >
       {rackTiles.map((tile) => (
         <Tile
@@ -26,6 +33,14 @@ const Rack = () => {
       ))}
     </div>
   );
+};
+
+Rack.defaultProps = {
+  className: null,
+};
+
+Rack.propTypes = {
+  className: string,
 };
 
 export default Rack;

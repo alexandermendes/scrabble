@@ -1,0 +1,37 @@
+.scoreboard {
+
+  box-sizing: border-box;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+
+  &__table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+  }
+
+  &__table-heading {
+    padding-top: 11px;
+    padding-bottom: 11px;
+    background-color: #4CAF50;
+    border: 1px solid #ddd;
+    color: white;
+  }
+
+  &__table-cell {
+    background-color: white;
+    border: 1px solid #ddd;
+    text-align: left;
+    padding: 8px;
+
+    &:not(:first-child) {
+      text-align: center;
+    }
+  }
+
+  &__footer {
+    color: white;
+    margin-top: 10px;
+  }
+}

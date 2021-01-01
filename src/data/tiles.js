@@ -1,19 +1,9 @@
 import { v4 as uuid } from 'uuid';
 
-const createTiles = (arr) => arr.reduce((acc, [letter, amount, score]) => [
-  ...acc,
-  ...new Array(amount).fill().map(() => ({
-    id: uuid(),
-    type: 'tile',
-    letter,
-    score,
-    cellId: null,
-    inRack: false,
-    used: false,
-  })),
-], []);
-
-export const getTiles = () => createTiles([
+/**
+ * Create the tiles for a new game.
+ */
+export const createTiles = () => [
   ['', 2, 0],
   ['A', 9, 1],
   ['B', 2, 3],
@@ -41,8 +31,22 @@ export const getTiles = () => createTiles([
   ['X', 1, 8],
   ['Y', 2, 4],
   ['Z', 1, 10],
-]);
+].reduce((acc, [letter, amount, score]) => [
+  ...acc,
+  ...new Array(amount).fill().map(() => ({
+    id: uuid(),
+    type: 'tile',
+    letter,
+    score,
+    cellId: null,
+    inRack: false,
+    used: false,
+  })),
+], []);
 
+/**
+ * Get a random, unused tile.
+ */
 export const getRandomTile = (tiles) => {
   const currentTiles = [...tiles];
   const unusedTiles = currentTiles.filter(({ cellId, inRack }) => !cellId && !inRack);
