@@ -8,13 +8,12 @@ import { abort } from '../abort';
 import useUser from '../hooks/useUser';
 import GameContext from '../context/GameContext';
 
-const useGame = (gameId) => {
+const useGame = (gameId, user) => {
   const [game, setGame] = useState();
   const [loadingGame, setLoadingGame] = useState(true);
-  const { loadingUser, user } = useUser();
 
   useEffect(() => {
-    if (loadingUser) {
+    if (!user) {
       return;
     }
 
@@ -34,7 +33,7 @@ const useGame = (gameId) => {
     };
 
     load();
-  }, [loadingUser]);
+  }, [user]);
 
   if (!loadingGame && !game) {
     abort(404);
@@ -59,7 +58,8 @@ const useGame = (gameId) => {
 const GamePage = ({
   gameId,
 }) => {
-  const [game, setGame] = useGame(gameId);
+  const { user } = useUser();
+  const [game, setGame] = useGame(gameId, user);
 
   if (!game) {
     return null; // TODO: loading spinner
@@ -71,6 +71,7 @@ const GamePage = ({
         value={{
           game,
           setGame,
+          user,
         }}
       >
         <Game />

@@ -1,8 +1,5 @@
 import { createContext } from 'react';
 
-const GameContext = createContext({
-  tiles: [],
-  setTiles: () => {},
-});
+const GameContext = createContext();
 
 export default GameContext;

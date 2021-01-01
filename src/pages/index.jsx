@@ -15,6 +15,7 @@ const HomePage = () => {
       author: user.uid,
       players: [user.uid],
       tiles: getTiles(),
+      scores: {},
     });
 
     router.push({

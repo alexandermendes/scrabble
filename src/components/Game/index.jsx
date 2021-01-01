@@ -130,7 +130,7 @@ const getVerticalWord = (tiles, startingTile) => {
 // };
 
 const Game = () => {
-  const { game, setGame } = useContext(GameContext);
+  const { game, setGame, user } = useContext(GameContext);
   const { tiles } = game;
 
   const updateTiles = () => {
@@ -201,6 +201,9 @@ const Game = () => {
     usedTiles.forEach((tile) => {
       Object.assign(tile, { used: true, inRack: false });
     });
+
+    const currentScore = game.scores[user.uid] || 0;
+    game.scores[user.uid] = currentScore + score;
 
     setGame({
       ...game,
