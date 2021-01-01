@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { string } from 'prop-types';
 
-import { signin, getPostLoginRedirect, REGISTER_ROUTE } from '../auth';
+import { auth } from '../store';
 import Link from '../components/Link';
 import AuthForm from '../components/AuthForm';
 import useUser from '../hooks/useUser';
@@ -27,7 +27,7 @@ const SignInPage = ({
 
     setErrors({});
 
-    const { error } = await signin(evt.target);
+    const { error } = await auth.signin(evt.target);
 
     if (error) {
       setErrors({ [error.field]: error.message });
@@ -47,7 +47,7 @@ const SignInPage = ({
       <p className="text-center">
         {'Don\'t have an account yet? '}
         <Link
-          href={`${REGISTER_ROUTE}?redirect=${redirect}`}
+          href={`/register?redirect=${redirect}`}
         >
           Register
         </Link>
@@ -58,7 +58,7 @@ const SignInPage = ({
 
 export const getServerSideProps = async (ctx) => ({
   props: {
-    redirect: getPostLoginRedirect(ctx),
+    redirect: auth.getPostLoginRedirect(ctx),
   },
 });
 

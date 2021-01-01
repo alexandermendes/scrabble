@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { string } from 'prop-types';
 
-import { register, getPostLoginRedirect, LOGIN_ROUTE } from '../auth';
+import { auth } from '../store';
 import Link from '../components/Link';
 import AuthForm from '../components/AuthForm';
 
@@ -17,7 +17,7 @@ const RegisterPage = ({
 
     setErrors({});
 
-    const { error } = await register(evt.target);
+    const { error } = await auth.register(evt.target);
 
     if (error) {
       setErrors({ [error.field]: error.message });
@@ -38,7 +38,7 @@ const RegisterPage = ({
         Already have an account?
         {' '}
         <Link
-          href={`${LOGIN_ROUTE}?redirect=${redirect}`}
+          href={`/login?redirect=${redirect}`}
         >
           Sign in
         </Link>
@@ -49,7 +49,7 @@ const RegisterPage = ({
 
 export const getServerSideProps = async (ctx) => ({
   props: {
-    redirect: getPostLoginRedirect(ctx),
+    redirect: auth.getPostLoginRedirect(ctx),
   },
 });
 

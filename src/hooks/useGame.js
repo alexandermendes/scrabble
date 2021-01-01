@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import deepmerge from 'deepmerge';
 
-import { games } from '../db';
+import { games } from '../store';
 import { abort } from '../abort';
 import GameContext from '../context/GameContext';
 

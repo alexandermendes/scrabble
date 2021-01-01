@@ -3,7 +3,6 @@ import { node } from 'prop-types';
 import { useRouter } from 'next/router';
 
 import useUser from '../../hooks/useUser';
-import { LOGIN_ROUTE } from '../../auth';
 
 const Auth = ({ children }) => {
   const { loadingUser, user } = useUser();
@@ -14,7 +13,7 @@ const Auth = ({ children }) => {
   }
 
   if (!user) {
-    router.push({ pathname: LOGIN_ROUTE });
+    router.push({ pathname: '/login' });
 
     return null;
   }

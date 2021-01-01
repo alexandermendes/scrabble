@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { string } from 'prop-types';
 
-import { games } from '../db';
+import { games } from '../store';
 import Auth from '../components/Auth';
 import Game from '../components/Game';
 import useUser from '../hooks/useUser';

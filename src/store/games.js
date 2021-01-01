@@ -1,11 +1,11 @@
 import 'firebase/firestore';
 
-import db from './store';
+import { db } from './clients';
 import { createTiles } from '../data/tiles';
 
 const GAME_COLLECTION = 'games';
 
-export default {
+export const games = {
   /**
    * Create a game.
    */

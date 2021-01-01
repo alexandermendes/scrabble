@@ -5,7 +5,7 @@ import NextDocument, {
   Main,
   NextScript,
 } from 'next/document';
-import { initAdmin } from '../db/init-admin';
+import { initAdmin } from '../store';
 
 class Document extends NextDocument {
   static async getInitialProps(ctx) {
