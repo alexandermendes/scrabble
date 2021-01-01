@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 
-import { getRandomTile } from '../../data/tiles';
+import { getRandomTiles } from '../../data/tiles';
 import { cells, getCell } from '../../data/cells';
 import Board from '../Board';
 import Rack from '../Rack';
@@ -132,28 +132,23 @@ const getVerticalWord = (tiles, startingTile) => {
 
 const Game = () => {
   const { user } = useUser();
-  const { game, updateTile, addTurn } = useGame();
+  const { game, updateTiles, addTurn } = useGame();
   const { tiles } = game;
 
-  const updateTiles = () => {
+  const pickTiles = () => {
     const currentRackTiles = tiles.filter(({ inRack }) => inRack);
     const nRequired = 7 - currentRackTiles.length;
+    const newTiles = getRandomTiles(tiles, nRequired);
 
-    if (!nRequired) {
+    if (!newTiles.length) {
       return;
     }
 
-    Array(nRequired).fill().forEach(() => {
-      const newTile = getRandomTile(tiles);
-
-      if (newTile) {
-        updateTile(newTile.id, { inRack: true });
-      }
-    });
+    updateTiles(newTiles.map((tile) => [tile.id, { inRack: true }]));
   };
 
   useEffect(() => {
-    updateTiles();
+    pickTiles();
   }, []);
 
   const submit = () => {
@@ -195,11 +190,7 @@ const Game = () => {
       scoreAcc + calculateWordScore(word)
     ), 0);
 
-    // TODO: Set score for current player
-
-    usedTiles.forEach((tile) => {
-      updateTile(tile.id, { used: true, inRack: false });
-    });
+    updateTiles(usedTiles.map((tile) => [tile.id, { used: true, inRack: false }]));
 
     addTurn({
       userId: user.uid,
@@ -207,7 +198,7 @@ const Game = () => {
       score,
     });
 
-    updateTiles();
+    pickTiles();
 
     // TODO: Switch turns
   };

@@ -33,7 +33,7 @@ export const createTiles = () => [
   ['Z', 1, 10],
 ].reduce((acc, [letter, amount, score]) => [
   ...acc,
-  ...new Array(amount).fill().map(() => ({
+  ...Array(amount).fill().map(() => ({
     id: uuid(),
     type: 'tile',
     letter,
@@ -47,10 +47,22 @@ export const createTiles = () => [
 /**
  * Get a random, unused tile.
  */
-export const getRandomTile = (tiles) => {
-  const currentTiles = [...tiles];
-  const unusedTiles = currentTiles.filter(({ cellId, inRack }) => !cellId && !inRack);
-  const tile = unusedTiles[Math.floor(Math.random() * unusedTiles.length)];
+export const getRandomTiles = (tiles, number) => {
+  let unusedTiles = tiles.filter(({ cellId, inRack }) => !cellId && !inRack);
+  const newTiles = [];
 
-  return tile;
+  Array(number).fill().forEach(() => {
+    if (!unusedTiles) {
+      return;
+    }
+
+    const newTile = unusedTiles[Math.floor(Math.random() * unusedTiles.length)];
+
+    newTiles.push(newTile);
+
+    // Avoid returning the same tile twice
+    unusedTiles = unusedTiles.filter((tile) => !newTiles.includes(tile));
+  });
+
+  return newTiles;
 };
