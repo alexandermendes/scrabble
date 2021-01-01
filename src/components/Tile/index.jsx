@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useDrag } from 'react-dnd';
 import { string, number } from 'prop-types';
 import cn from 'classnames';

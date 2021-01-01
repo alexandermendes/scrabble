@@ -40,8 +40,6 @@ const calculateWordScore = (tiles) => {
     wordScore *= wordMultiplier;
   });
 
-  console.log(`Scored ${wordScore} with ${tiles.map(({ letter }) => letter)}`);
-
   return wordScore;
 };
 
