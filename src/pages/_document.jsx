@@ -11,6 +11,7 @@ class Document extends NextDocument {
   static async getInitialProps(ctx) {
     const initialProps = await NextDocument.getInitialProps(ctx);
 
+    // TODO: Are we actually using the admin client at all?
     initAdmin();
 
     return { ...initialProps };
