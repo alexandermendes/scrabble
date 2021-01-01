@@ -14,7 +14,7 @@ export const db = () => {
 };
 
 /**
- * Get the database client.
+ * Get the auth client.
  */
 export const auth = () => {
   initClient();
