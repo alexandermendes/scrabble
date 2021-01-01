@@ -6,11 +6,13 @@ import Auth from '../components/Auth';
 import Game from '../components/Game';
 import useUser from '../hooks/useUser';
 import GameContext from '../context/GameContext';
+import { abort } from '../abort';
 
 const GamePage = ({
   gameId,
 }) => {
   const { user } = useUser();
+  const [loading, setLoading] = useState(true);
   const [game, setGame] = useState();
 
   useEffect(() => {
@@ -20,11 +22,16 @@ const GamePage = ({
 
     (async () => {
       setGame(await games.get(gameId, user));
+      setLoading(false);
     })();
   }, [user]);
 
+  if (loading) {
+    return 'Loading...'; // TODO: Loading spinner
+  }
+
   if (!game) {
-    return null; // TODO: loading spinner
+    abort(404);
   }
 
   return (
