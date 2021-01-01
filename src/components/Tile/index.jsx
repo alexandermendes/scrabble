@@ -35,7 +35,7 @@ const Tile = ({
         isDragging && styles['tile--dragging'],
       )}
     >
-      {letter}
+      {letter === '□' ? '' : letter}
       {!!score && (
         <span
           className={styles.tile__score}

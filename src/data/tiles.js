@@ -4,7 +4,7 @@ import { v4 as uuid } from 'uuid';
  * Create the tiles for a new game.
  */
 export const createTiles = () => [
-  ['', 2, 0],
+  ['□', 2, 0],
   ['A', 9, 1],
   ['B', 2, 3],
   ['C', 2, 3],
