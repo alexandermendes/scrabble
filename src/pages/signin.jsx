@@ -10,7 +10,7 @@ import useUser from '../hooks/useUser';
 const SignInPage = ({
   redirect,
 }) => {
-  const { loadingUser, user } = useUser();
+  const { loadingUser, user } = useUser({ redirect: false });
   const [errors, setErrors] = useState({});
   const router = useRouter();
 

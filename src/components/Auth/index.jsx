@@ -13,7 +13,7 @@ const Auth = ({ children }) => {
   }
 
   if (!user) {
-    router.push({ pathname: '/login' });
+    router.push({ pathname: '/signin' });
 
     return null;
   }

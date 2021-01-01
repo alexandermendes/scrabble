@@ -38,7 +38,7 @@ const RegisterPage = ({
         Already have an account?
         {' '}
         <Link
-          href={`/login?redirect=${redirect}`}
+          href={`/signin?redirect=${redirect}`}
         >
           Sign in
         </Link>

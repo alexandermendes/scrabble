@@ -6,7 +6,9 @@ import { auth } from '../store';
 /**
  * Get the current user, if any.
  */
-const useUser = () => {
+const useUser = ({
+  redirect = true,
+} = {}) => {
   const [user, setUser] = useState();
   const router = useRouter();
   const [loadingUser, setLoadingUser] = useState(true);
@@ -15,8 +17,8 @@ const useUser = () => {
     const load = async () => {
       const currentUser = await auth.getCurrentUser();
 
-      if (!currentUser) {
-        router.push({ pathname: '/login' });
+      if (!currentUser && redirect) {
+        router.push({ pathname: '/signin' });
 
         return;
       }
