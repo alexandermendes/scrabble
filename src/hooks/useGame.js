@@ -1,14 +1,18 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import deepmerge from 'deepmerge';
 
+import { submitWord } from '../game/submit';
+import { getRandomTiles } from '../game/tiles';
 import { games } from '../store';
 import { abort } from '../abort';
 import GameContext from '../context/GameContext';
+import useUser from './useUser';
 
 /**
  * A hook to load and update a game.
  */
 const useGame = () => {
+  const { user: currentUser } = useUser();
   const { game, gameId, setGame } = useContext(GameContext);
 
   if (!game) {
@@ -91,10 +95,67 @@ const useGame = () => {
     return nextUser;
   };
 
+  /**
+   * Fill the rack for the current user.
+   */
+  const pickTiles = () => {
+    const { tiles } = game;
+    const currentRackTiles = tiles.filter(({ userId }) => currentUser.uid === userId);
+    const nRequired = 7 - currentRackTiles.length;
+    const newTiles = getRandomTiles(tiles, nRequired);
+
+    if (!newTiles.length) {
+      return;
+    }
+
+    updateTiles(newTiles.map((tile) => [tile.id, { userId: currentUser.uid }]));
+  };
+
+  /**
+   * Submit the current user's word.
+   */
+  const takeTurn = () => {
+    const { tiles } = game;
+    const usedTiles = tiles.filter(({ userId, cellId }) => currentUser.uid === userId && !!cellId);
+
+    const { word, score } = submitWord(tiles, usedTiles);
+
+    if (!word) {
+      return;
+    }
+
+    updateTiles(usedTiles.map((tile) => [tile.id, { used: true, userId: null }]));
+
+    addTurn({
+      userId: currentUser.uid,
+      word,
+      score,
+    });
+
+    pickTiles();
+
+    // TODO: Switch turns
+  };
+
+  // Ensuring the current player is part of the game and has tiles
+  // TODO: ask to join and limit players
+  useEffect(() => {
+    if (!currentUser) {
+      return;
+    }
+
+    (async () => {
+      if (!(game.players.includes(currentUser.uid))) {
+        await addPlayer(currentUser.uid);
+      }
+
+      pickTiles();
+    })();
+  }, [currentUser]);
+
   return {
     game,
-    addTurn,
-    addPlayer,
+    takeTurn,
     updateTiles,
     updateTile,
     getActiveUser,
