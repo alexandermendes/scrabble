@@ -31,7 +31,7 @@ const AuthProvider = ({
   }, [excludedRoutes]);
 
   if (loading) {
-    return null; // TODO: Loading spinner?
+    return null;
   }
 
   return (

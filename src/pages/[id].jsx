@@ -3,8 +3,8 @@ import { string } from 'prop-types';
 
 import { games } from '../store';
 import Game from '../components/Game';
+import PageTransition from '../components/PageTransition';
 import GameContext from '../context/GameContext';
-import { abort } from '../abort';
 
 const GamePage = ({
   gameId,
@@ -19,24 +19,20 @@ const GamePage = ({
     })();
   }, []);
 
-  if (loading) {
-    return <p>Loading...</p>; // TODO: Loading spinner
-  }
-
-  if (!game) {
-    abort(404);
-  }
-
   return (
-    <GameContext.Provider
-      value={{
-        game,
-        gameId,
-        setGame,
-      }}
+    <PageTransition
+      loaded={!loading}
     >
-      <Game />
-    </GameContext.Provider>
+      <GameContext.Provider
+        value={{
+          game,
+          gameId,
+          setGame,
+        }}
+      >
+        <Game />
+      </GameContext.Provider>
+    </PageTransition>
   );
 };
 
