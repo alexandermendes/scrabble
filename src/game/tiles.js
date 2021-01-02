@@ -58,6 +58,10 @@ export const getRandomTiles = (tiles, number) => {
 
     const newTile = unusedTiles[Math.floor(Math.random() * unusedTiles.length)];
 
+    if (!newTile) {
+      return;
+    }
+
     newTiles.push(newTile);
 
     // Avoid returning the same tile twice
