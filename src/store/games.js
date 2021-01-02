@@ -40,4 +40,16 @@ export const games = {
       .doc(id)
       .set(data);
   },
+
+  /**
+   * Listen for updates.
+   */
+  listen: (id, callback) => {
+    db()
+      .collection(GAME_COLLECTION)
+      .doc(id)
+      .onSnapshot((doc) => {
+        callback(doc.data());
+      });
+  },
 };

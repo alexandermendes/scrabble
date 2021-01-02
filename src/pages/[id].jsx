@@ -15,6 +15,11 @@ const GamePage = ({
   useEffect(() => {
     (async () => {
       setGame(await games.get(gameId));
+
+      games.listen(gameId, (newGame) => {
+        setGame(newGame);
+      });
+
       setLoading(false);
     })();
   }, []);
