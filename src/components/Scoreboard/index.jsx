@@ -1,20 +1,28 @@
 import React from 'react';
+import cn from 'classnames';
 
 import useGame from '../../hooks/useGame';
+import getUser from '../../hooks/useUser';
 
 import styles from './styles.module.scss';
 
 const ScoreBoard = () => {
-  const { game, getActiveUser } = useGame();
+  const { game, getActivePlayer } = useGame();
   const { tiles, players, turns = [] } = game;
   const { length: remainingTiles } = tiles.filter(({ used, userId }) => !used && !userId);
+
+  const currentUser = getUser();
+  const activePlayer = getActivePlayer();
 
   return (
     <div
       className={styles.scoreboard}
     >
       <table
-        className={styles.scoreboard__table}
+        className={cn(
+          styles.scoreboard__table,
+          'mb-1',
+        )}
       >
         <thead>
           <tr>
@@ -33,7 +41,7 @@ const ScoreBoard = () => {
               <tr
                 key={player.uid}
               >
-                <td className={styles['scoreboard__table-cell']}>{player.displayName || player.email}</td>
+                <td className={styles['scoreboard__table-cell']}>{player.displayName}</td>
                 <td className={styles['scoreboard__table-cell']}>{lastTurn}</td>
                 <td className={styles['scoreboard__table-cell']}>{playerScore}</td>
               </tr>
@@ -41,16 +49,24 @@ const ScoreBoard = () => {
           })}
         </tbody>
       </table>
-      <p
-        className={styles.scoreboard__footer}
+      <div
+        className="d-flex justify-content-space-between"
       >
-        {`Remaining tiles: ${remainingTiles}`}
-      </p>
-      <p
-        className={styles.scoreboard__footer}
-      >
-        {`Waiting for: ${getActiveUser()}`}
-      </p>
+        <p
+          className={styles.scoreboard__footer}
+        >
+          {activePlayer.uid === currentUser.uid ? (
+            "It's your turn"
+          ) : (
+            `Waiting for ${activePlayer.displayName}`
+          )}
+        </p>
+        <p
+          className={styles.scoreboard__footer}
+        >
+          {` ${remainingTiles} tile${remainingTiles === 1 ? '' : 's'} remaining`}
+        </p>
+      </div>
     </div>
   );
 };

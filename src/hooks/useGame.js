@@ -79,18 +79,19 @@ const useGame = () => {
   /**
    * Get the user whose turn it is.
    */
-  const getActiveUser = () => {
-    const { turns, players, owner } = game;
+  const getActivePlayer = () => {
+    const { turns, players } = game;
+    const firstPlayer = players[0];
 
     if (!turns.length) {
-      return owner;
+      return firstPlayer;
     }
 
-    const { userId: lastUser } = turns[turns.length - 1];
-    const lastUserIndex = players.findIndex((player) => player === lastUser);
+    const { userId: lastUserId } = turns[turns.length - 1];
+    const lastUserIndex = players.findIndex((player) => player.uid === lastUserId);
     const nextUser = lastUserIndex < players.length - 1
       ? players[lastUserIndex + 1]
-      : players[0];
+      : firstPlayer;
 
     return nextUser;
   };
@@ -183,7 +184,7 @@ const useGame = () => {
     recallTiles,
     updateTiles,
     updateTile,
-    getActiveUser,
+    getActivePlayer,
   };
 };
 
