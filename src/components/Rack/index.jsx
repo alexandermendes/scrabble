@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import cn from 'classnames';
 import { string } from 'prop-types';
 
 import Tile from '../Tile';
+import RackSpace from '../RackSpace';
 import useGame from '../../hooks/useGame';
 import useUser from '../../hooks/useUser';
 
@@ -13,8 +14,31 @@ const Rack = ({
 }) => {
   const currentUser = useUser();
   const { game } = useGame();
-  const { tiles } = game;
-  const rackTiles = tiles.filter(({ userId, cellId }) => currentUser.uid === userId && !cellId);
+  const rack = game.tiles.filter(({ userId, cellId }) => currentUser.uid === userId && !cellId);
+  const rackTileIds = JSON.stringify(rack.map(({ id }) => id).sort());
+  const [sortedTiles, setSortedTiles] = useState([]);
+
+  useEffect(() => {
+    setSortedTiles(rack);
+  }, [rackTileIds]);
+
+  const shift = (tileIdOne, tileIdTwo) => {
+    if (!tileIdOne || !tileIdTwo) {
+      return;
+    }
+
+    const indexOne = sortedTiles.findIndex((tile) => tile.id === tileIdOne);
+    const indexTwo = sortedTiles.findIndex((tile) => tile.id === tileIdTwo);
+
+    // TODO: Figure out how to move tiles back to the rack
+    if (!sortedTiles[indexOne] || !sortedTiles[indexTwo]) {
+      return;
+    }
+
+    [sortedTiles[indexOne], sortedTiles[indexTwo]] = [sortedTiles[indexTwo], sortedTiles[indexOne]];
+
+    setSortedTiles([...sortedTiles]);
+  };
 
   return (
     <div
@@ -23,15 +47,20 @@ const Rack = ({
         className,
       )}
     >
-      {rackTiles.map((tile) => (
-        <Tile
+      {sortedTiles.map((tile) => (
+        <RackSpace
           className={styles.rack__tile}
           key={tile.id}
-          id={tile.id}
-          type={tile.type}
-          letter={tile.letter}
-          score={tile.score}
-        />
+          currentTileId={tile.id}
+          shift={shift}
+        >
+          <Tile
+            id={tile.id}
+            type={tile.type}
+            letter={tile.letter}
+            score={tile.score}
+          />
+        </RackSpace>
       ))}
     </div>
   );

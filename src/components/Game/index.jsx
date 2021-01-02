@@ -11,7 +11,7 @@ import useGame from '../../hooks/useGame';
 import styles from './styles.module.scss';
 
 const Game = () => {
-  const { takeTurn } = useGame();
+  const { takeTurn, recallTiles } = useGame();
 
   return (
     <DndProvider
@@ -32,6 +32,11 @@ const Game = () => {
             onClick={takeTurn}
           >
             Submit
+          </Button>
+          <Button
+            onClick={recallTiles}
+          >
+            Recall
           </Button>
         </div>
       </main>

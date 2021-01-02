@@ -147,6 +147,15 @@ const useGame = () => {
     // TODO: Switch turns
   };
 
+  /**
+   * Move tiles back to the current user's rack.
+   */
+  const recallTiles = () => {
+    const usedTiles = game.tiles.filter(({ userId }) => currentUser.uid === userId);
+
+    updateTiles(usedTiles.map((tile) => [tile.id, { cellId: null }]));
+  };
+
   // Ensuring the current player is part of the game and has tiles
   // TODO: ask to join and limit players
   useEffect(() => {
@@ -166,6 +175,7 @@ const useGame = () => {
   return {
     game,
     takeTurn,
+    recallTiles,
     updateTiles,
     updateTile,
     getActiveUser,
