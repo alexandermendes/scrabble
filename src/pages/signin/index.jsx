@@ -81,7 +81,7 @@ const SignInPage = ({
 export const getServerSideProps = async (ctx) => ({
   props: {
     redirect: auth.getPostLoginRedirect(ctx),
-    errorCode: ctx.query.error || null,
+    error: ctx.query.error || null,
   },
 });
 
