@@ -131,7 +131,7 @@ const useGame = () => {
     }
 
     if (!word) {
-      return;
+      throw new Error('Failed to submit word.');
     }
 
     updateTiles(usedTiles.map((tile) => [tile.id, { used: true, userId: null }]));

@@ -168,12 +168,16 @@ export const submitWord = (game, allTiles, usedTiles) => {
   const firstCell = getCell({ row: 7, col: 7 });
   const usesCenterCell = !!usedTiles.find((tile) => tile.cellId === firstCell.id);
 
+  if (!usedTiles.length) {
+    throw new Error('No tiles have been placed.');
+  }
+
   if (isFirstTurn && !usesCenterCell) {
     throw new Error('The first word must use the central square.');
   }
 
-  if (!usedTiles.length) {
-    throw new Error('No tiles have been placed.');
+  if (isFirstTurn && usedTiles.length < 2) {
+    throw new Error('The first word must use at least two tiles.');
   }
 
   const usedCells = usedTiles.map(({ cellId }) => getCell({ id: cellId }));
