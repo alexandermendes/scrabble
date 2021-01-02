@@ -1,11 +1,6 @@
 .board {
-  padding: 20px 60px;
-
   &__inner {
-    background-color: #DAFFF3;
+    background-color: #ebfdf7;
     display: inline-grid;
-    grid-gap: 2px;
-    padding: 2px;
-    grid-template-columns: repeat(15, 40px);
   }
 }
