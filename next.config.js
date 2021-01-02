@@ -32,7 +32,7 @@ module.exports = {
   },
 
   env: {
-    FIREBASE_CONFIG: fs.readFileSync(privateKeyPath).toString(),
+    FIREBASE_CONFIG: process.env.FIREBASE_CONFIG || fs.readFileSync(privateKeyPath).toString(),
   },
 
   webpack: (config) => ({
