@@ -27,7 +27,7 @@ const GamePage = ({
   }, [user]);
 
   if (loading) {
-    return 'Loading...'; // TODO: Loading spinner
+    return <p>Loading...</p>; // TODO: Loading spinner
   }
 
   if (!game) {

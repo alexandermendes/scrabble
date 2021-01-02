@@ -10,6 +10,10 @@ const HomePage = () => {
   const router = useRouter();
 
   const startGame = async () => {
+    if (!user) {
+      return;
+    }
+
     const docRef = await games.create(user);
 
     router.push({
