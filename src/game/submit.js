@@ -1,5 +1,8 @@
 import { cells, getCell } from './cells';
 
+/**
+ * Calculate the score for the given word.
+ */
 const calculateWordScore = (tiles) => {
   let wordScore = 0;
   const wordMultipliers = [];
@@ -30,7 +33,10 @@ const calculateWordScore = (tiles) => {
   return wordScore;
 };
 
-const getAdjacentTile = (tiles, currentTile, rowModifier, colModifier) => {
+/**
+ * Get a tile relative to the given tile.
+ */
+const getRelativeTile = (tiles, currentTile, rowModifier, colModifier) => {
   const { rowIndex, colIndex } = getCell(currentTile.cellId);
   const cell = cells[rowIndex + rowModifier]?.[colIndex + colModifier];
 
@@ -41,14 +47,29 @@ const getAdjacentTile = (tiles, currentTile, rowModifier, colModifier) => {
   return tiles.find(({ cellId }) => cellId === cell.id) || null;
 };
 
-const getTileRight = (tiles, currentTile) => getAdjacentTile(tiles, currentTile, 0, 1);
+/**
+ * Get the tile to the right of the given tile.
+ */
+const getTileRight = (tiles, currentTile) => getRelativeTile(tiles, currentTile, 0, 1);
 
-const getTileLeft = (tiles, currentTile) => getAdjacentTile(tiles, currentTile, 0, -1);
+/**
+ * Get the tile to the left of the given tile.
+ */
+const getTileLeft = (tiles, currentTile) => getRelativeTile(tiles, currentTile, 0, -1);
 
-const getTileAbove = (tiles, currentTile) => getAdjacentTile(tiles, currentTile, -1, 0);
+/**
+ * Get the tile above the given tile.
+ */
+const getTileAbove = (tiles, currentTile) => getRelativeTile(tiles, currentTile, -1, 0);
 
-const getTileBelow = (tiles, currentTile) => getAdjacentTile(tiles, currentTile, 1, 0);
+/**
+ * Get the tile below the given tile.
+ */
+const getTileBelow = (tiles, currentTile) => getRelativeTile(tiles, currentTile, 1, 0);
 
+/**
+ * Get the left most tile connected to the given tile.
+ */
 const getLeftMostTile = (tiles, currentTile) => {
   const tileLeft = getTileLeft(tiles, currentTile);
 
@@ -59,6 +80,9 @@ const getLeftMostTile = (tiles, currentTile) => {
   return currentTile;
 };
 
+/**
+ * Get the top most tile connected to the given tile.
+ */
 const getTopMostTile = (tiles, currentTile) => {
   const tileAbove = getTileAbove(tiles, currentTile);
 
@@ -69,6 +93,9 @@ const getTopMostTile = (tiles, currentTile) => {
   return currentTile;
 };
 
+/**
+ * Follow tiles across to build a word.
+ */
 const buildHorizontalWord = (tiles, word) => {
   const lastTile = word[word.length - 1];
   const tileRight = getTileRight(tiles, lastTile);
@@ -80,6 +107,9 @@ const buildHorizontalWord = (tiles, word) => {
   return word;
 };
 
+/**
+ * Follow tiles down to build a word.
+ */
 const buildVerticalWord = (tiles, word) => {
   const lastTile = word[word.length - 1];
   const tileBelow = getTileBelow(tiles, lastTile);
@@ -91,18 +121,27 @@ const buildVerticalWord = (tiles, word) => {
   return word;
 };
 
+/**
+ * Get a horizontal word based on a starting tile.
+ */
 const getHorizontalWord = (tiles, startingTile) => {
   const leftMostTile = getLeftMostTile(tiles, startingTile);
 
   return buildHorizontalWord(tiles, [leftMostTile]);
 };
 
+/**
+ * Get a vertical word based on a starting tile.
+ */
 const getVerticalWord = (tiles, startingTile) => {
   const topMostTile = getTopMostTile(tiles, startingTile);
 
   return buildVerticalWord(tiles, [topMostTile]);
 };
 
+/**
+ * Submit a new word.
+ */
 export const submitWord = (allTiles, usedTiles) => {
   const usedCells = usedTiles.map(({ cellId }) => getCell(cellId));
 
@@ -111,7 +150,7 @@ export const submitWord = (allTiles, usedTiles) => {
 
   // Confirm in a single row or column
   if (!isHorizontalWord && !isVerticalWord) {
-    alert('invalid');
+    alert('Invalid word.');
 
     return {};
   }

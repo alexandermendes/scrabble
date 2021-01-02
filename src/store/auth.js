@@ -11,7 +11,7 @@ export const authentication = {
   callbackRoute: CALLBACK_ROUTE,
 
   /**
-   * Sign in
+   * Sign in via an email link.
    */
   signin: async (email, redirectUrl) => {
     const actionCodeSettings = {
@@ -35,7 +35,7 @@ export const authentication = {
   /**
    * Get the path to redirect to after logging in or registering.
    *
-   * Uses the `redirect` query param, the referer header, or defaults to the
+   * Uses the redirect query param, the referer header, or defaults to the
    * home page.
    */
   getPostLoginRedirect: ({ query, req }) => {
@@ -64,6 +64,9 @@ export const authentication = {
     return callbackUrl.href;
   },
 
+  /**
+   * Process the email sign in link.
+   */
   processSignInLink: async () => {
     if (!auth().isSignInWithEmailLink(window.location.href)) {
       return;
