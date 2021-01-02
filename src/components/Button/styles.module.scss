@@ -1,9 +1,19 @@
 .button {
-  background-color: color('green');
+  background-color: color(white);
   border: none;
   border-radius: 3px;
-  color: color('white');
+  color: color(white);
   cursor: pointer;
   text-transform: uppercase;
   user-select: none;
+  padding: 10px 20px;
+  color: color(green);
+  border: 1px solid color(green);
+
+  &:hover {
+    background-color: color(green);
+    color: color(white);
+    border-color: transparent;
+    transition: all 250ms;
+  }
 }

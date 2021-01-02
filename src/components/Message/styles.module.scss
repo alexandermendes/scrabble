@@ -3,10 +3,10 @@
   color: white;
 
   &--error {
-    background: color('red');
+    background: color(red);
   }
 
   &--success {
-    background-color: color('green');
+    background-color: color(green);
   }
 }
