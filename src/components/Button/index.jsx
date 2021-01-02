@@ -4,6 +4,7 @@ import {
   node,
   func,
   oneOf,
+  bool,
 } from 'prop-types';
 import cn from 'classnames';
 
@@ -15,6 +16,7 @@ const Button = ({
   onClick,
   type,
   size,
+  secondary,
 }) => (
   <button
     // eslint-disable-next-line react/button-has-type
@@ -22,6 +24,7 @@ const Button = ({
     className={cn(
       styles.button,
       styles[`button--${size}`],
+      secondary && styles['button--secondary'],
       className,
     )}
     onClick={onClick}
@@ -35,12 +38,14 @@ Button.defaultProps = {
   type: 'submit',
   onClick: null,
   size: 'regular',
+  secondary: false,
 };
 
 Button.propTypes = {
   className: string,
   onClick: func,
   children: node.isRequired,
+  secondary: bool,
   type: oneOf(['button', 'submit', 'reset']),
   size: oneOf(['large', 'regular', 'small']),
 };
