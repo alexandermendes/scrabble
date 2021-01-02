@@ -39,11 +39,12 @@ const SignInPage = ({
 
     const formData = new FormData(evt.target);
     const email = formData.get('email');
+    const name = formData.get('name');
 
     setErrors({});
 
     try {
-      await auth.signin(email, redirect);
+      await auth.signin(email, name, redirect);
     } catch (err) {
       // All other codes are a problem with invalid configuration,
       // rather than user error

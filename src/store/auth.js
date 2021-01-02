@@ -5,17 +5,26 @@ import { auth } from './clients';
 const SIGNIN_ROUTE = '/signin';
 const CALLBACK_ROUTE = '/signin/callback';
 const EMAIL_LOCAL_STORAGE_KEY = 'emailForSignIn';
+const DISPLAY_NAME_PARAM = 'displayName';
+const REDIRECT_PARAM = 'redirect';
 
 export const authentication = {
   signInRoute: SIGNIN_ROUTE,
   callbackRoute: CALLBACK_ROUTE,
+  displayNameParam: DISPLAY_NAME_PARAM,
+  redirectParam: REDIRECT_PARAM,
 
   /**
    * Sign in via an email link.
    */
-  signin: async (email, redirectUrl) => {
+  signin: async (email, name, redirectUrl) => {
+    const url = new URL(redirectUrl);
+
+    // Picked up by the callback route
+    url.searchParams.set(DISPLAY_NAME_PARAM, name);
+
     const actionCodeSettings = {
-      url: redirectUrl,
+      url: url.href,
       handleCodeInApp: true,
     };
 
@@ -42,7 +51,7 @@ export const authentication = {
     const { full: currentUrl } = originalUrl(req);
     const callbackUrl = new URL(CALLBACK_ROUTE, currentUrl);
 
-    let { redirect } = query;
+    let redirect = query[REDIRECT_PARAM];
     const { referer } = req.headers;
 
     if (!redirect && referer) {
@@ -62,7 +71,7 @@ export const authentication = {
       redirect = '/';
     }
 
-    callbackUrl.searchParams.set('redirect', redirect);
+    callbackUrl.searchParams.set(REDIRECT_PARAM, redirect);
 
     return callbackUrl.href;
   },

@@ -59,6 +59,21 @@ const AuthForm = ({
           name="email"
         />
       </Form.Group>
+      <Form.Group
+        inputId="name"
+      >
+        <Form.Label>
+          Display Name
+        </Form.Label>
+        <Form.Input
+          name="name"
+          type="name"
+          required
+        />
+        <Form.Feedback
+          name="name"
+        />
+      </Form.Group>
       <Button
         className="d-flex ml-auto"
         type="submit"

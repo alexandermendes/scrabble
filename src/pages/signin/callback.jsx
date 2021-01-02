@@ -5,6 +5,7 @@ import { auth } from '../../store';
 
 const CallbackPage = ({
   redirect,
+  displayName,
 }) => {
   const router = useRouter();
 
@@ -22,6 +23,10 @@ const CallbackPage = ({
         return;
       }
 
+      const currentUser = await auth.getCurrentUser();
+
+      await currentUser.updateProfile({ displayName });
+
       router.push(redirect);
     })();
   }, []);
@@ -31,7 +36,8 @@ const CallbackPage = ({
 
 export const getServerSideProps = async ({ query }) => ({
   props: {
-    redirect: query.redirect || auth.signInRoute,
+    redirect: query[auth.redirectParam] || auth.signInRoute,
+    displayName: query[auth.displayNameParam],
   },
 });
 
