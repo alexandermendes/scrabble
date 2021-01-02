@@ -7,8 +7,8 @@ dotenv.config();
 const stylesDir = path.join(__dirname, 'src', 'styles');
 const privateKeyPath = path.join(__dirname, 'private-key.json');
 
-if (!fs.existsSync(privateKeyPath)) {
-  throw new Error(`A Firebase private key JSON file must be added at ${privateKeyPath}`);
+if (!fs.existsSync(privateKeyPath) && !process.env.FIREBASE_CONFIG) {
+  throw new Error(`A Firebase private key JSON file must be added at ${privateKeyPath} or via FIREBASE_CONFIG`);
 }
 
 module.exports = {
@@ -32,7 +32,7 @@ module.exports = {
   },
 
   env: {
-    FIREBASE_CONFIG: fs.readFileSync(privateKeyPath).toString(),
+    FIREBASE_CONFIG: process.env.FIREBASE_CONFIG || fs.readFileSync(privateKeyPath).toString(),
   },
 
   webpack: (config) => ({
