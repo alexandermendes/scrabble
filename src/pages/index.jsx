@@ -23,11 +23,16 @@ const HomePage = () => {
   };
 
   return (
-    <Button
-      onClick={startGame}
+    <div
+      className="d-flex align-items-center justify-content-center h-100"
     >
-      Start new game
-    </Button>
+      <Button
+        onClick={startGame}
+        size="large"
+      >
+        Start new game
+      </Button>
+    </div>
   );
 };
 

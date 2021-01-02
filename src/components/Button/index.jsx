@@ -14,12 +14,14 @@ const Button = ({
   children,
   onClick,
   type,
+  size,
 }) => (
   <button
     // eslint-disable-next-line react/button-has-type
     type={type}
     className={cn(
       styles.button,
+      styles[`button--${size}`],
       className,
     )}
     onClick={onClick}
@@ -32,6 +34,7 @@ Button.defaultProps = {
   className: null,
   type: 'submit',
   onClick: null,
+  size: 'regular',
 };
 
 Button.propTypes = {
@@ -39,6 +42,7 @@ Button.propTypes = {
   onClick: func,
   children: node.isRequired,
   type: oneOf(['button', 'submit', 'reset']),
+  size: oneOf(['large', 'regular', 'small']),
 };
 
 export default Button;

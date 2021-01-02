@@ -20,7 +20,9 @@ const Game = () => {
       <div
         className={styles.game}
       >
-        <Board />
+        <Board
+          className={styles.game__board}
+        />
         <div
           className={styles.game__sidebar}
         >

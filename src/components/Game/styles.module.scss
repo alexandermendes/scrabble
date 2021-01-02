@@ -1,12 +1,12 @@
 $game-margin: 20px;
 
 .game {
+  background: #025652;
   display: grid;
-  grid-template-rows: 1fr;
-  grid-template-columns: auto 1fr;
-  grid-template-areas: 'board sidebar';
-  margin: $game-margin;
   grid-gap: $game-margin;
+  grid-template-areas: 'board sidebar';
+  grid-template-columns: auto 1fr;
+  grid-template-rows: 1fr;
 
   &__board {
     grid-area: board;
@@ -17,7 +17,7 @@ $game-margin: 20px;
     display: flex;
     flex-direction: column;
     grid-area: sidebar;
-    height: calc(100vh - (#{$game-margin} * 2));
+    height: 100vh;
     position: sticky;
     top: 0;
     width: 100%;
