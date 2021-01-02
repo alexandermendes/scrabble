@@ -19,7 +19,6 @@ const ScoreBoard = () => {
         <thead>
           <tr>
             <th className={styles['scoreboard__table-heading']}>Player</th>
-            <th className={styles['scoreboard__table-heading']}>Position</th>
             <th className={styles['scoreboard__table-heading']}>Last Turn</th>
             <th className={styles['scoreboard__table-heading']}>Total</th>
           </tr>
@@ -35,7 +34,6 @@ const ScoreBoard = () => {
                 key={player}
               >
                 <td className={styles['scoreboard__table-cell']}>{player}</td>
-                <td className={styles['scoreboard__table-cell']} />
                 <td className={styles['scoreboard__table-cell']}>{lastTurn}</td>
                 <td className={styles['scoreboard__table-cell']}>{playerScore}</td>
               </tr>
