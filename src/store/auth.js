@@ -55,7 +55,10 @@ export const authentication = {
 
     const { pathname } = new URL(redirect, currentUrl);
 
-    if (pathname === currentUrl.pathname) {
+    if (
+      pathname === SIGNIN_ROUTE
+      || pathname === CALLBACK_ROUTE
+    ) {
       redirect = '/';
     }
 

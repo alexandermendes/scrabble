@@ -10,7 +10,20 @@ const CallbackPage = ({
 
   // The email link redirect needs to be processed in the browser
   useEffect(() => {
-    router.push(redirect);
+    (async () => {
+      try {
+        await auth.processSignInLink();
+      } catch (err) {
+        router.push({
+          pathname: auth.signInRoute,
+          query: { error: auth.encodeError(err) },
+        });
+
+        return;
+      }
+
+      router.push(redirect);
+    })();
   }, []);
 
   return null;
