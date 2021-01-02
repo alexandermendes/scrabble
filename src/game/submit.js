@@ -1,8 +1,5 @@
 import { cells, getCell } from './cells';
 
-const HORIZONTAL = 'horizontal';
-const VERTICAL = 'vertical';
-
 /**
  * Calculate the score for the given word.
  */
@@ -129,8 +126,13 @@ const buildVerticalWord = (tiles, word) => {
  */
 const getHorizontalWord = (tiles, startingTile) => {
   const leftMostTile = getLeftMostTile(tiles, startingTile);
+  const word = buildHorizontalWord(tiles, [leftMostTile]);
 
-  return buildHorizontalWord(tiles, [leftMostTile]);
+  if (word.length < 2) {
+    return [];
+  }
+
+  return word;
 };
 
 /**
@@ -138,8 +140,13 @@ const getHorizontalWord = (tiles, startingTile) => {
  */
 const getVerticalWord = (tiles, startingTile) => {
   const topMostTile = getTopMostTile(tiles, startingTile);
+  const word = buildVerticalWord(tiles, [topMostTile]);
 
-  return buildVerticalWord(tiles, [topMostTile]);
+  if (word.length < 2) {
+    return [];
+  }
+
+  return word;
 };
 
 /**
@@ -154,25 +161,6 @@ const areNumbersConsecutive = (numbers) => {
 };
 
 /**
- * Check if the used tiles are all placed in a single column or row.
- */
-const getDimension = (usedTiles) => {
-  const usedCells = usedTiles.map(({ cellId }) => getCell({ id: cellId }));
-  const rowIndicies = [...new Set(usedCells.map(({ rowIndex }) => rowIndex))];
-  const colIndicies = [...new Set(usedCells.map(({ colIndex }) => colIndex))];
-
-  if (rowIndicies.length === 1 && areNumbersConsecutive(colIndicies)) {
-    return HORIZONTAL;
-  }
-
-  if (colIndicies.length === 1 && areNumbersConsecutive(rowIndicies)) {
-    return VERTICAL;
-  }
-
-  return null;
-};
-
-/**
  * Submit a new word.
  */
 export const submitWord = (game, allTiles, usedTiles) => {
@@ -181,22 +169,29 @@ export const submitWord = (game, allTiles, usedTiles) => {
   const usesCenterCell = !!usedTiles.find((tile) => tile.cellId === firstCell.id);
 
   if (isFirstTurn && !usesCenterCell) {
-    throw new Error('The first word must use the central square');
+    throw new Error('The first word must use the central square.');
   }
 
   if (!usedTiles.length) {
     throw new Error('No tiles have been placed.');
   }
 
-  const dimension = getDimension(usedTiles);
+  const usedCells = usedTiles.map(({ cellId }) => getCell({ id: cellId }));
+  const rowIndicies = [...new Set(usedCells.map(({ rowIndex }) => rowIndex))];
+  const colIndicies = [...new Set(usedCells.map(({ colIndex }) => colIndex))];
+  const isHorizontalWord = rowIndicies.length === 1;
+  const isVerticalWord = colIndicies.length === 1;
 
-  if (!getDimension(usedTiles)) {
-    throw new Error('All tiles must be connected and placed in a single row or column');
+  if (!isHorizontalWord && !isVerticalWord) {
+    throw new Error('All tiles must be placed in a single row or column.');
   }
 
-  const newWord = dimension === HORIZONTAL
-    ? getHorizontalWord(allTiles, usedTiles[0])
-    : getVerticalWord(allTiles, usedTiles[0]);
+  if (!areNumbersConsecutive(rowIndicies) && !areNumbersConsecutive(colIndicies)) {
+    throw new Error('All tiles must be connected.');
+  }
+
+  const newHorizontalWord = getHorizontalWord(allTiles, usedTiles[0]);
+  const newVerticalWord = getVerticalWord(allTiles, usedTiles[0]);
 
   const intersectingWords = usedTiles.reduce((acc, tile) => {
     const tileAbove = getTileAbove(allTiles, tile);
@@ -204,24 +199,33 @@ export const submitWord = (game, allTiles, usedTiles) => {
     const tileBelow = getTileBelow(allTiles, tile);
     const tileLeft = getTileLeft(allTiles, tile);
 
-    if ((tileAbove || tileBelow)) {
+    if (!isVerticalWord && (tileAbove || tileBelow)) {
       acc.push(getVerticalWord(allTiles, tile));
     }
 
-    if ((tileLeft || tileRight)) {
+    if (!isHorizontalWord && (tileLeft || tileRight)) {
       acc.push(getHorizontalWord(allTiles, tile));
     }
 
     return acc;
   }, []);
 
-  if (!isFirstTurn && !intersectingWords.length) {
+  if (
+    !isFirstTurn
+    && newHorizontalWord.length === usedTiles.length
+    && newVerticalWord.length === usedTiles.length
+    && !intersectingWords.length
+  ) {
     throw new Error('At least one tile must join the tiles currently on the board.');
   }
 
+  const longestWord = newVerticalWord.length > newHorizontalWord.length
+    ? newVerticalWord
+    : newHorizontalWord;
+
   return {
-    word: newWord.map(({ letter }) => letter).join(''),
-    score: [newWord, ...intersectingWords].reduce((scoreAcc, word) => (
+    word: longestWord.map(({ letter }) => letter).join(''),
+    score: [newHorizontalWord, newVerticalWord, ...intersectingWords].reduce((scoreAcc, word) => (
       scoreAcc + calculateWordScore(word)
     ), 0),
   };
