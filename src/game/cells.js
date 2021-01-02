@@ -127,8 +127,16 @@ export const cells = Array(15).fill().map((_row, rowIndex) => (
 /**
  * Get a cell by ID.
  */
-export const getCell = (cellId) => {
-  const [rowIndex, colIndex] = cellId.split(':');
+export const getCell = ({
+  id,
+  row,
+  col,
+}) => {
+  if (!id && !(row && col)) {
+    throw new Error('Must provide either an `id` or the `row` and `col`');
+  }
+
+  const [rowIndex, colIndex] = id ? id.split(':') : [row, col];
 
   return cells[rowIndex][colIndex];
 };
