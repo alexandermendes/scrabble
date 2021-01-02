@@ -1,5 +1,4 @@
 .scoreboard {
-
   box-sizing: border-box;
   margin-left: auto;
   margin-right: auto;
@@ -14,16 +13,16 @@
   &__table-heading {
     padding-top: 11px;
     padding-bottom: 11px;
-    background-color: #4CAF50;
-    border: 1px solid #ddd;
-    color: white;
+    background-color: $color-secondary;
+    border: 1px solid darken($color-secondary, 5%);
+    color: $color-white;
   }
 
   &__table-cell {
-    background-color: white;
-    border: 1px solid #ddd;
+    background-color: $color-white;
+    border: 1px solid $color-light-grey;
     text-align: left;
-    padding: 8px;
+    padding: 12px;
 
     &:not(:first-child) {
       text-align: center;
@@ -31,7 +30,7 @@
   }
 
   &__footer {
-    color: white;
+    color: $color-white;
     margin-top: 10px;
   }
 }

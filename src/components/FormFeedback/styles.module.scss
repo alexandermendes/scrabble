@@ -3,6 +3,6 @@
 
   &--invalid {
     /* TODO: Figure out why this isn't available; repace with other design tokens? */
-    color: color(red);
+    color: $color-form-invalid;
   }
 }

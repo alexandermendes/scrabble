@@ -1,12 +1,12 @@
 .message {
   padding: 20px;
-  color: white;
+  color: $color-white;
 
   &--error {
-    background: color(red);
+    background: $color-form-invalid;
   }
 
   &--success {
-    background-color: color(green);
+    background-color: $color-form-success;
   }
 }

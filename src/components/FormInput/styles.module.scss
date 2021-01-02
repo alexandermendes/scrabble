@@ -1,9 +1,9 @@
 .form-input {
   appearance: none;
-  background-color: color(white);
+  background-color: $color-white;
   border-radius: 3px;
-  border: 1px solid color(mid-grey);
-  color: color(dark-grey);
+  border: 1px solid $color-grey;
+  color: $color-dark-grey;
   display: inline-flex;
   font-size: $font-size-regular;
   line-height: 1.5;
@@ -20,6 +20,6 @@
   }
 
   &--invalid {
-    border: 2px solid color(red);
+    border: 2px solid $color-form-invalid;
   }
 }

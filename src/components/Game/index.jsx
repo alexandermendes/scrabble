@@ -52,16 +52,20 @@ const Game = () => {
               tileSize={tileSize}
               className="mt-auto"
             />
-            <Button
-              onClick={takeTurn}
-            >
-              Submit
-            </Button>
-            <Button
-              onClick={recallTiles}
-            >
-              Recall
-            </Button>
+            <div>
+              <Button
+                onClick={recallTiles}
+                secondary
+              >
+                Recall
+              </Button>
+              <Button
+                onClick={takeTurn}
+                secondary
+              >
+                Submit
+              </Button>
+            </div>
           </div>
         </TileSizeContext.Provider>
       </div>

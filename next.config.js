@@ -14,10 +14,7 @@ if (!fs.existsSync(privateKeyPath) && !process.env.FIREBASE_CONFIG) {
 module.exports = {
   sassOptions: {
     includePaths: [stylesDir],
-    prependData: [
-      `@import "${stylesDir}/_settings.scss";`,
-      `@import "${stylesDir}/_tools.scss";`,
-    ].join('\n'),
+    prependData: `@import "${stylesDir}/_settings.scss";`,
   },
 
   publicRuntimeConfig: {

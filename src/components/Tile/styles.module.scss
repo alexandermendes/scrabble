@@ -1,7 +1,7 @@
 .tile {
   align-items: center;
-  background-color: #E9DECD;
-  color: #012d38;
+  background-color: $color-board-tile-background;
+  color: $color-board-tile-text;
   display: flex;
   font-family: sans-serif;
   font-weight: 400;

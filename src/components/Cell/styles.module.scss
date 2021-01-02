@@ -1,15 +1,6 @@
-$dark-grey: #2b2b2b;
-
-$cell-color: #009690;
-
-$double-letter-color: #ADE9FC;
-$double-word-color: #FECD8D;
-$triple-letter-color: #75DCFA;
-$triple-word-color: #FE4453;
-
 .cell {
-  box-shadow: inset 2px 2px 4px 1px $dark-grey;
-  background-color: $cell-color;
+  box-shadow: inset 2px 2px 4px 1px $color-dark-grey;
+  background-color: $color-board-cell;
   content: '';
   display: block;
   padding-bottom: 100%;
@@ -31,46 +22,46 @@ $triple-word-color: #FE4453;
   }
 
   &--double-letter {
-    background-color: $double-letter-color;
+    background-color: $color-board-double-letter;
 
     &:after {
       content: 'DL';
-      color: darken($double-letter-color, 50%)
+      color: darken($color-board-double-letter, 50%)
     }
   }
 
   &--double-word {
-    background-color: $double-word-color;
+    background-color: $color-board-double-word;
 
     &:after {
       content: 'DW';
-      color: darken($double-word-color, 40%)
+      color: darken($color-board-double-word, 40%)
     }
   }
 
   &--triple-letter {
-    background-color: $triple-letter-color;
+    background-color: $color-board-triple-letter;
 
     &:after {
       content: 'TL';
-      color: darken($triple-letter-color, 40%)
+      color: darken($color-board-triple-letter, 40%)
     }
   }
 
   &--triple-word {
-    background-color: $triple-word-color;
+    background-color: $color-board-triple-word;
 
     &:after {
       content: 'TW';
-      color: darken($triple-word-color, 30%)
+      color: darken($color-board-triple-word, 30%)
     }
   }
 
   &--over {
-    background-color: lighten($cell-color, 15%);
+    background-color: lighten($color-board-cell, 15%);
 
     &:after {
-      color: $cell-color;
+      color: $color-board-cell;
     }
   }
 

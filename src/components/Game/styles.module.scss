@@ -1,7 +1,6 @@
 $game-margin: 20px;
 
 .game {
-  background: #025652;
   display: grid;
   grid-template-areas: 'board sidebar';
   grid-template-columns: auto 1fr;

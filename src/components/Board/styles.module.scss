@@ -1,6 +1,6 @@
 .board {
   &__inner {
-    background-color: #ebfdf7;
+    background-color: $color-board-border;
     display: inline-grid;
   }
 }
