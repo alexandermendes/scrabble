@@ -56,12 +56,14 @@ const Game = () => {
               <Button
                 onClick={recallTiles}
                 secondary
+                className="ma-1"
               >
                 Recall
               </Button>
               <Button
                 onClick={takeTurn}
                 secondary
+                className="ma-1"
               >
                 Submit
               </Button>

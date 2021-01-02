@@ -20,7 +20,7 @@
 
   &__table-cell {
     background-color: $color-white;
-    border: 1px solid $color-light-grey;
+    border: 1px solid lighten($color-secondary, 25%);
     text-align: left;
     padding: 12px;
 

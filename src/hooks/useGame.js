@@ -164,8 +164,13 @@ const useGame = () => {
     }
 
     (async () => {
-      if (!(game.players.includes(currentUser.uid))) {
-        await addPlayer(currentUser.uid);
+      if (!game.players.find((player) => player.uid === currentUser.uid)) {
+        // TODO: Create some model to sync this with the other place it's used
+        await addPlayer({
+          uid: currentUser.uid,
+          displayName: currentUser.uid,
+          email: currentUser.email,
+        });
       }
 
       pickTiles();

@@ -9,7 +9,11 @@ export const games = {
    */
   create: async (user) => db().collection(GAME_COLLECTION).add({
     owner: user.uid,
-    players: [user.uid],
+    players: [{
+      uid: user.uid,
+      displayName: user.displayName,
+      email: user.email,
+    }],
     tiles: createTiles(),
     turns: [],
   }),
