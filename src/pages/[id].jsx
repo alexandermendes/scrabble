@@ -2,29 +2,22 @@ import React, { useEffect, useState } from 'react';
 import { string } from 'prop-types';
 
 import { games } from '../store';
-import Auth from '../components/Auth';
 import Game from '../components/Game';
-import useUser from '../hooks/useUser';
 import GameContext from '../context/GameContext';
 import { abort } from '../abort';
 
 const GamePage = ({
   gameId,
 }) => {
-  const { user } = useUser();
   const [loading, setLoading] = useState(true);
   const [game, setGame] = useState();
 
   useEffect(() => {
-    if (!user) {
-      return;
-    }
-
     (async () => {
       setGame(await games.get(gameId));
       setLoading(false);
     })();
-  }, [user]);
+  }, []);
 
   if (loading) {
     return <p>Loading...</p>; // TODO: Loading spinner
@@ -35,18 +28,15 @@ const GamePage = ({
   }
 
   return (
-    <Auth>
-      <GameContext.Provider
-        value={{
-          game,
-          gameId,
-          setGame,
-          user,
-        }}
-      >
-        <Game />
-      </GameContext.Provider>
-    </Auth>
+    <GameContext.Provider
+      value={{
+        game,
+        gameId,
+        setGame,
+      }}
+    >
+      <Game />
+    </GameContext.Provider>
   );
 };
 

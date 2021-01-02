@@ -14,7 +14,7 @@ const Tile = ({
   score,
   className,
 }) => {
-  const { user } = useUser();
+  const user = useUser();
   const { game, getActiveUser } = useGame();
   const { tiles } = game;
 

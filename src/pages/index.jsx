@@ -6,7 +6,7 @@ import useUser from '../hooks/useUser';
 import { games } from '../store';
 
 const HomePage = () => {
-  const { user } = useUser();
+  const user = useUser();
   const router = useRouter();
 
   const startGame = async () => {

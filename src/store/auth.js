@@ -2,57 +2,30 @@ import originalUrl from 'original-url';
 
 import { auth } from './clients';
 
-const EMAIL_KEY = 'email';
-const PASSWORD_KEY = 'password';
-
-// Map Firebase error codes to form fields
-const errorMap = {
-  'auth/invalid-email': EMAIL_KEY,
-  'auth/email-already-in-use': EMAIL_KEY,
-  'auth/user-not-found': EMAIL_KEY,
-  'auth/user-disabled': EMAIL_KEY,
-  'auth/wrong-password': PASSWORD_KEY,
-  'auth/weak-password': PASSWORD_KEY,
-};
-
-/**
- * Sign in or register with an email and password.
- *
- * The form element should have "email" and "password" fields.
- */
-const signInOrRegister = async (authFunc, formElement) => {
-  const formData = new FormData(formElement);
-
-  const email = formData.get(EMAIL_KEY);
-  const password = formData.get(PASSWORD_KEY);
-
-  let user;
-  let error;
-
-  try {
-    user = await auth()[authFunc](email, password);
-  } catch (err) {
-    err.field = errorMap[err.code];
-    error = err;
-  }
-
-  return { user, error };
-};
+const SIGNIN_ROUTE = '/signin';
+const CALLBACK_ROUTE = '/signin/callback';
+const EMAIL_LOCAL_STORAGE_KEY = 'emailForSignIn';
 
 export const authentication = {
-  /**
-   * Create a user with an email and password.
-   */
-  register: async (formElement) => (
-    signInOrRegister('createUserWithEmailAndPassword', formElement)
-  ),
+  signInRoute: SIGNIN_ROUTE,
+  callbackRoute: CALLBACK_ROUTE,
 
   /**
-   * Sign in with an email and password.
+   * Sign in
    */
-  signin: async (formElement) => (
-    signInOrRegister('signInWithEmailAndPassword', formElement)
-  ),
+  signin: async (email, redirectUrl) => {
+    const actionCodeSettings = {
+      url: redirectUrl,
+      handleCodeInApp: true,
+    };
+
+    await auth().sendSignInLinkToEmail(email, actionCodeSettings);
+
+    // The link was successfully sent. Inform the user.
+    // Save the email locally so you don't need to ask the user for it again
+    // if they open the link on the same device.
+    window.localStorage.setItem(EMAIL_LOCAL_STORAGE_KEY, email);
+  },
 
   /**
    * Sign out.
@@ -66,7 +39,8 @@ export const authentication = {
    * home page.
    */
   getPostLoginRedirect: ({ query, req }) => {
-    const currentUrl = originalUrl(req);
+    const { full: currentUrl } = originalUrl(req);
+    const callbackUrl = new URL(CALLBACK_ROUTE, currentUrl);
 
     let { redirect } = query;
     const { referer } = req.headers;
@@ -76,16 +50,35 @@ export const authentication = {
     }
 
     if (!redirect) {
-      return '/';
+      redirect = '/';
     }
 
-    const { pathname } = new URL(redirect, currentUrl.full);
+    const { pathname } = new URL(redirect, currentUrl);
 
     if (pathname === currentUrl.pathname) {
-      return '/';
+      redirect = '/';
     }
 
-    return pathname;
+    callbackUrl.searchParams.set('redirect', redirect);
+
+    return callbackUrl.href;
+  },
+
+  processSignInLink: async () => {
+    if (!auth().isSignInWithEmailLink(window.location.href)) {
+      return;
+    }
+
+    let email = window.localStorage.getItem(EMAIL_LOCAL_STORAGE_KEY);
+
+    if (!email) {
+      // eslint-disable-next-line no-alert
+      email = window.prompt('Please provide your email for confirmation');
+    }
+
+    await auth().signInWithEmailLink(email, window.location.href);
+
+    window.localStorage.removeItem(EMAIL_LOCAL_STORAGE_KEY);
   },
 
   /**
@@ -96,4 +89,14 @@ export const authentication = {
       resolve(resolvedUser);
     });
   }),
+
+  /**
+   * Encode an error message for passing as a query param.
+   */
+  encodeError: (error) => btoa(error.message),
+
+  /**
+   * Decode an error message.
+   */
+  decodeError: async (error) => `${atob(error)} Please try again.`,
 };

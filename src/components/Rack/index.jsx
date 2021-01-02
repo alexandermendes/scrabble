@@ -11,7 +11,7 @@ import styles from './styles.module.scss';
 const Rack = ({
   className,
 }) => {
-  const { user } = useUser();
+  const user = useUser();
   const { game } = useGame();
   const { tiles } = game;
   const rackTiles = tiles.filter(({ userId, cellId }) => user && user.uid === userId && !cellId);
