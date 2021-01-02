@@ -17,7 +17,7 @@ const Game = () => {
     <DndProvider
       backend={HTML5Backend}
     >
-      <main
+      <div
         className={styles.game}
       >
         <Board />
@@ -39,7 +39,7 @@ const Game = () => {
             Recall
           </Button>
         </div>
-      </main>
+      </div>
     </DndProvider>
   );
 };
