@@ -7,6 +7,7 @@ $game-margin: 20px;
   grid-template-areas: 'board sidebar';
   grid-template-columns: auto 1fr;
   grid-template-rows: 1fr;
+  max-height: 100vh;
 
   &__board {
     grid-area: board;

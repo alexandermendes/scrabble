@@ -1,11 +1,11 @@
 .board {
-  padding: 20px;
+  padding: 20px 60px;
 
   &__inner {
     background-color: #DAFFF3;
     display: inline-grid;
-    grid-gap: 3px;
-    padding: 3px;
-    grid-template-columns: repeat(15, 50px);
+    grid-gap: 2px;
+    padding: 2px;
+    grid-template-columns: repeat(15, 40px);
   }
 }
