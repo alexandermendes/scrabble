@@ -15,17 +15,6 @@ const AuthProvider = ({
 
   useEffect(() => {
     const load = async () => {
-      try {
-        await auth.processSignInLink();
-      } catch (err) {
-        router.push({
-          pathname: auth.signInRoute,
-          query: { error: auth.encodeError(err) },
-        });
-
-        return;
-      }
-
       const currentUser = await auth.getCurrentUser();
 
       if (!currentUser && !excludedRoutes.includes(router.pathname)) {
