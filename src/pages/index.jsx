@@ -6,15 +6,15 @@ import useUser from '../hooks/useUser';
 import { games } from '../store';
 
 const HomePage = () => {
-  const user = useUser();
+  const currentUser = useUser();
   const router = useRouter();
 
   const startGame = async () => {
-    if (!user) {
+    if (!currentUser) {
       return;
     }
 
-    const docRef = await games.create(user);
+    const docRef = await games.create(currentUser);
 
     router.push({
       pathname: '/[id]',

@@ -12,7 +12,7 @@ import useUser from './useUser';
  * A hook to load and update a game.
  */
 const useGame = () => {
-  const { user: currentUser } = useUser();
+  const currentUser = useUser();
   const { game, gameId, setGame } = useContext(GameContext);
 
   if (!game) {
@@ -141,7 +141,7 @@ const useGame = () => {
   // TODO: ask to join and limit players
   useEffect(() => {
     if (!currentUser) {
-      return;
+      throw new Error('Current user not found');
     }
 
     (async () => {

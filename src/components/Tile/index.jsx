@@ -14,13 +14,15 @@ const Tile = ({
   score,
   className,
 }) => {
-  const user = useUser();
+  const currentUser = useUser();
   const { game, getActiveUser } = useGame();
   const { tiles } = game;
 
   const [{ isDragging }, ref] = useDrag({
     item: { id, type },
-    canDrag: () => getActiveUser() === user.uid && !tiles.find((tile) => tile.id === id).used,
+    canDrag: () => (
+      getActiveUser() === currentUser.uid && !tiles.find((tile) => tile.id === id).used
+    ),
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),

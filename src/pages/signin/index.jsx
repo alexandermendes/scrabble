@@ -10,12 +10,12 @@ const SignInPage = ({
   redirect,
   error,
 }) => {
-  const user = useUser();
+  const currentUser = useUser();
   const router = useRouter();
   const [errors, setErrors] = useState({});
   const [message, setMessage] = useState();
 
-  if (user) {
+  if (currentUser) {
     router.push(redirect);
 
     return null;

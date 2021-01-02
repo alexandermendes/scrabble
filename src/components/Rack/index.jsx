@@ -11,10 +11,10 @@ import styles from './styles.module.scss';
 const Rack = ({
   className,
 }) => {
-  const user = useUser();
+  const currentUser = useUser();
   const { game } = useGame();
   const { tiles } = game;
-  const rackTiles = tiles.filter(({ userId, cellId }) => user && user.uid === userId && !cellId);
+  const rackTiles = tiles.filter(({ userId, cellId }) => currentUser.uid === userId && !cellId);
 
   return (
     <div
