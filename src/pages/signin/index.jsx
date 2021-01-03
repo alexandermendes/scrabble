@@ -65,7 +65,8 @@ const SignInPage = ({
     setMessage({
       type: 'success',
       text: `A verification link has been sent to ${email}. `
-        + "Please check your spam folder if you don't recieve it soon.",
+        + 'Please click on this link to complete the sign up process. '
+        + 'If the email does not appear soon check your spam folder.',
     });
   };
 

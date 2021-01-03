@@ -30,7 +30,8 @@ const AuthForm = ({
     <p
       className="text-center mb-5"
     >
-      Please sign in with a valid email address to play.
+      Please sign up with a valid email address and choose the name to be
+      displayed alongside your score when playing.
     </p>
     {message && (
       <Message
