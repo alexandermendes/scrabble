@@ -1,3 +1,5 @@
+// @define .button
+
 .button {
   background-color: $color-white;
   border: 1px solid $color-primary;
@@ -40,7 +42,7 @@
   &--tile {
     font-size: calc(#{$game-tile-size} / 3);
     height: $game-tile-size;
-    padding-top: 0;
     padding-bottom: 0;
+    padding-top: 0;
   }
 }

@@ -1,0 +1,17 @@
+{
+  "extends": "stylelint-config-sass-guidelines",
+  "plugins": [
+    "stylelint-selector-bem-pattern"
+  ],
+  "rules": {
+    "max-nesting-depth": 3,
+    "selector-class-pattern": ".*",
+    "plugin/selector-bem-pattern": {
+      "componentName": "[A-Z]+",
+      "componentSelectors": {
+        "initial": "^\\.{componentName}(?:-[a-z]+)?$",
+        "combined": "^\\.combined-{componentName}-[a-z]+$"
+      }
+    }
+  }
+}

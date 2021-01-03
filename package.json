@@ -4,7 +4,9 @@
   "description": "A Scrabble implementation to play during Coronavirus times.",
   "private": true,
   "scripts": {
-    "lint": "eslint . --ext js,jsx,json",
+    "stylelint": "stylelint '**/*.scss'",
+    "eslint": "eslint . --ext js,jsx,json",
+    "lint": "yarn stylelint && yarn eslint",
     "test": "jest",
     "dev": "next dev",
     "build": "next build",
@@ -53,6 +55,9 @@
     "firestore-jest-mock": "^0.7.1",
     "husky": "^4.3.6",
     "jest": "^26.6.3",
-    "sass": "^1.32.0"
+    "sass": "^1.32.0",
+    "stylelint": "^13.8.0",
+    "stylelint-config-sass-guidelines": "^7.1.0",
+    "stylelint-selector-bem-pattern": "^2.1.0"
   }
 }

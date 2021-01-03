@@ -1,9 +1,11 @@
+// @define .cell
+
 .cell {
   background-color: $color-board-cell;
   padding-bottom: 100%;
   position: relative;
 
-  &:after {
+  &::after {
     // This white border needs to be laid over the diamond for bonus tiles,
     // otherwise we could use grid-gap
     box-shadow:
@@ -24,19 +26,19 @@
   &--bonus {
     z-index: 1;
 
-    &:before {
+    &::before {
       content: '';
       height: 90%;
-      width: 90%;
-      transform: translate(-50%, -50%) rotate(45deg);
-      top: 50%;
       left: 50%;
       position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%) rotate(45deg);
+      width: 90%;
       z-index: -1;
     }
   }
 
-  .cell__text {
+  &__text {
     align-items: center;
     display: flex;
     font-family: sans-serif;
@@ -51,7 +53,7 @@
 
   &--double-letter {
     &,
-    &:before {
+    &::before {
       background-color: $color-board-double-letter;
     }
 
@@ -62,40 +64,41 @@
 
   &--double-word {
     &,
-    &:before {
+    &::before {
       background-color: $color-board-double-word;
     }
 
     .cell__text {
-      color: darken($color-board-double-word, 40%)
+      color: darken($color-board-double-word, 40%);
     }
   }
 
   &--triple-letter {
     &,
-    &:before {
+    &::before {
       background-color: $color-board-triple-letter;
     }
 
     .cell__text {
-      color: darken($color-board-triple-letter, 40%)
+      color: darken($color-board-triple-letter, 40%);
     }
   }
 
   &--triple-word {
     &,
-    &:before {
+    &::before {
       background-color: $color-board-triple-word;
     }
 
     .cell__text {
-      color: darken($color-board-triple-word, 30%)
+      color: darken($color-board-triple-word, 30%);
     }
   }
 
   &--over {
     z-index: 2;
-    &:after {
+
+    &::after {
       background-color: lighten($color-board-cell, 15%);
       color: $color-board-cell;
     }

@@ -1,3 +1,5 @@
+// @define .game
+
 .game {
   display: grid;
   grid-template-areas:
@@ -16,20 +18,20 @@
   }
 
   &__toolbar-players {
-    height: 100%;
-    display: flex;
     align-items: center;
+    display: flex;
+    height: 100%;
   }
 
   &__toolbar-player {
     color: $color-grey;
-    letter-spacing: .5px;
+    letter-spacing: 0.5px;
     padding: 0 spacing(4);
     text-align: center;
 
     &--active {
-      font-weight: bold;
       color: $color-white;
+      font-weight: bold;
     }
   }
 
@@ -61,9 +63,9 @@
 
   &__footer {
     align-items: center;
-    justify-content: space-between;
     display: flex;
-    padding: $game-footer-padding 0;
     grid-area: footer;
+    justify-content: space-between;
+    padding: $game-footer-padding 0;
   }
 }
