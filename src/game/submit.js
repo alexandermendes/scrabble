@@ -232,10 +232,17 @@ export const submitWord = (game, allTiles, usedTiles) => {
     throw new UserSubmissionError('At least one tile must join the tiles currently on the board.');
   }
 
+  let score = uniqueWords.reduce((scoreAcc, word) => (
+    scoreAcc + calculateWordScore(word)
+  ), 0);
+
+  // Add bonus of 50 when all tiles used
+  if (usedTiles.length === 7) {
+    score += 50;
+  }
+
   return {
     word: uniqueWords.sort((a, b) => b.length - a.length)[0].map(({ letter }) => letter).join(''),
-    score: uniqueWords.reduce((scoreAcc, word) => (
-      scoreAcc + calculateWordScore(word)
-    ), 0),
+    score,
   };
 };
