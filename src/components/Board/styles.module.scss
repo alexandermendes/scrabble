@@ -2,5 +2,8 @@
   &__inner {
     background-color: $color-board-border;
     display: inline-grid;
+    grid-gap: $game-grid-gap;
+    padding: $game-grid-gap;
+    grid-template-columns: repeat($game-rows, $game-tile-size);
   }
 }

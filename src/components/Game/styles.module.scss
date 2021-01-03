@@ -1,12 +1,10 @@
-$game-margin: 20px;
-
 .game {
   display: grid;
   grid-template-areas: 'board sidebar';
   grid-template-columns: auto 1fr;
   grid-template-rows: 1fr;
   grid-gap: $game-margin;
-  height: calc(100vh - (#{$game-margin} * 2));
+  height: $game-play-area;
   padding: $game-margin;
 
   &__board {

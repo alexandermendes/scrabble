@@ -6,7 +6,6 @@ import useGame from '../../hooks/useGame';
 
 import styles from './styles.module.scss';
 import useUser from '../../hooks/useUser';
-import useTileSize from '../../hooks/useTileSize';
 
 const Tile = ({
   id,
@@ -18,7 +17,6 @@ const Tile = ({
   const currentUser = useUser();
   const { game, getActivePlayer } = useGame();
   const { tiles } = game;
-  const { tileSize } = useTileSize();
 
   const [{ isDragging }, ref] = useDrag({
     item: { id, type },
@@ -38,19 +36,11 @@ const Tile = ({
         className,
         isDragging && styles['tile--dragging'],
       )}
-      style={{
-        height: `${tileSize}px`,
-        width: `${tileSize}px`,
-        fontSize: `${tileSize / 2}px`,
-      }}
     >
       {letter === '□' ? '' : letter}
       {!!score && (
         <span
           className={styles.tile__score}
-          style={{
-            fontSize: `${tileSize / 4}px`,
-          }}
         >
           {score}
         </span>

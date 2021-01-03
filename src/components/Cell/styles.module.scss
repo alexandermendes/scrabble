@@ -21,6 +21,10 @@
     }
   }
 
+  &:after {
+    font-size: calc(#{$game-tile-size} / 3);
+  }
+
   &--double-letter {
     background-color: $color-board-double-letter;
 

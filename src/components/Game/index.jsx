@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React from 'react';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 
@@ -7,25 +7,11 @@ import Rack from '../Rack';
 import Button from '../Button';
 import ScoreBoard from '../Scoreboard';
 import useGame from '../../hooks/useGame';
-import TileSizeContext from '../../context/TileSizeContext';
 
 import styles from './styles.module.scss';
 
 const Game = () => {
   const { takeTurn, recallTiles } = useGame();
-  const boardRef = useRef();
-  const [tileSize, setTileSize] = useState(0);
-
-  const gridGap = 2;
-  const rows = 15;
-
-  // Set the tile size according to available screen size
-  useEffect(() => {
-    const { height } = boardRef.current.getBoundingClientRect();
-    const gridGaps = rows + 1;
-
-    setTileSize((height - (gridGaps * gridGap)) / rows);
-  }, []);
 
   return (
     <DndProvider
@@ -34,42 +20,33 @@ const Game = () => {
       <div
         className={styles.game}
       >
-        <TileSizeContext.Provider
-          value={{
-            boardRef,
-            gridGap,
-            tileSize,
-          }}
+        <Board
+          className={styles.game__board}
+        />
+        <div
+          className={styles.game__sidebar}
         >
-          <Board
-            className={styles.game__board}
+          <ScoreBoard />
+          <Rack
+            className="mt-auto"
           />
-          <div
-            className={styles.game__sidebar}
-          >
-            <ScoreBoard />
-            <Rack
-              tileSize={tileSize}
-              className="mt-auto"
-            />
-            <div>
-              <Button
-                onClick={recallTiles}
-                secondary
-                className="ma-1"
-              >
-                Recall
-              </Button>
-              <Button
-                onClick={takeTurn}
-                secondary
-                className="ma-1"
-              >
-                Submit
-              </Button>
-            </div>
+          <div>
+            <Button
+              onClick={recallTiles}
+              secondary
+              className="ma-1"
+            >
+              Recall
+            </Button>
+            <Button
+              onClick={takeTurn}
+              secondary
+              className="ma-1"
+            >
+              Submit
+            </Button>
           </div>
-        </TileSizeContext.Provider>
+        </div>
       </div>
     </DndProvider>
   );

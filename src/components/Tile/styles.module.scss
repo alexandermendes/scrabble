@@ -8,6 +8,9 @@
   justify-content: center;
   position: relative;
   z-index: 100;
+  height: $game-tile-size;
+  width: $game-tile-size;
+  font-size: calc(#{$game-tile-size} / 2);
 
   &--dragging {
     opacity: 0;
@@ -15,6 +18,7 @@
 
   &__score {
     bottom: 10%;
+    font-size: calc(#{$game-tile-size} / 4);
     position: absolute;
     right: 10%;
   }

@@ -24,3 +24,9 @@ $color-board-tile-text: #012d38;
 
 $color-form-invalid: #e74c3c;
 $color-form-success: #2ecc71;
+
+$game-margin: 20px;
+$game-grid-gap: 2px;
+$game-rows: 15;
+$game-play-area: calc(100vh - (#{$game-margin} * 2));
+$game-tile-size: calc((#{$game-play-area} - (#{$game-grid-gap} * (#{$game-rows} + 1))) / #{$game-rows});
