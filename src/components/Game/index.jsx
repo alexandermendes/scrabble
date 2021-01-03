@@ -2,6 +2,7 @@ import React from 'react';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 import cn from 'classnames';
+import { FaPlus } from 'react-icons/fa';
 
 import ExchangeDrawer from '../ExchangeDrawer';
 import Board from '../Board';
@@ -10,6 +11,7 @@ import Button from '../Button';
 import InviteLink from '../InviteLink';
 import useGame from '../../hooks/useGame';
 import useUser from '../../hooks/useUser';
+import useNewGame from '../../hooks/useNewGame';
 
 import styles from './styles.module.scss';
 
@@ -20,6 +22,7 @@ const Game = () => {
     recallTiles,
     getActivePlayer,
   } = useGame();
+  const createNewGame = useNewGame();
   const currentUser = useUser();
   const activePlayer = getActivePlayer();
 
@@ -63,9 +66,22 @@ const Game = () => {
           className={cn(
             styles.game__sidebar,
             styles['game__sidebar--left'],
-            'd-flex justify-content-center',
+            'd-flex flex-direction-column justify-content-space-between align-items-center',
           )}
         >
+          <Button
+            onClick={createNewGame}
+            variant="inverted"
+            className="mr-auto mt-1 ml-3 d-flex"
+          >
+            <FaPlus />
+            <p
+              className="ml-2"
+            >
+              Create new game
+            </p>
+          </Button>
+          <div />
           <ExchangeDrawer />
         </div>
         <Board

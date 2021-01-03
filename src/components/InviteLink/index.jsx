@@ -52,7 +52,7 @@ const InviteLink = ({
       onClick={showInviteLink}
     >
       <p
-        className="mr-1"
+        className="mr-2"
       >
         Invite link
       </p>
