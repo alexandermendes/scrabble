@@ -1,20 +1,21 @@
-$font-size-small:   14px;
+$font-size-small:   12px;
 $font-size-regular: 16px;
 $font-size-large:   20px;
 
 $font-family-body: Roboto;
 $font-family-heading: Montserrat;
 
-$color-primary: #025652;
+$color-primary: #18625f;
 $color-secondary: #709794;
 
 $color-white: #fff;
 $color-light-grey: #f4f7f8;
-$color-grey: #979797;
+$color-grey: #afafaf;
 $color-dark-grey: #2b2b2b;
 
 $color-board-cell: #009690;
-$color-board-border: #ebfdf7;
+$color-board-cell-border: #ebfdf7;
+$color-board-border: #18625f;
 $color-board-double-letter: #ADE9FC;
 $color-board-double-word: #FECD8D;
 $color-board-triple-letter: #75DCFA;
@@ -25,8 +26,9 @@ $color-board-tile-text: #012d38;
 $color-form-invalid: #e74c3c;
 $color-form-success: #2ecc71;
 
-$game-margin: 20px;
 $game-grid-gap: 2px;
 $game-rows: 15;
-$game-play-area: calc(100vh - (#{$game-margin} * 2));
-$game-tile-size: calc((#{$game-play-area} - (#{$game-grid-gap} * (#{$game-rows} + 1))) / #{$game-rows});
+$game-toolbar-height: 50px;
+$game-play-area: calc(100vh - #{$game-toolbar-height});
+$game-footer-padding: 10px;
+$game-tile-size: calc((#{$game-play-area} - (#{$game-footer-padding} * 2)) / (#{$game-rows} + 1));

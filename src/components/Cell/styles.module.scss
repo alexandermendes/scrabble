@@ -1,32 +1,54 @@
 .cell {
-  box-shadow: inset 2px 2px 4px 1px $color-dark-grey;
   background-color: $color-board-cell;
-  content: '';
-  display: block;
   padding-bottom: 100%;
   position: relative;
 
+  &:after {
+    // This white border needs to be laid over the diamond for bonus tiles,
+    // otherwise we could use grid-gap
+    box-shadow:
+      $game-grid-gap 0 0 0 $color-board-cell-border,
+      0 $game-grid-gap 0 0 $color-board-cell-border,
+      0 $game-grid-gap 0 0 $color-board-cell-border inset,
+      $game-grid-gap 0 0 0 $color-board-cell-border inset,
+      $game-grid-gap $game-grid-gap 0 0 $color-board-cell-border,
+      inset 1.5px 1.5px 2px 1px $color-dark-grey; // inset shadow
+    content: '';
+    height: 100%;
+    left: -$game-grid-gap / 2;
+    position: absolute;
+    top: -$game-grid-gap / 2;
+    width: 100%;
+  }
+
   &--bonus {
+    z-index: 1;
+
+    &:before {
+      content: '';
+      height: 90%;
+      width: 90%;
+      transform: translate(-50%, -50%) rotate(45deg);
+      top: 50%;
+      left: 50%;
+      position: absolute;
+      z-index: -1;
+    }
+
     &:after {
       align-items: center;
       display: flex;
       font-family: sans-serif;
-      font-size: $font-size-small;
-      height: 100%;
+      font-size: calc(#{$game-tile-size} / 3);
       justify-content: center;
-      left: 1px;
-      position: absolute;
-      top: 1px;
-      width: 100%;
     }
   }
 
-  &:after {
-    font-size: calc(#{$game-tile-size} / 3);
-  }
-
   &--double-letter {
-    background-color: $color-board-double-letter;
+    &,
+    &:before {
+      background-color: $color-board-double-letter;
+    }
 
     &:after {
       content: 'DL';
@@ -35,7 +57,10 @@
   }
 
   &--double-word {
-    background-color: $color-board-double-word;
+    &,
+    &:before {
+      background-color: $color-board-double-word;
+    }
 
     &:after {
       content: 'DW';
@@ -44,7 +69,10 @@
   }
 
   &--triple-letter {
-    background-color: $color-board-triple-letter;
+    &,
+    &:before {
+      background-color: $color-board-triple-letter;
+    }
 
     &:after {
       content: 'TL';
@@ -53,7 +81,10 @@
   }
 
   &--triple-word {
-    background-color: $color-board-triple-word;
+    &,
+    &:before {
+      background-color: $color-board-triple-word;
+    }
 
     &:after {
       content: 'TW';
@@ -62,9 +93,9 @@
   }
 
   &--over {
-    background-color: lighten($color-board-cell, 15%);
-
+    z-index: 2;
     &:after {
+      background-color: lighten($color-board-cell, 15%);
       color: $color-board-cell;
     }
   }

@@ -1,5 +1,4 @@
 import React from 'react';
-import cn from 'classnames';
 
 import useGame from '../../hooks/useGame';
 import getUser from '../../hooks/useUser';
@@ -8,7 +7,7 @@ import styles from './styles.module.scss';
 
 const ScoreBoard = () => {
   const { game, getActivePlayer } = useGame();
-  const { tiles, players, turns = [] } = game;
+  const { tiles } = game;
   const { length: remainingTiles } = tiles.filter(({ used, userId }) => !used && !userId);
 
   const currentUser = getUser();
@@ -18,39 +17,8 @@ const ScoreBoard = () => {
     <div
       className={styles.scoreboard}
     >
-      <table
-        className={cn(
-          styles.scoreboard__table,
-          'mb-1',
-        )}
-      >
-        <thead>
-          <tr>
-            <th className={styles['scoreboard__table-heading']}>Player</th>
-            <th className={styles['scoreboard__table-heading']}>Last Turn</th>
-            <th className={styles['scoreboard__table-heading']}>Total</th>
-          </tr>
-        </thead>
-        <tbody>
-          {players.map((player) => {
-            const playerTurns = turns.filter(({ userId }) => userId === player.uid);
-            const playerScore = playerTurns.reduce((total, { score }) => total + score, 0);
-            const { word: lastTurn } = playerTurns[playerTurns.length - 1] || {};
-
-            return (
-              <tr
-                key={player.uid}
-              >
-                <td className={styles['scoreboard__table-cell']}>{player.displayName || player.email}</td>
-                <td className={styles['scoreboard__table-cell']}>{lastTurn}</td>
-                <td className={styles['scoreboard__table-cell']}>{playerScore}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
       <div
-        className="d-flex justify-content-space-between"
+        className="d-flex flex-direction-column align-items-center"
       >
         <p
           className={styles.scoreboard__footer}

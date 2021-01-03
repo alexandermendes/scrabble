@@ -1,8 +1,4 @@
 .rack {
   display: flex;
-  padding: 10px;
-
-  &__tile {
-    margin: 2px;
-  }
+  justify-content: center;
 }

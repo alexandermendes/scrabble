@@ -1,6 +1,7 @@
 .tile {
   align-items: center;
   background-color: $color-board-tile-background;
+  border: .5px solid darken($color-board-tile-background, 5%);
   color: $color-board-tile-text;
   display: flex;
   font-family: sans-serif;
@@ -8,8 +9,8 @@
   justify-content: center;
   position: relative;
   z-index: 100;
-  height: $game-tile-size;
-  width: $game-tile-size;
+  height: calc(#{$game-tile-size} - 2px);
+  width: calc(#{$game-tile-size} - 2px);
   font-size: calc(#{$game-tile-size} / 2);
 
   &--dragging {

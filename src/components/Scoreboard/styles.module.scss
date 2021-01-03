@@ -3,31 +3,7 @@
   margin-left: auto;
   margin-right: auto;
   width: 100%;
-
-  &__table {
-    border-collapse: collapse;
-    border-spacing: 0;
-    width: 100%;
-  }
-
-  &__table-heading {
-    padding-top: 11px;
-    padding-bottom: 11px;
-    background-color: $color-secondary;
-    border: 1px solid darken($color-secondary, 5%);
-    color: $color-white;
-  }
-
-  &__table-cell {
-    background-color: $color-white;
-    border: 1px solid lighten($color-secondary, 25%);
-    text-align: left;
-    padding: 12px;
-
-    &:not(:first-child) {
-      text-align: center;
-    }
-  }
+  padding: 10px;
 
   &__footer {
     color: $color-white;

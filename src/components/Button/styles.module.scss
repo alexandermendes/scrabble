@@ -36,4 +36,11 @@
       background-color: $color-secondary;
     }
   }
+
+  &--tile {
+    font-size: calc(#{$game-tile-size} / 3);
+    height: $game-tile-size;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
 }

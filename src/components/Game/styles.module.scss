@@ -1,11 +1,45 @@
 .game {
   display: grid;
-  grid-template-areas: 'board sidebar';
-  grid-template-columns: auto 1fr;
-  grid-template-rows: 1fr;
-  grid-gap: $game-margin;
+  grid-template-areas:
+    'toolbar toolbar toolbar'
+    'sidebar-left board sidebar-right'
+    'sidebar-left footer sidebar-right';
+  grid-template-columns: 1fr auto 1fr;
+  grid-template-rows: auto 1fr;
   height: $game-play-area;
-  padding: $game-margin;
+
+  &__toolbar {
+    display: flex;
+    grid-area: toolbar;
+    height: $game-toolbar-height;
+    justify-content: space-around;
+  }
+
+  &__toolbar-players {
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  &__toolbar-player {
+    color: $color-grey;
+    letter-spacing: .5px;
+    padding: 0 20px;
+    text-align: center;
+
+    &--active {
+      font-weight: bold;
+      color: $color-white;
+    }
+  }
+
+  &__toolbar-player-score {
+    font-size: $font-size-large;
+  }
+
+  &__toolbar-player-name {
+    font-size: $font-size-small;
+  }
 
   &__board {
     grid-area: board;
@@ -15,6 +49,21 @@
     align-items: center;
     display: flex;
     flex-direction: column;
-    grid-area: sidebar;
+
+    &--left {
+      grid-area: sidebar-left;
+    }
+
+    &--right {
+      grid-area: sidebar-right;
+    }
+  }
+
+  &__footer {
+    align-items: center;
+    justify-content: space-between;
+    display: flex;
+    padding: $game-footer-padding 0;
+    grid-area: footer;
   }
 }

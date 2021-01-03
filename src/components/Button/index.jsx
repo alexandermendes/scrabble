@@ -17,6 +17,7 @@ const Button = ({
   type,
   size,
   secondary,
+  tile,
 }) => (
   <button
     // eslint-disable-next-line react/button-has-type
@@ -25,6 +26,7 @@ const Button = ({
       styles.button,
       styles[`button--${size}`],
       secondary && styles['button--secondary'],
+      tile && styles['button--tile'],
       className,
     )}
     onClick={onClick}
@@ -39,6 +41,7 @@ Button.defaultProps = {
   onClick: null,
   size: 'regular',
   secondary: false,
+  tile: false,
 };
 
 Button.propTypes = {
@@ -46,6 +49,7 @@ Button.propTypes = {
   onClick: func,
   children: node.isRequired,
   secondary: bool,
+  tile: bool,
   type: oneOf(['button', 'submit', 'reset']),
   size: oneOf(['large', 'regular', 'small']),
 };
