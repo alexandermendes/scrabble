@@ -25,7 +25,9 @@ const CallbackPage = ({
 
       const currentUser = await auth.getCurrentUser();
 
-      await currentUser.updateProfile({ displayName });
+      if (displayName) {
+        await currentUser.updateProfile({ displayName });
+      }
 
       router.push(redirect);
     })();
@@ -37,7 +39,7 @@ const CallbackPage = ({
 export const getServerSideProps = async ({ query }) => ({
   props: {
     redirect: query[auth.redirectParam] || auth.signInRoute,
-    displayName: query[auth.displayNameParam],
+    displayName: query[auth.displayNameParam] || null,
   },
 });
 
