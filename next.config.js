@@ -26,7 +26,9 @@ module.exports = {
   },
 
   publicRuntimeConfig: {
-    firebase: process.env.FIREBASE_WEB_CONFIG || require(firebaseWebConfigPath),
+    firebase: process.env.FIREBASE_WEB_CONFIG
+      ? JSON.parse(process.env.FIREBASE_WEB_CONFIG)
+      : require(firebaseWebConfigPath),
   },
 
   env: {
