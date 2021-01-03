@@ -14,7 +14,9 @@ const Rack = ({
 }) => {
   const currentUser = useUser();
   const { game } = useGame();
-  const rack = game.tiles.filter(({ userId, cellId }) => currentUser.uid === userId && !cellId);
+  const rack = game.tiles.filter(({ userId, cellId, pendingExchange }) => (
+    currentUser.uid === userId && !cellId && !pendingExchange
+  ));
   const rackTileIds = JSON.stringify(rack.map(({ id }) => id).sort());
   const [sortedTiles, setSortedTiles] = useState([]);
 
@@ -73,7 +75,7 @@ const Rack = ({
             type={tile.type}
             letter={tile.letter}
             score={tile.score}
-            hide={!!tile.cellId} // When dragging back from the board
+            hide={!!(tile.cellId || tile.pendingExchange)} // When dragging back from the board
           />
         </RackSpace>
       ))}

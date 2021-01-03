@@ -1,11 +1,15 @@
 import { useContext, useEffect } from 'react';
 import deepmerge from 'deepmerge';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 
 import { submitWord } from '../game/submit';
 import { getRandomTiles } from '../game/tiles';
 import { games } from '../store';
 import GameContext from '../context/GameContext';
 import useUser from './useUser';
+
+const MySwal = withReactContent(Swal);
 
 /**
  * A hook to load and update a game.
@@ -19,6 +23,11 @@ const useGame = () => {
     err.statusCode = 404;
     throw err;
   }
+
+  /**
+   * Get the tiles the user has placed on the board.
+   */
+  const getUsedTiles = () => game.tiles.filter(({ userId }) => currentUser.uid === userId);
 
   /**
    * Update the game state.
@@ -102,7 +111,7 @@ const useGame = () => {
    */
   const pickTiles = () => {
     const { tiles } = game;
-    const currentRackTiles = tiles.filter(({ userId }) => currentUser.uid === userId);
+    const currentRackTiles = getUsedTiles();
     const nRequired = 7 - currentRackTiles.length;
     const newTiles = getRandomTiles(tiles, nRequired);
 
@@ -114,9 +123,70 @@ const useGame = () => {
   };
 
   /**
+   * Exchange tiles and submit that as the user's turn.
+   */
+  const exchangeTiles = async () => {
+    const usedTiles = getUsedTiles();
+    const exchangedTiles = usedTiles.filter(({ userId, pendingExchange }) => (
+      currentUser.uid === userId && pendingExchange
+    ));
+    const exchangedTileIds = exchangedTiles.map(({ id }) => id);
+
+    if (!exchangedTileIds.length) {
+      return false;
+    }
+
+    const result = await MySwal.fire({
+      text: `Do you want to exchange ${exchangedTileIds.length} tile${exchangedTileIds.length === 1 ? '' : 's'}?`,
+      showCancelButton: true,
+      icon: 'question',
+    });
+
+    if (result.isConfirmed) {
+      const newTiles = getRandomTiles(game.tiles, exchangedTileIds.length);
+
+      updateTiles([
+        ...newTiles.map((tile) => [tile.id, { userId: currentUser.uid }]),
+        ...usedTiles.map((tile) => [tile.id, {
+          cellId: null, // So tiles not being exchanged still get moved back off the board
+          userId: exchangedTileIds.includes(tile.id) ? null : tile.userId,
+        }]),
+      ]);
+
+      addTurn({
+        userId: currentUser.uid,
+        word: '-',
+        score: 0,
+      });
+
+      return true;
+    }
+
+    updateTiles(exchangedTiles.map((tile) => [tile.id, { pendingExchange: false }]));
+
+    return false;
+  };
+
+  /**
+   * Move tiles back to the current user's rack.
+   */
+  const recallTiles = () => {
+    const usedTiles = getUsedTiles();
+
+    updateTiles(usedTiles.map((tile) => [tile.id, { cellId: null, pendingExchange: false }]));
+  };
+
+  /**
    * Submit the current user's word.
    */
-  const takeTurn = () => {
+  const takeTurn = async () => {
+    const exchanged = await exchangeTiles();
+
+    // In case submit was hit in an attempt to exchange
+    if (exchanged) {
+      return;
+    }
+
     const { tiles } = game;
     const usedTiles = tiles.filter(({ userId, cellId }) => currentUser.uid === userId && !!cellId);
     let word;
@@ -125,7 +195,9 @@ const useGame = () => {
     try {
       ({ word, score } = submitWord(game, tiles, usedTiles));
     } catch (err) {
-      return err.message;
+      MySwal.fire({ text: err.message });
+
+      return;
     }
 
     if (!word) {
@@ -141,17 +213,6 @@ const useGame = () => {
     });
 
     pickTiles();
-
-    return null;
-  };
-
-  /**
-   * Move tiles back to the current user's rack.
-   */
-  const recallTiles = () => {
-    const usedTiles = game.tiles.filter(({ userId }) => currentUser.uid === userId);
-
-    updateTiles(usedTiles.map((tile) => [tile.id, { cellId: null }]));
   };
 
   // Ensuring the current player is part of the game and has tiles
@@ -181,6 +242,7 @@ const useGame = () => {
     recallTiles,
     updateTiles,
     updateTile,
+    exchangeTiles,
     getActivePlayer,
   };
 };

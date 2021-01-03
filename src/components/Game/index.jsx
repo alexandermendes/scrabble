@@ -1,10 +1,9 @@
 import React from 'react';
-import Swal from 'sweetalert2';
-import withReactContent from 'sweetalert2-react-content';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 import cn from 'classnames';
 
+import ExchangeDrawer from '../ExchangeDrawer';
 import Board from '../Board';
 import Rack from '../Rack';
 import Button from '../Button';
@@ -13,8 +12,6 @@ import useGame from '../../hooks/useGame';
 
 import styles from './styles.module.scss';
 
-const MySwal = withReactContent(Swal);
-
 const Game = () => {
   const {
     game,
@@ -22,16 +19,6 @@ const Game = () => {
     recallTiles,
     getActivePlayer,
   } = useGame();
-
-  const handleSubmitClick = async () => {
-    const text = takeTurn();
-
-    if (!text) {
-      return;
-    }
-
-    MySwal.fire({ text });
-  };
 
   return (
     <DndProvider
@@ -72,7 +59,9 @@ const Game = () => {
             styles.game__sidebar,
             styles['game__sidebar--left'],
           )}
-        />
+        >
+          <ExchangeDrawer />
+        </div>
         <Board
           className={styles.game__board}
         />
@@ -89,15 +78,15 @@ const Game = () => {
         >
           <Button
             onClick={recallTiles}
-            secondary
+            variant="secondary"
             tile
           >
             Recall
           </Button>
           <Rack />
           <Button
-            onClick={handleSubmitClick}
-            secondary
+            onClick={takeTurn}
+            variant="secondary"
             tile
           >
             Submit

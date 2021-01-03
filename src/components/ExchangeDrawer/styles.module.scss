@@ -1,0 +1,21 @@
+// @define .exchange-drawer
+
+.exchange-drawer {
+  width: calc((#{$game-tile-size} * 4) + (2 * #{spacing(6)}));
+
+  &__text {
+    font-size: $font-size-small;
+    user-select: none;
+  }
+
+  &__contents {
+    display: inline-grid;
+    grid-template-columns: repeat(4, $game-tile-size);
+    grid-template-rows: auto;
+    grid-gap: spacing(1);
+    padding: spacing(2);
+    border: 2px dashed $color-grey;
+    margin-top: spacing(2);
+    min-height: calc((#{$game-tile-size} * 2) + (2 * #{spacing(2)}));
+  }
+}

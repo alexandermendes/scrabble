@@ -18,7 +18,7 @@ const Home = ({
     <Button
       onClick={startGame}
       size="large"
-      secondary
+      variant="secondary"
     >
       Start new game
     </Button>

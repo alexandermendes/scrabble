@@ -1,5 +1,7 @@
 import { v4 as uuid } from 'uuid';
 
+export const TILE_KEY = 'tile';
+
 /**
  * Create the tiles for a new game.
  */
@@ -35,12 +37,13 @@ export const createTiles = () => [
   ...acc,
   ...Array(amount).fill().map(() => ({
     id: uuid(),
-    type: 'tile',
+    type: TILE_KEY,
     letter,
     score,
     cellId: null,
     userId: null,
     used: false,
+    pendingExchange: false,
   })),
 ], []);
 

@@ -3,6 +3,7 @@ import cn from 'classnames';
 import { string, node } from 'prop-types';
 import { useDrop } from 'react-dnd';
 
+import { TILE_KEY } from '../../game/tiles';
 import styles from './styles.module.scss';
 import useGame from '../../hooks/useGame';
 
@@ -16,9 +17,9 @@ const Cell = ({
   const { tiles } = game;
 
   const [{ isOver }, ref] = useDrop({
-    accept: 'tile',
+    accept: TILE_KEY,
     drop: ({ id }) => {
-      updateTile(id, { cellId });
+      updateTile(id, { cellId, pendingExchange: false });
     },
     canDrop: () => !tiles.find((tile) => tile.cellId === cellId),
     collect: (monitor) => ({

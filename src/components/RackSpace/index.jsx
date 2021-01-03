@@ -2,6 +2,7 @@ import React from 'react';
 import { string, func, node } from 'prop-types';
 import { useDrop } from 'react-dnd';
 
+import { TILE_KEY } from '../../game/tiles';
 import useGame from '../../hooks/useGame';
 
 const RackSpace = ({
@@ -13,13 +14,15 @@ const RackSpace = ({
   const { game, updateTile } = useGame();
 
   const [, ref] = useDrop({
-    accept: 'tile',
+    accept: TILE_KEY,
     hover: (item) => {
       shift(currentTileId, item.id);
     },
     drop: ({ id }) => {
-      if (game.tiles.find((tile) => tile.id === id)?.cellId) {
-        updateTile(id, { cellId: null });
+      const droppedTile = game.tiles.find((tile) => tile.id === id);
+
+      if (droppedTile.cellId || droppedTile.pendingExchange) {
+        updateTile(id, { cellId: null, pendingExchange: false });
       }
     },
     collect: (monitor) => ({

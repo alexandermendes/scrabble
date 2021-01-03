@@ -1,0 +1,87 @@
+// @define .drawer
+
+$drawer-handle-padding: spacing(2);
+$drawer-handle-border-radius: 10px;
+$drawer-handle-height: $font-size-regular + ($drawer-handle-padding * 2);
+
+.drawer {
+  overflow: hidden;
+
+  &__container {
+    display: grid;
+    transition: transform 300ms ease-in;
+  }
+
+  &__handle {
+    font-size: $font-size-regular;
+    background-color: $color-primary;
+    border: 1px solid darken($color-primary, 5%);
+    color: $color-white;
+    cursor: pointer;
+    height: $drawer-handle-height;
+    line-height: 1;
+    padding: spacing(2);
+    position: relative;
+    top: 0;
+    width: 100%;
+    grid-area: handle;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &--open {
+    .drawer__container {
+      transform: none;
+    }
+  }
+
+  &--top {
+    margin-bottom: auto;
+
+    .drawer__handle {
+      border-bottom-left-radius: $drawer-handle-border-radius;
+      border-bottom-right-radius: $drawer-handle-border-radius;
+    }
+
+    .drawer__container {
+      grid-template-areas: 'contents' 'handle';
+      grid-template-rows: auto 1fr;
+      grid-template-columns: 1fr;
+    }
+
+    &:not(.drawer--open) {
+      .drawer__container {
+        transform: translateY(calc(-100% + #{$drawer-handle-height}));
+      }
+    }
+  }
+
+  &--bottom {
+    margin-top: auto;
+
+    .drawer__handle {
+      border-top-left-radius: $drawer-handle-border-radius;
+      border-top-right-radius: $drawer-handle-border-radius;
+    }
+
+    .drawer__container {
+      grid-template-areas: 'handle' 'contents';
+      grid-template-rows: auto 1fr;
+      grid-template-columns: 1fr;
+    }
+
+    &:not(.drawer--open) {
+      .drawer__container {
+        transform: translateY(calc(100% - #{$drawer-handle-height}));
+      }
+    }
+  }
+
+  &__contents {
+    background-color: $color-white;
+    padding: spacing(2);
+    grid-area: contents;
+  }
+}

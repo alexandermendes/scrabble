@@ -16,7 +16,7 @@ const Button = ({
   onClick,
   type,
   size,
-  secondary,
+  variant,
   tile,
 }) => (
   <button
@@ -25,7 +25,7 @@ const Button = ({
     className={cn(
       styles.button,
       styles[`button--${size}`],
-      secondary && styles['button--secondary'],
+      styles[`button--${variant}`],
       tile && styles['button--tile'],
       className,
     )}
@@ -40,7 +40,7 @@ Button.defaultProps = {
   type: 'submit',
   onClick: null,
   size: 'regular',
-  secondary: false,
+  variant: 'primary',
   tile: false,
 };
 
@@ -48,9 +48,9 @@ Button.propTypes = {
   className: string,
   onClick: func,
   children: node.isRequired,
-  secondary: bool,
   tile: bool,
   type: oneOf(['button', 'submit', 'reset']),
+  variant: oneOf(['primary', 'secondary', 'transparent']),
   size: oneOf(['large', 'regular', 'small']),
 };
 
