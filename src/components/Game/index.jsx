@@ -7,9 +7,9 @@ import ExchangeDrawer from '../ExchangeDrawer';
 import Board from '../Board';
 import Rack from '../Rack';
 import Button from '../Button';
-import ScoreBoard from '../Scoreboard';
 import InviteLink from '../InviteLink';
 import useGame from '../../hooks/useGame';
+import useUser from '../../hooks/useUser';
 
 import styles from './styles.module.scss';
 
@@ -20,6 +20,10 @@ const Game = () => {
     recallTiles,
     getActivePlayer,
   } = useGame();
+  const currentUser = useUser();
+  const activePlayer = getActivePlayer();
+
+  const { length: remainingTiles } = game.tiles.filter(({ used, userId }) => !used && !userId);
 
   return (
     <DndProvider
@@ -44,7 +48,7 @@ const Game = () => {
                   className={cn(
                     styles['game__scorebar-player'],
                     {
-                      [styles['game__scorebar-player--active']]: getActivePlayer().uid === player.uid,
+                      [styles['game__scorebar-player--active']]: activePlayer.uid === player.uid,
                     },
                   )}
                 >
@@ -59,6 +63,7 @@ const Game = () => {
           className={cn(
             styles.game__sidebar,
             styles['game__sidebar--left'],
+            'd-flex justify-content-center',
           )}
         >
           <ExchangeDrawer />
@@ -70,12 +75,33 @@ const Game = () => {
           className={cn(
             styles.game__sidebar,
             styles['game__sidebar--right'],
+            'd-flex flex-direction-column justify-content-space-between',
           )}
         >
           <InviteLink
             className="ml-auto mt-1 mr-6 d-flex"
           />
-          <ScoreBoard />
+          <div
+            className={styles.game__summary}
+          >
+            <div
+              className="d-flex flex-direction-column align-items-center"
+            >
+              <p
+                className="mb-4"
+              >
+                {activePlayer.uid === currentUser.uid ? (
+                  "It's your turn"
+                ) : (
+                  `Waiting for ${activePlayer.displayName}`
+                )}
+              </p>
+              <p>
+                {`${remainingTiles} tile${remainingTiles === 1 ? '' : 's'} remaining`}
+              </p>
+            </div>
+          </div>
+          <div />
         </div>
         <div
           className={styles.game__footer}
