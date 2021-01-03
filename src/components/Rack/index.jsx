@@ -19,9 +19,15 @@ const Rack = ({
   const [sortedTiles, setSortedTiles] = useState([]);
 
   useEffect(() => {
-    setSortedTiles(rack);
+    const ids = sortedTiles.map(({ id }) => id);
+
+    // Maintain order when updating
+    setSortedTiles(rack.sort((a, b) => ids.indexOf(a.id) - ids.indexOf(b.id)));
   }, [rackTileIds]);
 
+  /**
+   * Swap two tiles.
+   */
   const shift = (tileIdOne, tileIdTwo) => {
     if (!tileIdOne || !tileIdTwo) {
       return;
@@ -30,12 +36,20 @@ const Rack = ({
     const indexOne = sortedTiles.findIndex((tile) => tile.id === tileIdOne);
     const indexTwo = sortedTiles.findIndex((tile) => tile.id === tileIdTwo);
 
-    // TODO: Figure out how to move tiles back to the rack
-    if (!sortedTiles[indexOne] || !sortedTiles[indexTwo]) {
-      return;
+    if (sortedTiles[indexOne] && sortedTiles[indexTwo]) {
+      [
+        sortedTiles[indexOne],
+        sortedTiles[indexTwo],
+      ] = [
+        sortedTiles[indexTwo],
+        sortedTiles[indexOne],
+      ];
     }
 
-    [sortedTiles[indexOne], sortedTiles[indexTwo]] = [sortedTiles[indexTwo], sortedTiles[indexOne]];
+    // Tile is not in the rack, it is probably being moved back from the board
+    if (!sortedTiles[indexTwo]) {
+      sortedTiles.splice(indexOne, 0, game.tiles.find((tile) => tile.id === tileIdTwo));
+    }
 
     setSortedTiles([...sortedTiles]);
   };
@@ -59,6 +73,7 @@ const Rack = ({
             type={tile.type}
             letter={tile.letter}
             score={tile.score}
+            hide={!!tile.cellId} // When dragging back from the board
           />
         </RackSpace>
       ))}

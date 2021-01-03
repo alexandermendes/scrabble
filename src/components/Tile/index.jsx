@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDrag } from 'react-dnd';
-import { string, number } from 'prop-types';
+import { string, number, bool } from 'prop-types';
 import cn from 'classnames';
 import useGame from '../../hooks/useGame';
 
@@ -13,6 +13,7 @@ const Tile = ({
   letter,
   score,
   className,
+  hide,
 }) => {
   const currentUser = useUser();
   const { game, getActivePlayer } = useGame();
@@ -35,6 +36,7 @@ const Tile = ({
         styles.tile,
         className,
         isDragging && styles['tile--dragging'],
+        hide && styles['tile--hidden'],
       )}
     >
       {letter === '□' ? '' : letter}
@@ -51,6 +53,7 @@ const Tile = ({
 
 Tile.defaultProps = {
   className: null,
+  hide: false,
 };
 
 Tile.propTypes = {
@@ -59,6 +62,7 @@ Tile.propTypes = {
   letter: string.isRequired,
   score: number.isRequired,
   className: string,
+  hide: bool,
 };
 
 export default Tile;

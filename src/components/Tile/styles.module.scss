@@ -19,6 +19,10 @@
     opacity: 0;
   }
 
+  &--hidden {
+    visibility: hidden;
+  }
+
   &__score {
     bottom: 10%;
     font-size: calc(#{$game-tile-size} / 4);
