@@ -161,6 +161,16 @@ const areNumbersConsecutive = (numbers) => {
 };
 
 /**
+ * Get unique words from an array.
+ */
+const getUniqueWords = (words) => [...new Map(
+  words.map((word) => [
+    word.map((tile) => tile.id).sort().join('-'),
+    word,
+  ]),
+).values()];
+
+/**
  * Submit a new word.
  */
 export const submitWord = (game, allTiles, usedTiles) => {
@@ -194,43 +204,33 @@ export const submitWord = (game, allTiles, usedTiles) => {
     throw new Error('All tiles must be connected.');
   }
 
-  const newHorizontalWord = getHorizontalWord(allTiles, usedTiles[0]);
-  const newVerticalWord = getVerticalWord(allTiles, usedTiles[0]);
-
-  const intersectingWords = usedTiles.reduce((acc, tile) => {
+  const words = usedTiles.reduce((acc, tile) => {
     const tileAbove = getTileAbove(allTiles, tile);
     const tileRight = getTileRight(allTiles, tile);
     const tileBelow = getTileBelow(allTiles, tile);
     const tileLeft = getTileLeft(allTiles, tile);
 
-    if (!isVerticalWord && (tileAbove || tileBelow)) {
+    if (tileAbove || tileBelow) {
       acc.push(getVerticalWord(allTiles, tile));
     }
 
-    if (!isHorizontalWord && (tileLeft || tileRight)) {
+    if (tileLeft || tileRight) {
       acc.push(getHorizontalWord(allTiles, tile));
     }
 
     return acc;
   }, []);
 
+  const uniqueWords = getUniqueWords(words);
+
   if (
     !isFirstTurn
-    && newHorizontalWord.length === usedTiles.length
-    && newVerticalWord.length === usedTiles.length
-    && !intersectingWords.length
+    && [].concat(...uniqueWords).length === usedTiles.length
   ) {
     throw new Error('At least one tile must join the tiles currently on the board.');
   }
 
-  const longestWord = newVerticalWord.length > newHorizontalWord.length
-    ? newVerticalWord
-    : newHorizontalWord;
-
-  return {
-    word: longestWord.map(({ letter }) => letter).join(''),
-    score: [newHorizontalWord, newVerticalWord, ...intersectingWords].reduce((scoreAcc, word) => (
-      scoreAcc + calculateWordScore(word)
-    ), 0),
-  };
+  return uniqueWords.reduce((scoreAcc, word) => (
+    scoreAcc + calculateWordScore(word)
+  ), 0);
 };
