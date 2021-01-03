@@ -1,0 +1,11 @@
+@function spacing($n) {
+  $unit: $base-spacing-unit;
+
+  @if $n > 1 {
+    @for $i from 2 through $n {
+      $unit: $unit * 2;
+    }
+  }
+
+  @return $unit;
+}

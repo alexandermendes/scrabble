@@ -4,7 +4,7 @@
   color: $color-primary;
   cursor: pointer;
   overflow: hidden;
-  padding: 10px 20px;
+  padding: spacing(2) spacing(4);
   position: relative;
   text-transform: uppercase;
   user-select: none;
@@ -17,7 +17,7 @@
 
   &--small {
     font-size: $font-size-small;
-    padding: 5px 10px;
+    padding: spacing(1) spacing(2);
   }
 
   &--regular {

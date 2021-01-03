@@ -1,4 +1,4 @@
-$spacingPrefixes: (
+$spacing-prefixes: (
   mb: margin-bottom,
   mt: margin-top,
   ml: margin-left,
@@ -12,10 +12,10 @@ $spacingPrefixes: (
 ) !default;
 
 // Spacing helpers
-@each $key, $property in $spacingPrefixes {
+@each $key, $property in $spacing-prefixes {
   @for $i from 1 through 5 {
     .#{$key}-#{$i} {
-      #{$property}: $i * 4px !important;
+      #{$property}: $i * $base-spacing-unit !important;
     }
   }
 

@@ -24,7 +24,7 @@
   &__toolbar-player {
     color: $color-grey;
     letter-spacing: .5px;
-    padding: 0 20px;
+    padding: 0 spacing(4);
     text-align: center;
 
     &--active {

@@ -19,7 +19,10 @@ if (!fs.existsSync(firebaseWebConfigPath) && !process.env.FIREBASE_WEB_CONFIG) {
 module.exports = {
   sassOptions: {
     includePaths: [stylesDir],
-    prependData: `@import "${stylesDir}/_settings.scss";`,
+    prependData: [
+      `@import "${stylesDir}/_settings.scss";`,
+      `@import "${stylesDir}/_tools.scss";`,
+    ].join('\n'),
   },
 
   publicRuntimeConfig: {

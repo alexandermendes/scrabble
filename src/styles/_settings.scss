@@ -1,3 +1,4 @@
+// Fonts
 $font-size-small:   12px;
 $font-size-regular: 16px;
 $font-size-large:   20px;
@@ -5,6 +6,7 @@ $font-size-large:   20px;
 $font-family-body: Roboto;
 $font-family-heading: Montserrat;
 
+// Colors
 $color-primary: #18625f;
 $color-secondary: #709794;
 
@@ -26,6 +28,10 @@ $color-board-tile-text: #012d38;
 $color-form-invalid: #e74c3c;
 $color-form-success: #2ecc71;
 
+// Spacing
+$base-spacing-unit: 5px;
+
+// Game
 $game-grid-gap: 2px;
 $game-rows: 15;
 $game-toolbar-height: 50px;
