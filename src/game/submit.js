@@ -1,5 +1,7 @@
 import { cells, getCell } from './cells';
 
+export class UserSubmissionError extends Error {}
+
 /**
  * Calculate the score for the given word.
  */
@@ -179,15 +181,15 @@ export const submitWord = (game, allTiles, usedTiles) => {
   const usesCenterCell = !!usedTiles.find((tile) => tile.cellId === firstCell.id);
 
   if (!usedTiles.length) {
-    throw new Error('No tiles have been placed.');
+    throw new UserSubmissionError('No tiles have been placed.');
   }
 
   if (isFirstTurn && !usesCenterCell) {
-    throw new Error('The first word must use the central square.');
+    throw new UserSubmissionError('The first word must use the central square.');
   }
 
   if (isFirstTurn && usedTiles.length < 2) {
-    throw new Error('The first word must use at least two tiles.');
+    throw new UserSubmissionError('The first word must use at least two tiles.');
   }
 
   const usedCells = usedTiles.map(({ cellId }) => getCell({ id: cellId }));
@@ -197,11 +199,11 @@ export const submitWord = (game, allTiles, usedTiles) => {
   const isVerticalWord = colIndicies.length === 1;
 
   if (!isHorizontalWord && !isVerticalWord) {
-    throw new Error('All tiles must be placed in a single row or column.');
+    throw new UserSubmissionError('All tiles must be placed in a single row or column.');
   }
 
   if (!areNumbersConsecutive(rowIndicies) && !areNumbersConsecutive(colIndicies)) {
-    throw new Error('All tiles must be connected.');
+    throw new UserSubmissionError('All tiles must be connected.');
   }
 
   const words = usedTiles.reduce((acc, tile) => {
@@ -224,10 +226,10 @@ export const submitWord = (game, allTiles, usedTiles) => {
   const uniqueWords = getUniqueWords(words);
 
   if (
-    !isFirstTurn
-    && [].concat(...uniqueWords).length === usedTiles.length
+    [].concat(...uniqueWords).length <= usedTiles.length
+    && !isFirstTurn
   ) {
-    throw new Error('At least one tile must join the tiles currently on the board.');
+    throw new UserSubmissionError('At least one tile must join the tiles currently on the board.');
   }
 
   return {

@@ -3,7 +3,7 @@ import deepmerge from 'deepmerge';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 
-import { submitWord } from '../game/submit';
+import { submitWord, UserSubmissionError } from '../game/submit';
 import { getRandomTiles } from '../game/tiles';
 import { games } from '../store';
 import GameContext from '../context/GameContext';
@@ -195,9 +195,13 @@ const useGame = () => {
     try {
       ({ word, score } = submitWord(game, tiles, usedTiles));
     } catch (err) {
-      MySwal.fire({ text: err.message });
+      if (err instanceof UserSubmissionError) {
+        MySwal.fire({ text: err.message });
 
-      return;
+        return;
+      }
+
+      throw err;
     }
 
     if (!word) {
