@@ -5,7 +5,6 @@ import cn from 'classnames';
 import useGame from '../../hooks/useGame';
 
 import styles from './styles.module.scss';
-import useUser from '../../hooks/useUser';
 
 const Tile = ({
   id,
@@ -15,15 +14,12 @@ const Tile = ({
   className,
   hide,
 }) => {
-  const currentUser = useUser();
-  const { game, getActivePlayer } = useGame();
+  const { game } = useGame();
   const { tiles } = game;
 
   const [{ isDragging }, ref] = useDrag({
     item: { id, type },
-    canDrag: () => (
-      getActivePlayer().uid === currentUser.uid && !tiles.find((tile) => tile.id === id).used
-    ),
+    canDrag: () => !tiles.find((tile) => tile.id === id).used,
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
