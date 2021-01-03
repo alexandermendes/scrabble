@@ -1,6 +1,8 @@
 import React from 'react';
 import { any, object } from 'prop-types';
 import NextHead from 'next/head';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { DndProvider } from 'react-dnd';
 
 import { auth } from '../store';
 import AuthProvider from '../components/AuthProvider';
@@ -22,9 +24,13 @@ const App = ({ Component, pageProps }) => (
           auth.callbackRoute,
         ]}
       >
-        <Component
-          {...pageProps}
-        />
+        <DndProvider
+          backend={HTML5Backend}
+        >
+          <Component
+            {...pageProps}
+          />
+        </DndProvider>
       </AuthProvider>
     </main>
   </>

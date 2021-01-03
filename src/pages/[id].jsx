@@ -13,6 +13,8 @@ const GamePage = ({
   const [game, setGame] = useState();
 
   useEffect(() => {
+    setLoading(true);
+
     (async () => {
       setGame(await games.get(gameId));
 
@@ -22,7 +24,7 @@ const GamePage = ({
 
       setLoading(false);
     })();
-  }, []);
+  }, [gameId]);
 
   return (
     <PageTransition

@@ -238,7 +238,7 @@ const useGame = () => {
 
       pickTiles();
     })();
-  }, [currentUser]);
+  }, [currentUser, gameId]);
 
   return {
     game,
