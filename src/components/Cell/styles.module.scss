@@ -49,6 +49,7 @@
     position: absolute;
     top: $game-grid-gap / 2;
     width: 100%;
+    user-select: none;
   }
 
   &--double-letter {
