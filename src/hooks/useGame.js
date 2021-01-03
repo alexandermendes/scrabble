@@ -118,10 +118,11 @@ const useGame = () => {
   const takeTurn = () => {
     const { tiles } = game;
     const usedTiles = tiles.filter(({ userId, cellId }) => currentUser.uid === userId && !!cellId);
+    let word;
     let score;
 
     try {
-      score = submitWord(game, tiles, usedTiles);
+      ({ word, score } = submitWord(game, tiles, usedTiles));
     } catch (err) {
       // TODO: Replace with a prettier modal
       // eslint-disable-next-line no-alert
@@ -130,7 +131,7 @@ const useGame = () => {
       return;
     }
 
-    if (!score) {
+    if (!word) {
       throw new Error('Failed to submit word.');
     }
 
@@ -138,6 +139,7 @@ const useGame = () => {
 
     addTurn({
       userId: currentUser.uid,
+      word,
       score,
     });
 

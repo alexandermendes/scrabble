@@ -230,7 +230,10 @@ export const submitWord = (game, allTiles, usedTiles) => {
     throw new Error('At least one tile must join the tiles currently on the board.');
   }
 
-  return uniqueWords.reduce((scoreAcc, word) => (
-    scoreAcc + calculateWordScore(word)
-  ), 0);
+  return {
+    word: uniqueWords.sort((a, b) => b.length - a.length)[0].map(({ letter }) => letter).join(''),
+    score: uniqueWords.reduce((scoreAcc, word) => (
+      scoreAcc + calculateWordScore(word)
+    ), 0),
+  };
 };

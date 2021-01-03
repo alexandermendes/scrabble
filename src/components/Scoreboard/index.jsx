@@ -27,6 +27,7 @@ const ScoreBoard = () => {
         <thead>
           <tr>
             <th className={styles['scoreboard__table-heading']}>Player</th>
+            <th className={styles['scoreboard__table-heading']}>Last Turn</th>
             <th className={styles['scoreboard__table-heading']}>Total</th>
           </tr>
         </thead>
@@ -34,12 +35,14 @@ const ScoreBoard = () => {
           {players.map((player) => {
             const playerTurns = turns.filter(({ userId }) => userId === player.uid);
             const playerScore = playerTurns.reduce((total, { score }) => total + score, 0);
+            const { word: lastTurn } = playerTurns[playerTurns.length - 1] || {};
 
             return (
               <tr
                 key={player.uid}
               >
                 <td className={styles['scoreboard__table-cell']}>{player.displayName || player.email}</td>
+                <td className={styles['scoreboard__table-cell']}>{lastTurn}</td>
                 <td className={styles['scoreboard__table-cell']}>{playerScore}</td>
               </tr>
             );
