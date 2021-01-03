@@ -125,11 +125,7 @@ const useGame = () => {
     try {
       ({ word, score } = submitWord(game, tiles, usedTiles));
     } catch (err) {
-      // TODO: Replace with a prettier modal
-      // eslint-disable-next-line no-alert
-      window.alert(err.message);
-
-      return;
+      return err.message;
     }
 
     if (!word) {
@@ -146,7 +142,7 @@ const useGame = () => {
 
     pickTiles();
 
-    // TODO: Switch turns
+    return null;
   };
 
   /**
