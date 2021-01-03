@@ -7,11 +7,11 @@ node_modules/
 # Coverage
 coverage/
 
-# Env vars
+# Local config
 .env
-
-# Private key
 private-key.json
+firebase-web-config.json
+.firebaserc
 
 # Logs
 *.log

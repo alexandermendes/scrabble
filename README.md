@@ -18,21 +18,32 @@ a subsidiary of Mattel Inc.
 
 ## Development
 
-## Firebase notes
+To run the application locally you will need to setup a (free) Firebase project.
 
-- Create a [new Firebase project](https://console.firebase.google.com/).
+- Create a [new Firebase project](https://console.firebase.google.com/)
+and [register a web app](https://firebase.google.com/docs/web/setup#register-app).
+- Copy the Firebase config object to the root of this repo as `firebase-web-config.json`, for example:
 
-- Enable Authentication
-- Enabled Cloud Firestore
-- Create a private key and add to the root of the repo at `private-key.json`.
-- `cp .env.sample .env` and fill in env vars
-
-Firebase CLI is available via `yarn firebase`
-
-### Editing security rules
-
-Modify the `firestore.rules` file and run:
-
+```json
+{
+  "apiKey": "<your-api-key>",
+  "authDomain": "<your-auth-domain>",
+  "projectId": "<your-project-id>",
+  "storageBucket": "<your-storage-bucket>",
+  "messagingSenderId": "<your-message-sender-id>",
+  "appId": "<your-app-id>"
+};
 ```
-yarn firebase deploy --only firestore:rules
-```
+
+- Enable [email link (passwordless sign-in) authentication](https://firebase.google.com/docs/auth/web/email-link-auth).
+- Provision a [Cloud Firestore](https://firebase.google.com/docs/firestore/quickstart) database.
+- [Generate a private key](https://firebase.google.com/docs/admin/setup#initialize-sdk),
+copy the JSON file to the root of the repo and rename to `private-key.json`.
+- Run `firebase use --add` and select your project (choose any alias you like).
+- Run `yarn firebase deploy --only firestore:rules` to apply the database riles.
+
+You should now be able to bring the application up with `yarn dev` and visit it
+at http://localhost:3000.
+
+Note that if you want to hit the application at `127.0.0.1` instead you will
+need to whitelist the domain in the Firebase console.
