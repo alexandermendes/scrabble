@@ -4,7 +4,6 @@ import deepmerge from 'deepmerge';
 import { submitWord } from '../game/submit';
 import { getRandomTiles } from '../game/tiles';
 import { games } from '../store';
-import { abort } from '../abort';
 import GameContext from '../context/GameContext';
 import useUser from './useUser';
 
@@ -16,7 +15,9 @@ const useGame = () => {
   const { game, gameId, setGame } = useContext(GameContext);
 
   if (!game) {
-    abort(404);
+    const err = new Error('Game not found');
+    err.statusCode = 404;
+    throw err;
   }
 
   /**
