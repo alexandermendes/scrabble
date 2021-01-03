@@ -164,7 +164,7 @@ const useGame = () => {
 
     updateTiles(exchangedTiles.map((tile) => [tile.id, { pendingExchange: false }]));
 
-    return false;
+    return true;
   };
 
   /**
