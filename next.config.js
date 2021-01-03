@@ -12,6 +12,10 @@ if (!fs.existsSync(privateKeyPath) && !process.env.FIREBASE_CONFIG) {
   throw new Error(`A Firebase private key JSON file must be added at ${privateKeyPath} or via FIREBASE_CONFIG`);
 }
 
+if (!fs.existsSync(firebaseWebConfigPath) && !process.env.FIREBASE_WEB_CONFIG) {
+  throw new Error(`A Firebase private key JSON file must be added at ${firebaseWebConfigPath} or via FIREBASE_CONFIG`);
+}
+
 module.exports = {
   sassOptions: {
     includePaths: [stylesDir],
