@@ -39,6 +39,40 @@
     }
   }
 
+  &--inverted {
+    background-color: transparent;
+    border: none;
+    color: $color-white;
+    overflow: visible;
+
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 2px;
+      content: "";
+      background-color: $color-white;;
+      opacity: 0;
+      transform: translateY(5px);
+      transition: all 200ms ease-out;
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+    &:hover {
+      background-color: transparent;
+
+      &::after {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  }
+
   &--tile {
     font-size: calc(#{$game-tile-size} / 3);
     height: $game-tile-size;

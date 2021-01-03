@@ -1,6 +1,6 @@
 import { useContext, useEffect } from 'react';
 import deepmerge from 'deepmerge';
-import Swal from 'sweetalert2';
+import SweetAlert from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 
 import { submitWord, UserSubmissionError } from '../game/submit';
@@ -9,7 +9,7 @@ import { games } from '../store';
 import GameContext from '../context/GameContext';
 import useUser from './useUser';
 
-const MySwal = withReactContent(Swal);
+const Swal = withReactContent(SweetAlert);
 
 /**
  * A hook to load and update a game.
@@ -136,7 +136,7 @@ const useGame = () => {
       return false;
     }
 
-    const result = await MySwal.fire({
+    const result = await Swal.fire({
       text: `Do you want to exchange ${exchangedTileIds.length} tile${exchangedTileIds.length === 1 ? '' : 's'}?`,
       showCancelButton: true,
       icon: 'question',
@@ -196,7 +196,7 @@ const useGame = () => {
       ({ word, score } = submitWord(game, tiles, usedTiles));
     } catch (err) {
       if (err instanceof UserSubmissionError) {
-        MySwal.fire({ text: err.message });
+        Swal.fire({ text: err.message });
 
         return;
       }

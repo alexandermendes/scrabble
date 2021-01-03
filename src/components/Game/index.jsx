@@ -8,6 +8,7 @@ import Board from '../Board';
 import Rack from '../Rack';
 import Button from '../Button';
 import ScoreBoard from '../Scoreboard';
+import InviteLink from '../InviteLink';
 import useGame from '../../hooks/useGame';
 
 import styles from './styles.module.scss';
@@ -28,10 +29,10 @@ const Game = () => {
         className={styles.game}
       >
         <div
-          className={styles.game__toolbar}
+          className={styles.game__scorebar}
         >
           <ul
-            className={styles['game__toolbar-players']}
+            className={styles['game__scorebar-players']}
           >
             {game.players.map((player) => {
               const playerTurns = game.turns.filter(({ userId }) => userId === player.uid);
@@ -41,14 +42,14 @@ const Game = () => {
                 <li
                   key={player.uid}
                   className={cn(
-                    styles['game__toolbar-player'],
+                    styles['game__scorebar-player'],
                     {
-                      [styles['game__toolbar-player--active']]: getActivePlayer().uid === player.uid,
+                      [styles['game__scorebar-player--active']]: getActivePlayer().uid === player.uid,
                     },
                   )}
                 >
-                  <p className={styles['game__toolbar-player-name']}>{player.displayName || player.email}</p>
-                  <p className={styles['game__toolbar-player-score']}>{playerScore}</p>
+                  <p className={styles['game__scorebar-player-name']}>{player.displayName || player.email}</p>
+                  <p className={styles['game__scorebar-player-score']}>{playerScore}</p>
                 </li>
               );
             })}
@@ -71,6 +72,9 @@ const Game = () => {
             styles['game__sidebar--right'],
           )}
         >
+          <InviteLink
+            className="ml-auto mt-1 mr-6 d-flex"
+          />
           <ScoreBoard />
         </div>
         <div

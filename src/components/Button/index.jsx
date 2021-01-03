@@ -50,7 +50,7 @@ Button.propTypes = {
   children: node.isRequired,
   tile: bool,
   type: oneOf(['button', 'submit', 'reset']),
-  variant: oneOf(['primary', 'secondary', 'transparent']),
+  variant: oneOf(['primary', 'secondary', 'transparent', 'inverted']),
   size: oneOf(['large', 'regular', 'small']),
 };
 

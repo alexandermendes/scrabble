@@ -13,7 +13,7 @@ $spacing-prefixes: (
 
 // Spacing helpers
 @each $key, $property in $spacing-prefixes {
-  @for $i from 1 through 5 {
+  @for $i from 1 through 10 {
     .#{$key}-#{$i} {
       #{$property}: $i * $base-spacing-unit !important;
     }
