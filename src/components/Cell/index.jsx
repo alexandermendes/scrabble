@@ -9,6 +9,7 @@ import useGame from '../../hooks/useGame';
 const Cell = ({
   cellId,
   bonus,
+  display,
   children,
 }) => {
   const { game, updateTile } = useGame();
@@ -36,6 +37,11 @@ const Cell = ({
         children && styles['cell--filled'],
       )}
     >
+      {display && (
+        <span className={styles.cell__text}>
+          {display}
+        </span>
+      )}
       {children}
     </div>
   );
@@ -43,12 +49,14 @@ const Cell = ({
 
 Cell.defaultProps = {
   bonus: null,
+  display: null,
   children: null,
 };
 
 Cell.propTypes = {
   cellId: string.isRequired,
   bonus: string,
+  display: string,
   children: node,
 };
 

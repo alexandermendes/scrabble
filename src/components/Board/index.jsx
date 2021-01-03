@@ -33,6 +33,7 @@ const Board = ({
               key={cell.id}
               cellId={cell.id}
               bonus={cell.bonus}
+              display={cell.display}
             >
               {tile && (
                 <Tile

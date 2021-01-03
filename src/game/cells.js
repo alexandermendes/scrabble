@@ -1,21 +1,25 @@
 const DOUBLE_LETTER = {
   bonus: 'double-letter',
   tileMultiplier: 2,
+  display: 'DL',
 };
 
 const TRIPLE_LETTER = {
   bonus: 'triple-letter',
   tileMultiplier: 3,
+  display: 'TL',
 };
 
 const DOUBLE_WORD = {
   bonus: 'double-word',
   wordMultiplier: 2,
+  display: 'DW',
 };
 
 const TRIPLE_WORD = {
   bonus: 'triple-word',
   wordMultiplier: 3,
+  display: 'TW',
 };
 
 const bonusTiles = {
