@@ -240,7 +240,7 @@ const useGame = () => {
         // TODO: Create some model to sync this with the other place it's used
         await addPlayer({
           uid: currentUser.uid,
-          displayName: currentUser.uid,
+          displayName: currentUser.displayName,
           email: currentUser.email,
         });
       }

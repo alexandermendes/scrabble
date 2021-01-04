@@ -41,6 +41,38 @@ describe('useGame hook', () => {
     withReactContent().fire.mockReturnValue({ isConfirmed: false });
   });
 
+  it('adds the player to the game if not already joined', () => {
+    const game = createGame(playerOne);
+
+    renderHook(() => useGame(), {
+      wrapper: createWrapper({
+        userContext: playerTwo,
+        gameContext: {
+          game,
+          gameId: 'abc123',
+          setGame: jest.fn(),
+        },
+      }),
+    });
+
+    expect(games.update).toHaveBeenCalledTimes(1);
+    expect(games.update).toHaveBeenCalledWith('abc123', {
+      ...game,
+      players: [
+        {
+          uid: playerOne.uid,
+          displayName: playerOne.displayName,
+          email: playerOne.email,
+        },
+        {
+          uid: playerTwo.uid,
+          displayName: playerTwo.displayName,
+          email: playerTwo.email,
+        },
+      ],
+    });
+  });
+
   describe('game', () => {
     it('returns the active game', () => {
       const { result } = renderHook(() => useGame(), { wrapper });
