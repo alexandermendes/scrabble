@@ -25,17 +25,6 @@ jest.mock('sweetalert2-react-content', () => {
 const playerOne = createUser('Joe');
 const playerTwo = createUser('Jane');
 
-const game = createGame(playerOne, { players: [playerOne, playerTwo] });
-
-const wrapper = createWrapper({
-  userContext: playerOne,
-  gameContext: {
-    game,
-    gameId: 'abc123',
-    setGame: jest.fn(),
-  },
-});
-
 describe('useGame hook', () => {
   beforeEach(() => {
     withReactContent().fire.mockReturnValue({ isConfirmed: false });
@@ -75,7 +64,18 @@ describe('useGame hook', () => {
 
   describe('game', () => {
     it('returns the active game', () => {
-      const { result } = renderHook(() => useGame(), { wrapper });
+      const game = createGame(playerOne);
+      const { result } = renderHook(() => useGame(), {
+        wrapper: createWrapper({
+          userContext: playerOne,
+          gameContext: {
+            game,
+            gameId: 'abc123',
+            setGame: jest.fn(),
+          },
+        }),
+      });
+
       const { game: activeGame } = result.current;
 
       expect(activeGame).toEqual(game);
@@ -84,7 +84,17 @@ describe('useGame hook', () => {
 
   describe('getActivePlayer', () => {
     it('returns the first player if no turns have been taken', () => {
-      const { result } = renderHook(() => useGame(), { wrapper });
+      const game = createGame(playerOne, { players: [playerOne, playerTwo] });
+      const { result } = renderHook(() => useGame(), {
+        wrapper: createWrapper({
+          userContext: playerOne,
+          gameContext: {
+            game,
+            gameId: 'abc123',
+            setGame: jest.fn(),
+          },
+        }),
+      });
 
       const { getActivePlayer } = result.current;
 
@@ -96,14 +106,10 @@ describe('useGame hook', () => {
         wrapper: createWrapper({
           userContext: playerOne,
           gameContext: {
-            game: {
-              ...game,
-              turns: [
-                {
-                  userId: playerOne.uid,
-                },
-              ],
-            },
+            game: createGame(playerOne, {
+              players: [playerOne, playerTwo],
+              turns: [{ userId: playerOne.uid }],
+            }),
             gameId: 'abc123',
             setGame: jest.fn(),
           },
@@ -120,17 +126,13 @@ describe('useGame hook', () => {
         wrapper: createWrapper({
           userContext: playerOne,
           gameContext: {
-            game: {
-              ...game,
+            game: createGame(playerOne, {
+              players: [playerOne, playerTwo],
               turns: [
-                {
-                  userId: playerOne.uid,
-                },
-                {
-                  userId: playerTwo.uid,
-                },
+                { userId: playerOne.uid },
+                { userId: playerTwo.uid },
               ],
-            },
+            }),
             gameId: 'abc123',
             setGame: jest.fn(),
           },
@@ -145,7 +147,17 @@ describe('useGame hook', () => {
 
   describe('takeTurn', () => {
     it('does nothing if no tiles are on the board or waiting to be exchanged', async () => {
-      const { result } = renderHook(() => useGame(), { wrapper });
+      const { result } = renderHook(() => useGame(), {
+        wrapper: createWrapper({
+          userContext: playerOne,
+          gameContext: {
+            game: createGame(playerOne),
+            gameId: 'abc123',
+            setGame: jest.fn(),
+          },
+        }),
+      });
+
       const { takeTurn } = result.current;
 
       await takeTurn();
@@ -160,18 +172,16 @@ describe('useGame hook', () => {
       const tileTwo = createTile('B', { userId: playerOne.uid, pendingExchange: true });
       const tileThree = createTile('C', { userId: playerOne.uid, cellId: '1:1' });
 
+      const game = createGame(playerOne, {
+        players: [playerOne, playerTwo],
+        tiles: [tileOne, tileTwo, tileThree],
+      });
+
       const { result } = renderHook(() => useGame(), {
         wrapper: createWrapper({
           userContext: playerOne,
           gameContext: {
-            game: {
-              ...game,
-              tiles: [
-                tileOne,
-                tileTwo,
-                tileThree,
-              ],
-            },
+            game,
             gameId: 'abc123',
             setGame: jest.fn(),
           },
@@ -223,18 +233,16 @@ describe('useGame hook', () => {
       const tileTwo = createTile('B', { userId: playerOne.uid, pendingExchange: true });
       const tileThree = createTile('C', { userId: playerOne.uid, cellId: '1:1' });
 
+      const game = createGame(playerOne, {
+        players: [playerOne, playerTwo],
+        tiles: [tileOne, tileTwo, tileThree],
+      });
+
       const { result } = renderHook(() => useGame(), {
         wrapper: createWrapper({
           userContext: playerOne,
           gameContext: {
-            game: {
-              ...game,
-              tiles: [
-                tileOne,
-                tileTwo,
-                tileThree,
-              ],
-            },
+            game,
             gameId: 'abc123',
             setGame: jest.fn(),
           },
@@ -275,18 +283,16 @@ describe('useGame hook', () => {
       const tileTwo = createTile('B', { userId: playerTwo.uid, pendingExchange: true });
       const tileThree = createTile('C', { userId: playerTwo.uid, cellId: '1:2' });
 
+      const game = createGame(playerOne, {
+        players: [playerOne, playerTwo],
+        tiles: [tileOne, tileTwo, tileThree],
+      });
+
       const { result } = renderHook(() => useGame(), {
         wrapper: createWrapper({
           userContext: playerOne,
           gameContext: {
-            game: {
-              ...game,
-              tiles: [
-                tileOne,
-                tileTwo,
-                tileThree,
-              ],
-            },
+            game,
             gameId: 'abc123',
             setGame: jest.fn(),
           },
@@ -331,21 +337,16 @@ describe('useGame hook', () => {
       const tileThree = createTile('C', { userId: playerOne.uid });
       const tileFour = createTile('D', { userId: playerTwo.uid });
 
-      const submittedGame = {
-        ...game,
-        tiles: [
-          tileOne,
-          tileTwo,
-          tileThree,
-          tileFour,
-        ],
-      };
+      const game = createGame(playerOne, {
+        players: [playerOne, playerTwo],
+        tiles: [tileOne, tileTwo, tileThree, tileFour],
+      });
 
       const { result } = renderHook(() => useGame(), {
         wrapper: createWrapper({
           userContext: playerOne,
           gameContext: {
-            game: submittedGame,
+            game,
             gameId: 'abc123',
             setGame: jest.fn(),
           },
@@ -386,20 +387,22 @@ describe('useGame hook', () => {
 
       expect(games.update).toHaveBeenCalledTimes(1);
       expect(lastCall).toEqual(['abc123', expectedGame]);
-      expect(submitSpy).toHaveBeenCalledWith(submittedGame, [tileOne, tileTwo]);
+      expect(submitSpy).toHaveBeenCalledWith(game, [tileOne, tileTwo]);
     });
 
     it('catches user errors on word submission', async () => {
       const tileOne = createTile('A', { userId: playerOne.uid, cellId: '1:1' });
 
+      const game = createGame(playerOne, {
+        players: [playerOne, playerTwo],
+        tiles: [tileOne],
+      });
+
       const { result } = renderHook(() => useGame(), {
         wrapper: createWrapper({
           userContext: playerOne,
           gameContext: {
-            game: {
-              ...game,
-              tiles: [tileOne],
-            },
+            game,
             gameId: 'abc123',
             setGame: jest.fn(),
           },
@@ -424,14 +427,16 @@ describe('useGame hook', () => {
         ...Array(10).fill().map(() => createTile('C')),
       ];
 
+      const game = createGame(playerOne, {
+        players: [playerOne, playerTwo],
+        tiles,
+      });
+
       const { result } = renderHook(() => useGame(), {
         wrapper: createWrapper({
           userContext: playerOne,
           gameContext: {
-            game: {
-              ...game,
-              tiles,
-            },
+            game,
             gameId: 'abc123',
             setGame: jest.fn(),
           },
