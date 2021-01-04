@@ -21,6 +21,7 @@ const Board = ({
         styles.board,
         className,
       )}
+      aria-label="game board"
     >
       <div
         className={styles.board__inner}

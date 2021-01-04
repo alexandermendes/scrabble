@@ -31,6 +31,14 @@ const Game = () => {
       className={styles.game}
     >
       <div
+        role="heading"
+        aria-level="1"
+        className="sr-only"
+      >
+        {`Game with ${game.players.length} player${game.players.length === 1 ? '' : 's'}: `}
+        {`${game.players.map(({ displayName }) => displayName)}`}
+      </div>
+      <div
         className={styles.game__scorebar}
       >
         <ul

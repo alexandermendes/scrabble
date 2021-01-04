@@ -46,7 +46,13 @@ const PageTransition = ({
               ...transitionStyles[state],
             }}
           >
-            {!loaded ? null : children}
+            {!loaded ? (
+              <div
+                data-testid="loading"
+                role="progressbar"
+                aria-label="Loading page"
+              />
+            ) : children}
           </div>
         )}
       </Transition>
