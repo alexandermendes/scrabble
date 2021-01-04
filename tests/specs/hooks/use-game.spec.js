@@ -3,6 +3,7 @@ import withReactContent from 'sweetalert2-react-content';
 
 import useGame from '../../../src/hooks/useGame';
 import { games } from '../../../src/store/games';
+import * as submit from '../../../src/game/submit';
 
 import {
   createWrapper,
@@ -110,12 +111,12 @@ describe('useGame hook', () => {
     });
   });
 
-  describe('exchangeTiles', () => {
-    it('does nothing if no tiles are waiting to be exchanged', async () => {
+  describe('takeTurn', () => {
+    it('does nothing if no tiles are on the board or waiting to be exchanged', async () => {
       const { result } = renderHook(() => useGame(), { wrapper });
-      const { exchangeTiles } = result.current;
+      const { takeTurn } = result.current;
 
-      await exchangeTiles();
+      await takeTurn();
 
       expect(games.update).not.toHaveBeenCalled();
     });
@@ -145,12 +146,12 @@ describe('useGame hook', () => {
         }),
       });
 
-      const { exchangeTiles } = result.current;
+      const { takeTurn } = result.current;
 
-      await exchangeTiles();
+      await takeTurn();
 
       const lastCall = games.update.mock.calls[games.update.mock.calls.length - 1];
-      const newGame = {
+      const expectedGame = {
         ...game,
         tiles: [
           {
@@ -180,7 +181,7 @@ describe('useGame hook', () => {
       };
 
       expect(games.update).toHaveBeenCalledTimes(1);
-      expect(lastCall).toEqual(['abc123', newGame]);
+      expect(lastCall).toEqual(['abc123', expectedGame]);
     });
 
     it('does not exchange tiles if the user does not confirm', async () => {
@@ -208,12 +209,12 @@ describe('useGame hook', () => {
         }),
       });
 
-      const { exchangeTiles } = result.current;
+      const { takeTurn } = result.current;
 
-      await exchangeTiles();
+      await takeTurn();
 
       const lastCall = games.update.mock.calls[games.update.mock.calls.length - 1];
-      const newGame = {
+      const expectedGame = {
         ...game,
         tiles: [
           {
@@ -229,7 +230,7 @@ describe('useGame hook', () => {
       };
 
       expect(games.update).toHaveBeenCalledTimes(1);
-      expect(lastCall).toEqual(['abc123', newGame]);
+      expect(lastCall).toEqual(['abc123', expectedGame]);
     });
 
     it('does not attempt to exchange other users tiles', async () => {
@@ -260,12 +261,12 @@ describe('useGame hook', () => {
         }),
       });
 
-      const { exchangeTiles } = result.current;
+      const { takeTurn } = result.current;
 
-      await exchangeTiles();
+      await takeTurn();
 
       const lastCall = games.update.mock.calls[games.update.mock.calls.length - 1];
-      const newGame = {
+      const expectedGame = {
         ...game,
         tiles: [
           {
@@ -287,7 +288,135 @@ describe('useGame hook', () => {
       };
 
       expect(games.update).toHaveBeenCalledTimes(1);
-      expect(lastCall).toEqual(['abc123', newGame]);
+      expect(lastCall).toEqual(['abc123', expectedGame]);
+    });
+
+    it('successfully submits a word', async () => {
+      const submitSpy = jest.spyOn(submit, 'submitWord');
+
+      const tileOne = createTile('A', { userId: playerOne.uid, cellId: '7:7' });
+      const tileTwo = createTile('B', { userId: playerOne.uid, cellId: '7:8' });
+      const tileThree = createTile('C', { userId: playerOne.uid });
+      const tileFour = createTile('D', { userId: playerTwo.uid });
+
+      const submittedGame = {
+        ...game,
+        tiles: [
+          tileOne,
+          tileTwo,
+          tileThree,
+          tileFour,
+        ],
+      };
+
+      const { result } = renderHook(() => useGame(), {
+        wrapper: createWrapper({
+          userContext: playerOne,
+          gameContext: {
+            game: submittedGame,
+            gameId: 'abc123',
+            setGame: jest.fn(),
+          },
+        }),
+      });
+
+      const { takeTurn } = result.current;
+
+      await takeTurn();
+
+      const lastCall = games.update.mock.calls[games.update.mock.calls.length - 1];
+      const expectedGame = {
+        ...game,
+        tiles: [
+          {
+            ...tileOne,
+            userId: null,
+            cellId: '7:7',
+            used: true,
+          },
+          {
+            ...tileTwo,
+            userId: null,
+            cellId: '7:8',
+            used: true,
+          },
+          tileThree,
+          tileFour,
+        ],
+        turns: [
+          {
+            userId: playerOne.uid,
+            word: 'AB',
+            score: 4,
+          },
+        ],
+      };
+
+      expect(games.update).toHaveBeenCalledTimes(1);
+      expect(lastCall).toEqual(['abc123', expectedGame]);
+      expect(submitSpy).toHaveBeenCalledWith(submittedGame, [tileOne, tileTwo]);
+    });
+
+    it('catches user errors on word submission', async () => {
+      const tileOne = createTile('A', { userId: playerOne.uid, cellId: '1:1' });
+
+      const { result } = renderHook(() => useGame(), {
+        wrapper: createWrapper({
+          userContext: playerOne,
+          gameContext: {
+            game: {
+              ...game,
+              tiles: [tileOne],
+            },
+            gameId: 'abc123',
+            setGame: jest.fn(),
+          },
+        }),
+      });
+
+      const { takeTurn } = result.current;
+
+      await takeTurn();
+
+      expect(games.update).not.toHaveBeenCalled();
+      expect(withReactContent().fire).toHaveBeenCalledWith({
+        text: 'The first word must use the central square.',
+      });
+    });
+
+    it('refills the user\'s rack', async () => {
+      const tiles = [
+        createTile('A', { userId: playerOne.uid, cellId: '7:7' }),
+        createTile('A', { userId: playerOne.uid, cellId: '7:8' }),
+        ...Array(5).fill().map(() => createTile('B', { userId: playerOne.uid })),
+        ...Array(10).fill().map(() => createTile('C')),
+      ];
+
+      const { result } = renderHook(() => useGame(), {
+        wrapper: createWrapper({
+          userContext: playerOne,
+          gameContext: {
+            game: {
+              ...game,
+              tiles,
+            },
+            gameId: 'abc123',
+            setGame: jest.fn(),
+          },
+        }),
+      });
+
+      const { takeTurn } = result.current;
+
+      await takeTurn();
+
+      const [, newGame] = games.update.mock.calls[games.update.mock.calls.length - 1];
+      const userTiles = newGame.tiles.filter(({ userId }) => userId === playerOne.uid);
+
+      expect(games.update).toHaveBeenCalledTimes(1);
+      expect(userTiles).toHaveLength(7);
+      expect(userTiles).not.toContain(tiles[0]);
+      expect(userTiles).not.toContain(tiles[1]);
     });
   });
 });
