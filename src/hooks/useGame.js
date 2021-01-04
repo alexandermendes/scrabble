@@ -198,6 +198,11 @@ const useGame = () => {
 
     const { tiles } = game;
     const usedTiles = tiles.filter(({ userId, cellId }) => currentUser.uid === userId && !!cellId);
+
+    if (!usedTiles.length) {
+      return;
+    }
+
     let word;
     let score;
 

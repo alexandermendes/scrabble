@@ -163,6 +163,7 @@ describe('useGame hook', () => {
       await takeTurn();
 
       expect(games.update).not.toHaveBeenCalled();
+      expect(withReactContent().fire).not.toHaveBeenCalled();
     });
 
     it('exchanges tiles if the user confirms', async () => {
