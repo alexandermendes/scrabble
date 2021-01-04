@@ -19,6 +19,7 @@ const GamePage = ({
       setGame(await games.get(gameId));
 
       games.listen(gameId, (newGame) => {
+        // TODO: Don't duplicate fire on first load
         setGame(newGame);
       });
 
@@ -34,7 +35,6 @@ const GamePage = ({
         value={{
           game,
           gameId,
-          setGame,
         }}
       >
         <Game />

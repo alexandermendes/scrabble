@@ -16,7 +16,7 @@ const Swal = withReactContent(SweetAlert);
  */
 const useGame = () => {
   const currentUser = useUser();
-  const { game, gameId, setGame } = useContext(GameContext);
+  const { game, gameId } = useContext(GameContext);
 
   if (!game) {
     const err = new Error('Game not found');
@@ -36,8 +36,6 @@ const useGame = () => {
     if (!game) {
       throw new Error('Game has not been loaded yet');
     }
-
-    setGame(newGame);
 
     await games.update(gameId, newGame);
   };

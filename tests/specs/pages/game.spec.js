@@ -22,7 +22,6 @@ const wrapper = createWrapper({
   gameContext: {
     game,
     gameId: 'abc123',
-    setGame: jest.fn(),
   },
 });
 

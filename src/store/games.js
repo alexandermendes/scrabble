@@ -53,10 +53,6 @@ export const games = {
       .collection(GAME_COLLECTION)
       .doc(id)
       .onSnapshot((doc) => {
-        if (doc.metadata.hasPendingWrites) {
-          return;
-        }
-
         callback(doc.data());
       });
   },

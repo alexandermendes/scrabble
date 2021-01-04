@@ -39,7 +39,6 @@ describe('useGame hook', () => {
         gameContext: {
           game,
           gameId: 'abc123',
-          setGame: jest.fn(),
         },
       }),
     });
@@ -71,7 +70,6 @@ describe('useGame hook', () => {
           gameContext: {
             game,
             gameId: 'abc123',
-            setGame: jest.fn(),
           },
         }),
       });
@@ -91,7 +89,6 @@ describe('useGame hook', () => {
           gameContext: {
             game,
             gameId: 'abc123',
-            setGame: jest.fn(),
           },
         }),
       });
@@ -111,7 +108,6 @@ describe('useGame hook', () => {
               turns: [{ userId: playerOne.uid }],
             }),
             gameId: 'abc123',
-            setGame: jest.fn(),
           },
         }),
       });
@@ -134,7 +130,6 @@ describe('useGame hook', () => {
               ],
             }),
             gameId: 'abc123',
-            setGame: jest.fn(),
           },
         }),
       });
@@ -153,7 +148,6 @@ describe('useGame hook', () => {
           gameContext: {
             game: createGame(playerOne),
             gameId: 'abc123',
-            setGame: jest.fn(),
           },
         }),
       });
@@ -184,7 +178,6 @@ describe('useGame hook', () => {
           gameContext: {
             game,
             gameId: 'abc123',
-            setGame: jest.fn(),
           },
         }),
       });
@@ -245,7 +238,6 @@ describe('useGame hook', () => {
           gameContext: {
             game,
             gameId: 'abc123',
-            setGame: jest.fn(),
           },
         }),
       });
@@ -295,7 +287,6 @@ describe('useGame hook', () => {
           gameContext: {
             game,
             gameId: 'abc123',
-            setGame: jest.fn(),
           },
         }),
       });
@@ -349,7 +340,6 @@ describe('useGame hook', () => {
           gameContext: {
             game,
             gameId: 'abc123',
-            setGame: jest.fn(),
           },
         }),
       });
@@ -405,7 +395,6 @@ describe('useGame hook', () => {
           gameContext: {
             game,
             gameId: 'abc123',
-            setGame: jest.fn(),
           },
         }),
       });
@@ -439,7 +428,6 @@ describe('useGame hook', () => {
           gameContext: {
             game,
             gameId: 'abc123',
-            setGame: jest.fn(),
           },
         }),
       });
