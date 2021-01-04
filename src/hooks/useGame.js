@@ -27,7 +27,7 @@ const useGame = () => {
   /**
    * Get the tiles the user has placed on the board.
    */
-  const getUsedTiles = () => game.tiles.filter(({ userId }) => currentUser.uid === userId);
+  const getUserTiles = () => game.tiles.filter(({ userId }) => currentUser.uid === userId);
 
   /**
    * Update the game state.
@@ -45,7 +45,7 @@ const useGame = () => {
   /**
    * Update an array of tiles.
    */
-  const updateTiles = async (arr) => {
+  const updateTiles = async (arr, pushData = true) => {
     const { tiles } = game;
 
     arr.forEach(([tileId, data]) => {
@@ -59,6 +59,10 @@ const useGame = () => {
 
       game.tiles[tileIndex] = deepmerge(game.tiles[tileIndex], data);
     });
+
+    if (!pushData) {
+      return null;
+    }
 
     return updateGame(game);
   };
@@ -111,7 +115,7 @@ const useGame = () => {
    */
   const pickTiles = () => {
     const { tiles } = game;
-    const currentRackTiles = getUsedTiles();
+    const currentRackTiles = getUserTiles();
     const nRequired = 7 - currentRackTiles.length;
     const newTiles = getRandomTiles(tiles, nRequired);
 
@@ -126,8 +130,8 @@ const useGame = () => {
    * Exchange tiles and submit that as the user's turn.
    */
   const exchangeTiles = async () => {
-    const usedTiles = getUsedTiles();
-    const exchangedTiles = usedTiles.filter(({ userId, pendingExchange }) => (
+    const userTiles = getUserTiles();
+    const exchangedTiles = userTiles.filter(({ userId, pendingExchange }) => (
       currentUser.uid === userId && pendingExchange
     ));
     const exchangedTileIds = exchangedTiles.map(({ id }) => id);
@@ -147,11 +151,12 @@ const useGame = () => {
 
       updateTiles([
         ...newTiles.map((tile) => [tile.id, { userId: currentUser.uid }]),
-        ...usedTiles.map((tile) => [tile.id, {
+        ...userTiles.map((tile) => [tile.id, {
           cellId: null, // So tiles not being exchanged still get moved back off the board
           userId: exchangedTileIds.includes(tile.id) ? null : tile.userId,
+          pendingExchange: false,
         }]),
-      ]);
+      ], false);
 
       addTurn({
         userId: currentUser.uid,
@@ -171,9 +176,9 @@ const useGame = () => {
    * Move tiles back to the current user's rack.
    */
   const recallTiles = () => {
-    const usedTiles = getUsedTiles();
+    const userTiles = getUserTiles();
 
-    updateTiles(usedTiles.map((tile) => [tile.id, { cellId: null, pendingExchange: false }]));
+    updateTiles(userTiles.map((tile) => [tile.id, { cellId: null, pendingExchange: false }]));
   };
 
   /**
