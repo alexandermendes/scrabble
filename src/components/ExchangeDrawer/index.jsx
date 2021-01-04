@@ -14,7 +14,7 @@ const ExchangeDrawer = () => {
   const {
     game,
     updateTile,
-    exchangeTiles,
+    takeTurn,
   } = useGame();
   const tilesToExchange = game
     .tiles
@@ -36,7 +36,7 @@ const ExchangeDrawer = () => {
       label="Exchange Tiles"
       position="bottom"
       className={styles['exchange-drawer']}
-      onClose={exchangeTiles}
+      onClose={takeTurn}
     >
       <p
         className={styles['exchange-drawer__text']}

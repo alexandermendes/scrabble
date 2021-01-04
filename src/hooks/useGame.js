@@ -118,7 +118,7 @@ const useGame = () => {
   /**
    * Fill the rack for the current user.
    */
-  const pickTiles = () => {
+  const pickTiles = (pushData = true) => {
     const { tiles } = game;
     const currentRackTiles = getUserTiles();
     const nRequired = 7 - currentRackTiles.length;
@@ -128,7 +128,7 @@ const useGame = () => {
       return;
     }
 
-    updateTiles(newTiles.map((tile) => [tile.id, { userId: currentUser.uid }]));
+    updateTiles(newTiles.map((tile) => [tile.id, { userId: currentUser.uid }]), pushData);
   };
 
   /**
@@ -192,7 +192,6 @@ const useGame = () => {
   const takeTurn = async () => {
     const exchanged = await exchangeTiles();
 
-    // In case submit was hit in an attempt to exchange
     if (exchanged) {
       return;
     }
@@ -203,7 +202,7 @@ const useGame = () => {
     let score;
 
     try {
-      ({ word, score } = submitWord(game, tiles, usedTiles));
+      ({ word, score } = submitWord(game, usedTiles));
     } catch (err) {
       if (err instanceof UserSubmissionError) {
         Swal.fire({ text: err.message });
@@ -218,15 +217,15 @@ const useGame = () => {
       throw new Error('Failed to submit word.');
     }
 
-    updateTiles(usedTiles.map((tile) => [tile.id, { used: true, userId: null }]));
+    updateTiles(usedTiles.map((tile) => [tile.id, { used: true, userId: null }]), false);
+
+    pickTiles(false);
 
     addTurn({
       userId: currentUser.uid,
       word,
       score,
     });
-
-    pickTiles();
   };
 
   // Ensuring the current player is part of the game and has tiles
@@ -256,7 +255,6 @@ const useGame = () => {
     recallTiles,
     updateTiles,
     updateTile,
-    exchangeTiles,
     getActivePlayer,
   };
 };

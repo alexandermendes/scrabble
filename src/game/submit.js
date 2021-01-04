@@ -175,7 +175,8 @@ const getUniqueWords = (words) => [...new Map(
 /**
  * Submit a new word.
  */
-export const submitWord = (game, allTiles, usedTiles) => {
+export const submitWord = (game, usedTiles) => {
+  const { tiles: allTiles } = game;
   const isFirstTurn = game.turns.length === 0;
   const firstCell = getCell({ row: 7, col: 7 });
   const usesCenterCell = !!usedTiles.find((tile) => tile.cellId === firstCell.id);
