@@ -32,21 +32,22 @@ const useGame = () => {
   /**
    * Update the game state.
    */
-  const updateGame = async () => {
+  const updateGame = async (newGame) => {
     if (!game) {
       throw new Error('Game has not been loaded yet');
     }
 
-    setGame({ ...game });
+    setGame(newGame);
 
-    await games.update(gameId, game);
+    await games.update(gameId, newGame);
   };
 
   /**
    * Update an array of tiles.
    */
   const updateTiles = async (arr, pushData = true) => {
-    const { tiles } = game;
+    const newGame = { ...game };
+    const { tiles } = newGame;
 
     arr.forEach(([tileId, data]) => {
       const updatedTile = tiles.find((tile) => tile.id === tileId);
@@ -57,14 +58,14 @@ const useGame = () => {
 
       const tileIndex = tiles.findIndex((tile) => tile.id === updatedTile.id);
 
-      game.tiles[tileIndex] = deepmerge(game.tiles[tileIndex], data);
+      newGame.tiles[tileIndex] = deepmerge(newGame.tiles[tileIndex], data);
     });
 
     if (!pushData) {
       return null;
     }
 
-    return updateGame(game);
+    return updateGame(newGame);
   };
 
   /**
@@ -75,20 +76,24 @@ const useGame = () => {
   /**
    * Add a turn.
    */
-  const addTurn = async (data) => {
-    game.turns.push(data);
-
-    return updateGame(game);
-  };
+  const addTurn = async (turn) => updateGame({
+    ...game,
+    turns: [
+      ...game.turns,
+      turn,
+    ],
+  });
 
   /**
    * Add a player.
    */
-  const addPlayer = async (data) => {
-    game.players.push(data);
-
-    return updateGame(game);
-  };
+  const addPlayer = async (player) => updateGame({
+    ...game,
+    players: [
+      ...game.players,
+      player,
+    ],
+  });
 
   /**
    * Get the user whose turn it is.

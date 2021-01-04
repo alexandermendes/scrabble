@@ -7,6 +7,7 @@ import {
 
 import { games } from '../../../src/store/games';
 import GamePage from '../../../src/pages/[id]';
+
 import { createUser, createGame, createWrapper } from '../../utils';
 
 jest.mock('../../../src/store/games');
