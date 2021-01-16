@@ -7,6 +7,8 @@ keep me occupied during Covid-19 times.
 
 [**Play here**](https://scrabble-mu.vercel.app/)
 
+![Screenshot](screenshot.png)
+
 ---
 
 SCRABBLE® is a registered trademark. All intellectual property rights in and to
