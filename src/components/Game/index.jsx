@@ -4,7 +4,7 @@ import { FaPlus } from 'react-icons/fa';
 
 import ExchangeDrawer from '../ExchangeDrawer';
 import Board from '../Board';
-import Rack from '../Rack';
+import GameFooter from '../GameFooter';
 import Button from '../Button';
 import InviteLink from '../InviteLink';
 import useGame from '../../hooks/useGame';
@@ -14,12 +14,7 @@ import useNewGame from '../../hooks/useNewGame';
 import styles from './styles.module.scss';
 
 const Game = () => {
-  const {
-    game,
-    takeTurn,
-    recallTiles,
-    getActivePlayer,
-  } = useGame();
+  const { game, getActivePlayer } = useGame();
   const createNewGame = useNewGame();
   const currentUser = useUser();
   const activePlayer = getActivePlayer();
@@ -122,25 +117,7 @@ const Game = () => {
         </div>
         <div />
       </div>
-      <div
-        className={styles.game__footer}
-      >
-        <Button
-          onClick={recallTiles}
-          variant="secondary"
-          tile
-        >
-          Recall
-        </Button>
-        <Rack />
-        <Button
-          onClick={takeTurn}
-          variant="secondary"
-          tile
-        >
-          Submit
-        </Button>
-      </div>
+      <GameFooter />
     </div>
   );
 };

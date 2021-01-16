@@ -1,0 +1,9 @@
+// @define .game-footer
+
+.game-footer {
+  align-items: center;
+  display: flex;
+  grid-area: footer;
+  justify-content: space-between;
+  padding: $game-footer-padding 0;
+}
