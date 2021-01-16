@@ -152,9 +152,7 @@ describe('useGame hook', () => {
         }),
       });
 
-      const { takeTurn } = result.current;
-
-      await takeTurn();
+      await result.current.takeTurn();
 
       expect(games.update).not.toHaveBeenCalled();
       expect(withReactContent().fire).not.toHaveBeenCalled();
@@ -182,9 +180,7 @@ describe('useGame hook', () => {
         }),
       });
 
-      const { takeTurn } = result.current;
-
-      await takeTurn();
+      await result.current.takeTurn();
 
       const lastCall = games.update.mock.calls[games.update.mock.calls.length - 1];
       const expectedGame = {
@@ -242,9 +238,7 @@ describe('useGame hook', () => {
         }),
       });
 
-      const { takeTurn } = result.current;
-
-      await takeTurn();
+      await result.current.takeTurn();
 
       const lastCall = games.update.mock.calls[games.update.mock.calls.length - 1];
       const expectedGame = {
@@ -291,9 +285,7 @@ describe('useGame hook', () => {
         }),
       });
 
-      const { takeTurn } = result.current;
-
-      await takeTurn();
+      await result.current.takeTurn();
 
       const lastCall = games.update.mock.calls[games.update.mock.calls.length - 1];
       const expectedGame = {
@@ -344,9 +336,7 @@ describe('useGame hook', () => {
         }),
       });
 
-      const { takeTurn } = result.current;
-
-      await takeTurn();
+      await result.current.takeTurn();
 
       const lastCall = games.update.mock.calls[games.update.mock.calls.length - 1];
       const expectedGame = {
@@ -381,6 +371,69 @@ describe('useGame hook', () => {
       expect(submitSpy).toHaveBeenCalledWith(game, [tileOne, tileTwo]);
     });
 
+    it('successfully submits if first turn was skipped', async () => {
+      withReactContent().fire.mockReturnValue({ isConfirmed: true });
+
+      const tileOne = createTile('A', { userId: playerTwo.uid, cellId: '7:7' });
+      const tileTwo = createTile('B', { userId: playerTwo.uid, cellId: '7:8' });
+
+      const game = createGame(playerOne, {
+        players: [playerOne, playerTwo],
+        tiles: [tileOne, tileTwo],
+        turns: [
+          {
+            userId: playerOne.uid,
+            word: '-',
+            score: 0,
+          },
+        ],
+      });
+
+      const { result } = renderHook(() => useGame(), {
+        wrapper: createWrapper({
+          userContext: playerTwo,
+          gameContext: {
+            game,
+            gameId: 'abc123',
+          },
+        }),
+      });
+
+      await result.current.takeTurn();
+
+      const lastCall = games.update.mock.calls[games.update.mock.calls.length - 1];
+      const expectedGame = {
+        ...game,
+        tiles: [
+          {
+            ...tileOne,
+            used: true,
+            userId: null,
+          },
+          {
+            ...tileTwo,
+            used: true,
+            userId: null,
+          },
+        ],
+        turns: [
+          {
+            userId: playerOne.uid,
+            word: '-',
+            score: 0,
+          },
+          {
+            userId: playerTwo.uid,
+            word: 'AB',
+            score: 4,
+          },
+        ],
+      };
+
+      expect(games.update).toHaveBeenCalledTimes(1);
+      expect(lastCall).toEqual(['abc123', expectedGame]);
+    });
+
     it('catches user errors on word submission', async () => {
       const tileOne = createTile('A', { userId: playerOne.uid, cellId: '1:1' });
 
@@ -399,9 +452,7 @@ describe('useGame hook', () => {
         }),
       });
 
-      const { takeTurn } = result.current;
-
-      await takeTurn();
+      await result.current.takeTurn();
 
       expect(games.update).not.toHaveBeenCalled();
       expect(withReactContent().fire).toHaveBeenCalledWith({
@@ -432,9 +483,7 @@ describe('useGame hook', () => {
         }),
       });
 
-      const { takeTurn } = result.current;
-
-      await takeTurn();
+      await result.current.takeTurn();
 
       const [, newGame] = games.update.mock.calls[games.update.mock.calls.length - 1];
       const userTiles = newGame.tiles.filter(({ userId }) => userId === playerOne.uid);
