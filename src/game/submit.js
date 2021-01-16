@@ -177,7 +177,10 @@ const getUniqueWords = (words) => [...new Map(
  */
 export const submitWord = (game, usedTiles) => {
   const { tiles: allTiles } = game;
-  const isFirstTurn = game.turns.length === 0;
+
+  // Check for turns with a score greater than zero to account for skipped turns
+  const isFirstTurn = game.turns.filter(({ score }) => !!score).length === 0;
+
   const firstCell = getCell({ row: 7, col: 7 });
   const usesCenterCell = !!usedTiles.find((tile) => tile.cellId === firstCell.id);
 
